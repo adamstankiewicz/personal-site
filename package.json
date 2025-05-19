@@ -27,6 +27,7 @@
     "typewriter-effect": "^2.22.0"
   },
   "devDependencies": {
+    "@netlify/vite-plugin-react-router": "^1.0.1",
     "@react-router/dev": "^7.6.0",
     "@types/node": "^20",
     "@types/react": "^18.3.1",
