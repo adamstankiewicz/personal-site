@@ -11,6 +11,7 @@ import type { LinksFunction } from "react-router";
 
 import "./styles/index.css";
 import "./components/ui/animations.css";
+import { HydrationWrapper } from "./components/hydration-wrapper";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -44,7 +45,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <HydrationWrapper>
+      <Outlet />
+    </HydrationWrapper>
+  );
 }
 
 export function ErrorBoundary({ error }: { error: any }) {
