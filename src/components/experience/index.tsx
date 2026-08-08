@@ -6,6 +6,7 @@ import { ExperienceItemProps } from "./types";
 
 const experiences: ExperienceItemProps[] = [
     {
+      fix: "MAGIC",
       company: "MagicSchool AI",
       companyUrl: "https://magicschool.ai",
       period: "2025 — Present",
@@ -20,6 +21,7 @@ const experiences: ExperienceItemProps[] = [
       ],
     },
     {
+      fix: "EDEXX",
       company: "edX / 2U",
       companyUrl: "https://edx.org",
       period: "2018 — 2025",
@@ -38,6 +40,7 @@ const experiences: ExperienceItemProps[] = [
       ],
     },
     {
+      fix: "GRSIG",
       company: "Ground Signal",
       companyUrl: "https://groundsignal.ai/",
       period: "2017 — 2018",
@@ -50,6 +53,7 @@ const experiences: ExperienceItemProps[] = [
       ],
     },
     {
+      fix: "CARNE",
       company: "Carnegie Mellon University",
       companyUrl: "https://www.cmu.edu/",
       period: "2015 — 2017",
@@ -65,6 +69,7 @@ const experiences: ExperienceItemProps[] = [
       ],
     },
     {
+      fix: "HRTFD",
       company: "University of Hartford",
       companyUrl: "https://hartford.edu/",
       period: "2012 — 2015",
@@ -89,7 +94,21 @@ const experiences: ExperienceItemProps[] = [
     }
 ];
 
-function LedgerRow({
+function WaypointMarker() {
+  return (
+    <svg viewBox="0 0 22 22" className="waypoint-marker" aria-hidden="true">
+      <path
+        d="M11 3 L19.5 18 L2.5 18 Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function Waypoint({
   experience,
   index,
   open,
@@ -100,31 +119,31 @@ function LedgerRow({
   open: boolean;
   onToggle: () => void;
 }) {
-  const { company, companyUrl, period, positions, description, technologies } =
+  const { fix, company, companyUrl, period, positions, description, technologies } =
     experience;
-  const number = String(index + 1).padStart(2, "0");
   const currentRole = positions[0]?.title ?? "";
-  const bodyId = `experience-${index}-body`;
+  const bodyId = `waypoint-${index}-body`;
 
   return (
-    <li className="ledger-row border-b border-line" data-open={open}>
+    <li className="ledger-row waypoint" data-open={open}>
+      <WaypointMarker />
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={open}
         aria-controls={bodyId}
-        className="group grid w-full cursor-pointer grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 py-5 text-left sm:grid-cols-[2.5rem_1fr_1fr_8.5rem_1.5rem]"
+        className="group -mx-3 grid w-full cursor-pointer grid-cols-[4.5rem_1fr_auto] items-baseline gap-x-4 px-3 py-2 text-left sm:grid-cols-[4.5rem_1fr_1fr_8.5rem_1.5rem]"
       >
-        <span className="mono-label text-ink-muted transition-colors group-hover:text-accent">
-          {number}
-        </span>
-        <span className="font-serif text-xl font-normal tracking-tight transition-colors group-hover:text-accent sm:text-2xl">
+        <span className="mono-label text-accent">{fix}</span>
+        <span className="condensed-caps text-[1.0625rem] transition-colors group-hover:text-accent sm:text-[1.1875rem]">
           {company}
         </span>
         <span className="mono-label hidden text-ink-muted sm:block">
           {currentRole}
         </span>
-        <span className="mono-label text-ink-muted sm:text-right">{period}</span>
+        <span className="mono-label tabular-nums text-ink-muted sm:text-right">
+          {period}
+        </span>
         <span
           className="ledger-toggle-glyph mono-label hidden text-right text-ink-muted group-hover:text-accent sm:inline-block"
           aria-hidden="true"
@@ -135,9 +154,9 @@ function LedgerRow({
 
       <div className="ledger-row-body" id={bodyId}>
         <div>
-          <div className="grid gap-8 pb-8 pr-2 sm:pl-[3.5rem] lg:grid-cols-12">
+          <div className="grid gap-8 pb-4 pt-3 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <p className="text-[1rem] leading-[1.75]">{description}</p>
+              <p className="max-w-[62ch] text-[1rem] leading-[1.7]">{description}</p>
               <a
                 href={companyUrl}
                 target="_blank"
@@ -151,14 +170,14 @@ function LedgerRow({
               {positions.length > 1 ? (
                 <div>
                   <p className="mono-label text-ink-muted">Positions held</p>
-                  <ul className="mt-3 space-y-1.5 border-l border-line pl-4">
+                  <ul className="mt-3 space-y-1.5">
                     {positions.map((position) => (
                       <li
                         key={position.title}
                         className="flex items-baseline justify-between gap-4 font-mono text-[0.75rem] tracking-wide"
                       >
                         <span>{position.title}</span>
-                        <span className="text-ink-muted">{position.period}</span>
+                        <span className="tabular-nums text-ink-muted">{position.period}</span>
                       </li>
                     ))}
                   </ul>
@@ -185,25 +204,28 @@ export function Experience() {
   const footnote = experiences.find((experience) => !experience.company);
 
   return (
-    <section id="index" className="scroll-mt-16 pb-20 sm:pb-28">
-      <SectionHeader number="02" title="Index of Experience" annotation="Logged 2010 — Present" />
-      <ol className="mt-6 border-t border-line">
-        {listed.map((experience, index) => (
-          <LedgerRow
-            key={experience.company}
-            experience={experience}
-            index={index}
-            open={openIndex === index}
-            onToggle={() => setOpenIndex(openIndex === index ? null : index)}
-          />
-        ))}
-      </ol>
-      {footnote ? (
-        <p className="mt-5 text-[0.9375rem] italic text-ink-muted sm:pl-[3.5rem]">
-          {footnote.description}{" "}
-          <span className="mono-label not-italic">({footnote.period})</span>
-        </p>
-      ) : null}
+    <section id="route" className="scroll-mt-16 pb-20 sm:pb-28">
+      <SectionHeader number="02" title="The Route" annotation="Logged 2010 — Present" />
+      <div className="route mt-10">
+        <div className="route-line" aria-hidden="true" />
+        <ol className="space-y-8">
+          {listed.map((experience, index) => (
+            <Waypoint
+              key={experience.company}
+              experience={experience}
+              index={index}
+              open={openIndex === index}
+              onToggle={() => setOpenIndex(openIndex === index ? null : index)}
+            />
+          ))}
+        </ol>
+        {footnote ? (
+          <p className="mt-8 max-w-[62ch] text-[0.9375rem] italic text-ink-muted">
+            {footnote.description}{" "}
+            <span className="mono-label not-italic">({footnote.period})</span>
+          </p>
+        ) : null}
+      </div>
     </section>
   );
 }

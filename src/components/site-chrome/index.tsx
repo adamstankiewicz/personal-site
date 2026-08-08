@@ -5,10 +5,10 @@ import Link from "next/link";
 import { CommandMenu, type Command } from "@/components/command-menu";
 
 const NAV_ITEMS = [
-  { id: "about", label: "About" },
-  { id: "index", label: "Index" },
-  { id: "work", label: "Work" },
-  { id: "research", label: "Research" },
+  { id: "about", label: "Briefing" },
+  { id: "route", label: "Route" },
+  { id: "work", label: "Insets" },
+  { id: "research", label: "Publications" },
 ];
 
 const TOKENS = [
@@ -42,7 +42,7 @@ function ThemeToggle() {
       <span className="theme-glyph" aria-hidden="true">
         ◐
       </span>
-      <span className="ml-1.5 hidden md:inline">Theme</span>
+      <span className="ml-1.5 hidden md:inline">Night VFR</span>
     </button>
   );
 }
@@ -158,7 +158,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="chart-frame flex min-h-screen flex-col">
       <GridOverlay visible={gridVisible} />
       <CommandMenu
         open={menuOpen}
@@ -207,8 +207,8 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             <div>
               <p className="mono-label text-ink-muted">Colophon</p>
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">
-                Set in <span className="italic text-ink">Newsreader</span> and{" "}
-                <span className="font-mono text-[0.8125rem] text-ink">Geist Mono</span>,
+                Set in <span className="text-ink">Archivo</span> and{" "}
+                <span className="font-mono text-[0.8125rem] text-ink">IBM Plex Mono</span>,
                 self-hosted. Statically rendered with Next.js, styled with
                 Tailwind, served from Netlify's CDN.{" "}
                 <a

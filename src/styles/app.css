@@ -24,6 +24,7 @@
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
 
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
@@ -180,9 +181,9 @@ body::after {
 }
 
 .link {
-  color: inherit;
+  color: var(--accent-2);
   text-decoration: underline;
-  text-decoration-color: var(--line);
+  text-decoration-color: color-mix(in srgb, var(--accent-2) 40%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
   transition: color 160ms ease, text-decoration-color 160ms ease;
@@ -320,14 +321,156 @@ body::after {
   top: -0.5rem;
   z-index: -1;
   font-family: var(--font-serif);
-  font-weight: 200;
+  font-weight: 800;
+  font-stretch: 125%;
   font-size: clamp(6rem, 14vw, 11rem);
   line-height: 0.8;
   letter-spacing: -0.04em;
   color: var(--ink);
-  opacity: 0.055;
+  opacity: 0.05;
   pointer-events: none;
   user-select: none;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Chart typography — condensed for labels, expanded for display      */
+/* ------------------------------------------------------------------ */
+
+.display-title {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-stretch: 118%;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.94;
+}
+
+.condensed-caps {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-stretch: 78%;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.stat-value {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-stretch: 115%;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.625rem, 3vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Chart frame — graticule ticks along the viewport edges (≥lg)       */
+/* ------------------------------------------------------------------ */
+
+@media (min-width: 1024px) {
+  .chart-frame::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    pointer-events: none;
+    border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
+    background-image:
+      repeating-linear-gradient(
+        to right,
+        color-mix(in srgb, var(--ink) 30%, transparent) 0 1px,
+        transparent 1px 48px
+      ),
+      repeating-linear-gradient(
+        to right,
+        color-mix(in srgb, var(--ink) 30%, transparent) 0 1px,
+        transparent 1px 48px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--ink) 30%, transparent) 0 1px,
+        transparent 1px 48px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--ink) 30%, transparent) 0 1px,
+        transparent 1px 48px
+      );
+    background-size: 100% 6px, 100% 6px, 6px 100%, 6px 100%;
+    background-position: top left, bottom left, top left, top right;
+    background-repeat: no-repeat;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  The route — a plotted course down the page                         */
+/* ------------------------------------------------------------------ */
+
+.route {
+  position: relative;
+  padding-left: 2.75rem;
+}
+
+.route-line {
+  position: absolute;
+  left: 10px;
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  background: var(--accent);
+  transform-origin: top;
+}
+
+/* Draw the course as it enters the viewport, where supported. */
+@supports (animation-timeline: view()) {
+  .route-line {
+    animation: route-draw linear both;
+    animation-timeline: view();
+    animation-range: entry 20% cover 70%;
+  }
+
+  @keyframes route-draw {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+}
+
+.waypoint {
+  position: relative;
+}
+
+.waypoint-marker {
+  position: absolute;
+  left: -2.75rem;
+  top: 2px;
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+  background: var(--paper);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Chart insets — the one place heavy cartographic borders belong     */
+/* ------------------------------------------------------------------ */
+
+.inset {
+  border: 1.5px solid var(--accent-2);
+  background: color-mix(in srgb, var(--paper-raised) 55%, var(--paper));
+}
+
+.inset-tab {
+  display: inline-block;
+  background: var(--accent-2);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
 }
 
 /* ------------------------------------------------------------------ */

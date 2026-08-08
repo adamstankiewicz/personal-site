@@ -7,30 +7,97 @@ const STATS = [
   { value: "8M+", label: "Users served today" },
   { value: "5.9M+", label: "npm downloads" },
   { value: "100M+", label: "Learners reached" },
-  { value: "$15M", label: "ARR built, 0 → 1" },
+  { value: "5", label: "ACM publications" },
 ];
 
-function Hero() {
+function CompassRose() {
   return (
-    <section className="pt-20 pb-16 sm:pt-28 sm:pb-24" aria-label="Introduction">
-      <p className="mono-label rise rise-1 text-accent">
-        Senior Design Systems Engineer — MagicSchool AI
-      </p>
-      <h1 className="rise rise-2 mt-8 max-w-4xl font-serif text-[clamp(2.375rem,6.5vw,4.75rem)] font-light leading-[1.06] tracking-[-0.015em] [text-wrap:balance]">
-        I build the <em className="font-normal">product</em> — and the{" "}
-        <em className="font-normal">system</em> underneath it.
-      </h1>
+    <svg
+      viewBox="0 0 96 96"
+      className="h-20 w-20 text-accent sm:h-24 sm:w-24"
+      aria-hidden="true"
+    >
+      <g fill="none" stroke="currentColor" strokeWidth="1">
+        <circle cx="48" cy="48" r="34" />
+        <circle cx="48" cy="48" r="26" strokeDasharray="2 4" />
+        {Array.from({ length: 36 }).map((_, i) => {
+          const angle = (i * 10 * Math.PI) / 180;
+          const isCardinal = i % 9 === 0;
+          const r1 = isCardinal ? 28 : 31;
+          const x1 = 48 + r1 * Math.sin(angle);
+          const y1 = 48 - r1 * Math.cos(angle);
+          const x2 = 48 + 34 * Math.sin(angle);
+          const y2 = 48 - 34 * Math.cos(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />;
+        })}
+      </g>
+      {/* North needle */}
+      <path d="M48 10 L52 24 L48 21 L44 24 Z" fill="currentColor" />
+      <text
+        x="48"
+        y="52"
+        textAnchor="middle"
+        fill="currentColor"
+        style={{ font: "700 11px var(--font-mono)" }}
+      >
+        N
+      </text>
+    </svg>
+  );
+}
 
-      <dl className="rise rise-3 mt-16 grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4">
-        {STATS.map((stat) => (
-          <div key={stat.label}>
-            <dd className="stat-value">{stat.value}</dd>
-            <dt className="mono-label mt-2 text-ink-muted">{stat.label}</dt>
+function TitleBlock() {
+  return (
+    <section className="pt-14 sm:pt-20" aria-label="Introduction">
+      <div className="rise rise-1 border-2 border-line-strong">
+        {/* Edition strip */}
+        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line px-5 py-2.5 sm:px-8">
+          <p className="mono-label text-ink-muted">
+            Sectional · personal edition
+          </p>
+          <p className="mono-label text-ink-muted">
+            Effective 2010 — present · no expiration
+          </p>
+        </div>
+
+        {/* Name + compass */}
+        <div className="flex flex-wrap items-center justify-between gap-8 px-5 py-8 sm:px-8 sm:py-10">
+          <div className="min-w-0">
+            <h1 className="rise rise-2 display-title text-[clamp(2.5rem,8vw,5.5rem)]">
+              Adam
+              <br />
+              Stankiewicz
+            </h1>
+            <p className="rise rise-3 condensed-caps mt-5 text-[0.9375rem] text-ink-muted">
+              Product engineer & design systems — MagicSchool AI
+            </p>
+            <p className="rise rise-3 mt-4 max-w-xl text-[1rem] leading-[1.65] text-ink-muted">
+              I build the product, and the system underneath it.
+            </p>
           </div>
-        ))}
-      </dl>
+          <div className="rise rise-3 shrink-0">
+            <CompassRose />
+          </div>
+        </div>
 
-      <dl className="rise rise-4 mt-16 grid gap-x-8 gap-y-6 border-t border-line pt-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Stats row */}
+        <dl className="rise rise-4 grid grid-cols-2 border-t border-line lg:grid-cols-4">
+          {STATS.map((stat, i) => (
+            <div
+              key={stat.label}
+              className={`px-5 py-5 sm:px-8 ${i > 0 ? "border-l border-line" : ""} ${
+                i >= 2 ? "max-lg:border-t max-lg:border-line" : ""
+              } ${i === 2 ? "max-lg:border-l-0" : ""}`}
+            >
+              <dd className="stat-value">{stat.value}</dd>
+              <dt className="mono-label mt-1.5 text-ink-muted">{stat.label}</dt>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      {/* Flight-data strip */}
+      <dl className="mt-10 grid gap-x-8 gap-y-6 pb-20 sm:grid-cols-2 sm:pb-24 lg:grid-cols-4">
         <div>
           <dt className="mono-label text-ink-muted">Focus</dt>
           <dd className="mt-2 text-[0.9375rem]">
@@ -86,7 +153,7 @@ function Hero() {
 export default function Home() {
   return (
     <>
-      <Hero />
+      <TitleBlock />
       <About />
       <Experience />
       <Projects />

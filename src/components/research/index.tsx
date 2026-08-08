@@ -53,7 +53,7 @@ export function Research() {
     <section id="research" className="scroll-mt-16 pb-24 sm:pb-32">
       <SectionHeader
         number="04"
-        title="Research"
+        title="Publications"
         annotation="HCI · peer-reviewed"
       />
       <p className="mt-8 max-w-2xl text-[1rem] leading-[1.7] text-ink-muted">
@@ -70,7 +70,7 @@ export function Research() {
               {String(index + 1).padStart(2, "0")}
             </span>
             <div>
-              <p className="font-serif text-lg leading-snug tracking-tight">
+              <p className="text-[1.0625rem] font-medium leading-snug tracking-tight">
                 {publication.href ? (
                   <a
                     href={publication.href}

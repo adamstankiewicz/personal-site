@@ -118,17 +118,17 @@ function formatInstalls(installs: number) {
   return `${compact}M+ npm downloads`;
 }
 
-function CaseFile({ project, index }: { project: Project; index: number }) {
+function Inset({ project, index }: { project: Project; index: number }) {
   const number = String(index + 1).padStart(2, "0");
   const [cover, ...rest] = project.images ?? [];
   const thumbnails = rest.slice(0, 3);
 
   return (
-    <article className="border-b border-line py-14 first:pt-10 last:border-b-0">
+    <article className="inset mt-10 p-5 sm:p-8">
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <p className="mono-label text-ink-muted">No. {number}</p>
-          <h3 className="mt-4 font-serif text-3xl font-light leading-tight tracking-tight sm:text-4xl">
+          <p className="inset-tab -ml-1">Inset {number}</p>
+          <h3 className="condensed-caps mt-5 text-2xl sm:text-[1.75rem]">
             {project.href ? (
               <a
                 href={project.href}
@@ -191,7 +191,7 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
                   className="bg-paper-raised p-6 sm:p-8"
                 >
                   <dt className="mono-label text-ink-muted">{figure.label}</dt>
-                  <dd className="mt-4 font-serif text-2xl font-light tabular-nums tracking-tight text-ink sm:text-3xl">
+                  <dd className="stat-value mt-4 text-ink">
                     {figure.value}
                   </dd>
                 </div>
@@ -249,10 +249,10 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
 export function Projects() {
   return (
     <section id="work" className="scroll-mt-16 pb-24 sm:pb-32">
-      <SectionHeader number="03" title="Selected Work" annotation="Case files" />
+      <SectionHeader number="03" title="Insets" annotation="Selected work, enlarged" />
       <div>
         {projects.map((project, index) => (
-          <CaseFile key={project.title} project={project} index={index} />
+          <Inset key={project.title} project={project} index={index} />
         ))}
       </div>
     </section>

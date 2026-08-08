@@ -11,7 +11,7 @@ function ProseLink({ href, children }: { href: string; children: React.ReactNode
 export function About() {
   return (
     <section id="about" className="scroll-mt-16 pb-20 sm:pb-28">
-      <SectionHeader number="01" title="About" annotation="The story so far" />
+      <SectionHeader number="01" title="Briefing" annotation="The story so far" />
       <div className="mt-10 grid gap-10 lg:grid-cols-12">
         <div className="space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
           <p>
@@ -43,13 +43,13 @@ export function About() {
           <div className="border-l border-line pl-6">
             <p className="mono-label text-ink-muted">Operating principles</p>
             <ul className="mt-3 space-y-3">
-              <li className="font-serif text-[1.0625rem] italic leading-snug">
+              <li className="text-[1rem] font-medium italic leading-snug">
                 Measure before rollout.
               </li>
-              <li className="font-serif text-[1.0625rem] italic leading-snug">
+              <li className="text-[1rem] font-medium italic leading-snug">
                 Fix it in the system, not the call site.
               </li>
-              <li className="font-serif text-[1.0625rem] italic leading-snug">
+              <li className="text-[1rem] font-medium italic leading-snug">
                 Own it end to end, API to interface.
               </li>
             </ul>

@@ -1,27 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Newsreader, Geist_Mono } from "next/font/google";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import { SiteChrome } from "@/components/site-chrome";
 
 import "@/styles/index.css";
 
-const newsreader = Newsreader({
+const archivo = Archivo({
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
-  variable: "--font-newsreader",
+  axes: ["wdth"],
+  variable: "--font-archivo",
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f2ea" },
-    { media: "(prefers-color-scheme: dark)", color: "#171512" },
+    { media: "(prefers-color-scheme: light)", color: "#f4efdf" },
+    { media: "(prefers-color-scheme: dark)", color: "#101318" },
   ],
 };
 
@@ -50,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${newsreader.variable} ${geistMono.variable}`}
+      className={`${archivo.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <head>
