@@ -18,11 +18,12 @@ export function About() {
         <div className="max-w-[65ch] space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
           <p>
             Most of my career has happened in edtech, and the work has
-            always split two ways. Some years I’m shipping features on a
-            product team. Other years I’m building the design system, the
-            design tokens, and the tooling that team builds with. I stopped
-            trying to pick a side a long time ago; each one makes me better
-            at the other.
+            always split two ways — usually both at once. The day job is
+            shipping features on a product team; running alongside it, I’m
+            building the design system, the design tokens, and the
+            accessibility tooling that team builds with. I stopped trying
+            to pick a side a long time ago; each one makes me better at
+            the other.
           </p>
           <p>
             I started out in research. A video learning platform I built as

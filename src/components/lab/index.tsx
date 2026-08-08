@@ -312,7 +312,7 @@ export function Lab() {
           number="03"
           title="The theme wipe"
           description="The header's theme toggle sweeps the new mode across the page. Here is the same wipe in miniature. Click to run it."
-          mechanism="clip-path · View Transitions API"
+          mechanism="clip-path · easing.anticipate · View Transitions API"
         >
           <WipeCard />
         </LabCard>

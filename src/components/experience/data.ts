@@ -70,7 +70,7 @@ export const experiences: ExperienceItemProps[] = [
       { title: "Graduate Research Assistant / Ph.D. Student", period: "2015–2017" },
     ],
     description:
-      "Prototyped a browser-based conversational turn-detection model for video communication in Python and JavaScript, analyzing 392 Coursera discussion groups (1,027 users, 800K+ conversational turns) to assess dominant behavior in multi-party conversation. The work became the $1 Conversational Turn Detector paper at ACM Learning @ Scale, and earned an honorable mention for the NSF Graduate Research Fellowship.",
+      "Prototyped a browser-based conversational turn-detection model for video communication in Python and JavaScript, analyzing 392 Coursera discussion groups (1,027 users, 800K+ conversational turns) to assess dominant behavior in multi-party conversation. The work became the $1 Conversational Turn Detector paper at ACM Learning @ Scale; a separate research proposal earned an honorable mention for the NSF Graduate Research Fellowship.",
     technologies: ["JavaScript", "R", "Python"],
   },
   {
