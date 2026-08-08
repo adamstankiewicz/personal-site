@@ -225,7 +225,7 @@ function Waypoint({
         onClick={onToggle}
         aria-expanded={open}
         aria-controls={bodyId}
-        className="group -mx-3 grid w-full cursor-pointer grid-cols-[4.5rem_1fr_auto] items-baseline gap-x-4 px-3 py-2 text-left sm:grid-cols-[4.5rem_1fr_1fr_8.5rem_1.5rem]"
+        className="group -mx-3 grid w-full cursor-pointer grid-cols-[4.5rem_1fr] items-baseline gap-x-4 px-3 py-2 text-left sm:grid-cols-[4.5rem_1fr_1fr_8.5rem_1.5rem]"
       >
         <span className="mono-label tabular-nums text-accent">
           {period.split(" ")[0]}
@@ -236,7 +236,7 @@ function Waypoint({
         <span className="mono-label hidden text-ink-muted sm:block">
           {currentRole}
         </span>
-        <span className="mono-label tabular-nums text-ink-muted sm:text-right">
+        <span className="mono-label hidden tabular-nums text-ink-muted sm:block sm:text-right">
           {period}
         </span>
         <span
