@@ -176,7 +176,14 @@ export function Gallery({
               <button
                 type="button"
                 className="gallery-slide"
-                style={{ aspectRatio: `${width} / ${height}` }}
+                // Width is written out rather than derived via
+                // aspect-ratio: WebKit 26.0 resolves aspect-ratio-derived
+                // widths to zero inside the strip's intrinsic flex sizing
+                // (fixed upstream by 26.5), collapsing every slide to its
+                // borders on affected iOS versions.
+                style={{
+                  width: `calc(var(--slide-h) * ${(width / height).toFixed(4)})`,
+                }}
                 aria-label={`View larger: ${image.alt}`}
                 aria-current={index === current || undefined}
                 onClick={(e) => openModal(index, e.currentTarget)}
