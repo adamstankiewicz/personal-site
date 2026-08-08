@@ -88,7 +88,7 @@ const BASELINE_STEPS: ReplayLine[] = [
   {
     kind: "write",
     label: "writes",
-    text: "Hardcodes a hex value instead of the design token.",
+    text: "Styles it with a Tailwind primitive the app never registered. It compiles; it renders nothing.",
   },
   {
     kind: "result",
