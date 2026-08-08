@@ -632,6 +632,14 @@ svg.contact-arrow {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  transition: opacity var(--dur-open) var(--ease-out);
+}
+
+/* The experience scrubber is the vertical instrument while its
+   section is active; the rail yields rather than compete. */
+.progress-rail[data-yield] {
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (min-width: 1024px) {
@@ -726,7 +734,6 @@ svg.contact-arrow {
   width: 100%;
   padding: 0;
   text-align: left;
-  cursor: pointer;
   background: var(--paper-raised);
 }
 
@@ -769,10 +776,6 @@ svg.contact-arrow {
 }
 
 /* Clicking the stage focuses it; keep the ring inside the panel. */
-.replay-stage:focus-visible {
-  outline-offset: -3px;
-}
-
 @keyframes replay-line-in {
   from {
     opacity: 0;

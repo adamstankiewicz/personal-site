@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "@/lib/hooks";
 import { TextMorph } from "torph/react";
 import { Card } from "@/components/ui/card";
 
@@ -168,73 +167,46 @@ function ReplayColumn({
 
 /**
  * The same ticket, twice: a baseline agent with filesystem access
- * only, and an agent with the Spellbook MCP tools. One click advances
- * both. The MCP side finishes while the baseline is still thrashing —
- * which is the whole point. Entirely scripted; never a live model.
+ * only, and an agent with the Spellbook MCP tools. Scroll advances
+ * both — the replay is scrubbed by your progress through the case,
+ * forward and back, no clicks involved. The MCP side finishes while
+ * the baseline is still thrashing — which is the whole point.
+ * Entirely scripted; never a live model.
  */
 export function SpellbookReplay() {
   const [shown, setShown] = useState(1);
   const done = shown >= TOTAL;
   const rootRef = useRef<HTMLDivElement>(null);
-  const shownRef = useRef(shown);
-  const userTookOverRef = useRef(false);
-  const playedThroughRef = useRef(false);
-  const reduced = useReducedMotion();
 
+  // The replay lives in the case's sticky column; progress through
+  // the case article (not the card itself) drives the step, reaching
+  // the final one as the article's end nears mid-viewport.
   useEffect(() => {
-    shownRef.current = shown;
-  });
-
-  const advance = () => {
-    userTookOverRef.current = true;
-    setShown((n) => (n >= TOTAL ? 1 : n + 1));
-  };
-
-  // The race plays itself the first time it scrolls into view, one
-  // step a second — pausing off-screen, stopping for good once it has
-  // run through or the visitor clicks. Never under reduced motion.
-  useEffect(() => {
-    const el = rootRef.current;
-    if (!el || reduced) return;
-    let timer: ReturnType<typeof setInterval> | null = null;
-    const stop = () => {
-      if (timer) {
-        clearInterval(timer);
-        timer = null;
-      }
+    const article = rootRef.current?.closest("article");
+    if (!article) return;
+    let raf: number | null = null;
+    const update = () => {
+      raf = null;
+      const rect = article.getBoundingClientRect();
+      const anchor = window.innerHeight * 0.7;
+      const progress = Math.min(
+        1,
+        Math.max(0, (anchor - rect.top) / Math.max(1, rect.height))
+      );
+      setShown(1 + Math.round(progress * (TOTAL - 1)));
     };
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        const eligible =
-          entry.isIntersecting &&
-          !playedThroughRef.current &&
-          !userTookOverRef.current;
-        if (!eligible) {
-          stop();
-          return;
-        }
-        if (timer) return;
-        timer = setInterval(() => {
-          if (userTookOverRef.current) {
-            stop();
-            return;
-          }
-          if (shownRef.current >= TOTAL) {
-            playedThroughRef.current = true;
-            stop();
-            return;
-          }
-          setShown((n) => Math.min(n + 1, TOTAL));
-        }, 1000);
-      },
-      { threshold: 0.45 }
-    );
-    observer.observe(el);
+    const onScroll = () => {
+      if (raf === null) raf = requestAnimationFrame(update);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
     return () => {
-      stop();
-      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf !== null) cancelAnimationFrame(raf);
     };
-  }, [reduced]);
+  }, []);
 
   return (
     <Card className="replay" ref={rootRef}>
@@ -250,10 +222,7 @@ export function SpellbookReplay() {
         {TASK}
       </p>
 
-      {/* Pointer convenience only: the real, focusable control is the
-          button below. Keeping the log outside any button also keeps
-          its aria-live region and list semantics intact. */}
-      <div className="replay-stage" onClick={advance}>
+      <div className="replay-stage">
         <div className="grid sm:grid-cols-2">
           <ReplayColumn
             title="Filesystem only"
@@ -274,13 +243,9 @@ export function SpellbookReplay() {
         <span className="mono-label tabular-nums text-ink-muted">
           <TextMorph as="span">{`step ${Math.min(shown, TOTAL)} / ${TOTAL}`}</TextMorph>
         </span>
-        <button
-          type="button"
-          className="mono-label cursor-pointer text-accent"
-          onClick={advance}
-        >
-          {done ? "replay ↺" : "click to step both →"}
-        </button>
+        <span className="mono-label text-accent">
+          {done ? "run complete" : "advances as you scroll"}
+        </span>
       </div>
     </Card>
   );

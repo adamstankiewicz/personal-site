@@ -81,7 +81,13 @@ export function ProgressRail({
     sections.find((section) => section.id === activeSection)?.label ?? "Top";
 
   return (
-    <div className="progress-rail">
+    // While Experience is on screen, its own scrubber is the vertical
+    // instrument; two competing line-and-dot tracks would read as
+    // duplicates, so the rail steps aside.
+    <div
+      className="progress-rail"
+      data-yield={activeSection === "route" || undefined}
+    >
       <div className="progress-rail-track">
         <div ref={fillRef} className="progress-rail-fill" aria-hidden="true" />
         {ticks.map((tick) => (
