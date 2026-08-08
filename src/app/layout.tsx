@@ -32,9 +32,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Adam Stankiewicz — Senior Design Systems Engineer",
+  title: "Adam Stankiewicz · Product Engineering & Design Systems",
   description:
-    "Engineer working the seam between design and engineering — design systems and the platforms around them, frontend architecture, REST APIs, accessibility, and AI tooling measured before rollout.",
+    "I build the product, and the system underneath it: design systems, frontend architecture, accessibility, and AI tooling. Currently at MagicSchool AI.",
 };
 
 // Applies the persisted (or system) theme before first paint to avoid a flash.

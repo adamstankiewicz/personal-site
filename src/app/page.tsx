@@ -16,17 +16,9 @@ function TitleBlock() {
       </p>
       <HeroName />
       <p className="rise rise-3 mt-8 max-w-2xl text-[1.1875rem] leading-[1.6] text-ink-muted sm:text-[1.3125rem]">
-        I build the product, and the system underneath it. Currently at{" "}
-        <a
-          href="https://magicschool.ai"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="link"
-        >
-          MagicSchool AI
-        </a>
-        : tech lead on a product squad, steward of the Spellbook design
-        system.
+        I build the product, and the system underneath it: the features
+        people use, and the design system, tokens, and tooling that teams
+        build them with.
       </p>
 
       {/* Facts strip */}
@@ -60,7 +52,7 @@ function TitleBlock() {
             >
               Paragon
             </a>{" "}
-            at edX / 2U, 2018 — 2025
+            at edX / 2U, 2018–2025
           </dd>
         </div>
         <div>

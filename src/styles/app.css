@@ -113,6 +113,8 @@ p {
   position: relative;
 }
 
+/* The underline enters from the left and exits to the right — it has
+   a direction, like a cursor moving on. */
 .nav-link::after {
   content: "";
   position: absolute;
@@ -122,22 +124,25 @@ p {
   width: 100%;
   background: var(--accent);
   transform: scaleX(0);
-  transform-origin: left;
+  transform-origin: right;
   transition: transform var(--dur-base) var(--ease-out);
 }
 
 @media (hover: hover) {
   .nav-link:hover::after {
     transform: scaleX(1);
+    transform-origin: left;
   }
 }
 
 .nav-link:focus-visible::after {
   transform: scaleX(1);
+  transform-origin: left;
 }
 
 .nav-link[data-active="true"]::after {
   transform: scaleX(1);
+  transform-origin: left;
 }
 
 .theme-glyph {
@@ -308,10 +313,14 @@ p {
   font-size: clamp(6rem, 14vw, 11rem);
   line-height: 0.8;
   letter-spacing: -0.04em;
-  color: var(--ink);
-  opacity: 0.04;
+  color: var(--accent);
+  opacity: 0.07;
   pointer-events: none;
   user-select: none;
+}
+
+.dark .ghost-numeral {
+  opacity: 0.09;
 }
 
 /* ------------------------------------------------------------------ */

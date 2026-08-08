@@ -12,7 +12,7 @@ export function SectionHeader({ number, title, annotation }: SectionHeaderProps)
       </span>
       <h2 className="flex items-baseline gap-3">
         <span className="mono-label text-accent">{number}</span>
-        <span className="title-md text-[1.0625rem]">{title}</span>
+        <span className="title-md text-[1.125rem]">{title}</span>
       </h2>
       {annotation ? (
         <p className="mono-label hidden text-ink-muted sm:block">{annotation}</p>

@@ -8,9 +8,9 @@ const experiences: ExperienceItemProps[] = [
     {
       company: "MagicSchool AI",
       companyUrl: "https://magicschool.ai",
-      period: "2025 — Present",
+      period: "2025–Present",
       positions: [
-        { title: "Senior Design Systems Engineer", period: "2025 — Present" }
+        { title: "Senior Design Systems Engineer", period: "2025–Present" }
       ],
       description: "Tech lead on a product squad and steward of Spellbook, the design system behind an AI platform for K-12 educators serving ~8M people across 36,000 schools. Built the Spellbook MCP server so AI agents build with real components, rebuilt the token layer on DTCG, and led the accessibility work behind the company's first VPAT.",
       technologies: [
@@ -22,14 +22,14 @@ const experiences: ExperienceItemProps[] = [
     {
       company: "edX / 2U",
       companyUrl: "https://edx.org",
-      period: "2018 — 2025",
+      period: "2018–2025",
       positions: [
-        { title: "Principal Software Engineer", period: "2023 — 2025" },
-        { title: "Senior Software Engineer II", period: "2022 — 2023" },
-        { title: "Senior Software Engineer I", period: "2020 — 2022" },
-        { title: "Software Engineer II", period: "2018 — 2020" }
+        { title: "Principal Software Engineer", period: "2023–2025" },
+        { title: "Senior Software Engineer II", period: "2022–2023" },
+        { title: "Senior Software Engineer I", period: "2020–2022" },
+        { title: "Software Engineer II", period: "2018–2020" }
       ],
-      description: "Led Paragon, the open-source design system behind 40+ Open edX projects (5.9M+ npm downloads, 100M+ learners): token architecture, docs platform, internationalization. In parallel, early engineer on edX for Business — React SPAs and Django REST APIs underpinning ~$15M in annual revenue.",
+      description: "Led Paragon, the open-source design system behind 40+ Open edX projects (5.9M+ npm downloads, 100M+ learners): token architecture, docs platform, internationalization. In parallel, an early engineer on edX for Business, shipping the React SPAs and Django REST APIs behind its enterprise learning platform.",
       technologies: [
         'JavaScript', 'TypeScript', 'React', 'Style Dictionary',
         'React Query', 'React Router', 'Sass', 'Webpack',
@@ -40,9 +40,9 @@ const experiences: ExperienceItemProps[] = [
     {
       company: "Ground Signal",
       companyUrl: "https://groundsignal.ai/",
-      period: "2017 — 2018",
+      period: "2017–2018",
       positions: [
-        { title: "Software Engineer", period: "2017 — 2018" }
+        { title: "Software Engineer", period: "2017–2018" }
       ],
       description: "I shipped reusable Ractive.js components for a B2B web application, partnering with a designer and product manager to revamp the dashboard with fuzzy search, venue filtering, and CSV export, plus real-time social data ingestion.",
       technologies: [
@@ -52,11 +52,11 @@ const experiences: ExperienceItemProps[] = [
     {
       company: "Carnegie Mellon University",
       companyUrl: "https://www.cmu.edu/",
-      period: "2015 — 2017",
+      period: "2015–2017",
       positions: [
         {
           title: "Graduate Research Assistant / Ph.D. Student",
-          period: "2015 — 2017"
+          period: "2015–2017"
         },
       ],
       description: "I prototyped a browser-based conversational turn-detection model for video communication in Python and JavaScript, analyzing 392 Coursera discussion groups (1,027 users, 800K+ conversational turns) to assess dominant behavior in multi-party conversation.",
@@ -67,11 +67,11 @@ const experiences: ExperienceItemProps[] = [
     {
       company: "University of Hartford",
       companyUrl: "https://hartford.edu/",
-      period: "2012 — 2015",
+      period: "2012–2015",
       positions: [
         {
           title: "Undergraduate Research Assistant",
-          period: "2012 — 2015"
+          period: "2012–2015"
         }
       ],
       description: "I developed a collaborative video-based learning platform enabling threaded discussion anchored inside video lectures, used by ~5,000 learners across three universities. I ran the user interviews and mixed-methods evaluations that drove prioritization, and co-authored the peer-reviewed publications behind a $448k National Science Foundation grant (IIS-1318345).",
@@ -82,7 +82,7 @@ const experiences: ExperienceItemProps[] = [
     {
       company: "",
       companyUrl: "https://hartford.edu/",
-      period: "2010 — 2015",
+      period: "2010–2015",
       positions: [],
       description: "Earlier: internships, co-ops, and part-time web development roles including Carbonite, Diebold, ForeSite Technologies, and Green Bridge Guide, plus a visiting research appointment at Carnegie Mellon.",
       technologies: [],
@@ -299,8 +299,8 @@ export function Experience() {
   const footnote = experiences.find((experience) => !experience.company);
 
   return (
-    <section id="route" className="scroll-mt-16 pb-20 sm:pb-28">
-      <SectionHeader number="02" title="Experience" annotation="2010 — Present" />
+    <section id="route" className="scroll-mt-16 pb-24 sm:pb-32">
+      <SectionHeader number="02" title="Experience" annotation="2010–Present" />
       <div className="route mt-10">
         <div className="route-line" aria-hidden="true" />
         <RouteFlyer onArrive={setOpenIndex} />

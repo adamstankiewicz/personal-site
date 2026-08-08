@@ -86,7 +86,7 @@ const projects: Project[] = [
   },
   {
     title: 'edX Enterprise',
-    description: 'The enterprise learning platform at edX, built 0 → 1: onboarding, discovery, enrollment, and administration for corporate customers — frontend architecture and REST APIs alike.',
+    description: 'The enterprise learning platform at edX, built 0 → 1: onboarding, discovery, enrollment, and administration for corporate customers, from the React frontends to the Django REST APIs.',
     href: 'https://business.edx.org',
     images: [
       {

@@ -10,16 +10,16 @@ function ProseLink({ href, children }: { href: string; children: React.ReactNode
 
 export function About() {
   return (
-    <section id="about" className="scroll-mt-16 pb-20 sm:pb-28">
+    <section id="about" className="scroll-mt-16 pb-24 sm:pb-32">
       <SectionHeader number="01" title="About" annotation="The story so far" />
       <div className="mt-10 grid gap-10 lg:grid-cols-12">
         <div className="max-w-[65ch] space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
           <p>
-            For over a decade I've worked both sides of one line: the product,
-            and the system underneath it. Features as an engineer and tech
-            lead; design systems, token pipelines, and tooling as a platform
-            builder. Mostly in edtech, where the products serve teachers and
-            learners and the systems serve the teams behind them.
+            For over a decade my work has run on two tracks: features as an
+            engineer and tech lead, and the design systems, token pipelines,
+            and tooling underneath them. Mostly in edtech, where the products
+            serve teachers and learners and the systems serve the teams
+            behind them.
           </p>
           <p>
             An undergrad video learning platform pulled me into HCI research at{" "}
