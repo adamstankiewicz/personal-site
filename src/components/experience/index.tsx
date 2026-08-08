@@ -110,7 +110,11 @@ function LedgerRow({
   const bodyId = `experience-${index}-body`;
 
   return (
-    <li className="ledger-row border-b border-line" data-open={open}>
+    <li
+      className="ledger-row stagger border-b border-line"
+      data-open={open}
+      style={{ "--stagger-delay": `${index * 70}ms` } as React.CSSProperties}
+    >
       <button
         type="button"
         onClick={onToggle}
@@ -118,7 +122,9 @@ function LedgerRow({
         aria-controls={bodyId}
         className="group grid w-full cursor-pointer grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 py-5 text-left sm:grid-cols-[2.5rem_1fr_1fr_8.5rem_1.5rem]"
       >
-        <span className="mono-label text-ink-muted">{number}</span>
+        <span className="mono-label text-ink-muted transition-colors group-hover:text-accent">
+          {number}
+        </span>
         <span className="font-serif text-xl font-normal tracking-tight transition-colors group-hover:text-accent sm:text-2xl">
           {company}
         </span>

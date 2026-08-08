@@ -73,6 +73,56 @@ body {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Sticky header                                                      */
+/* ------------------------------------------------------------------ */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 240ms ease, background-color 240ms ease;
+}
+
+.site-header.is-scrolled {
+  border-bottom-color: var(--line);
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 1px;
+  width: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.theme-glyph {
+  display: inline-block;
+  transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dark .theme-glyph {
+  transform: rotate(180deg);
+}
+
+/* ------------------------------------------------------------------ */
 /*  Typographic utilities                                              */
 /* ------------------------------------------------------------------ */
 
@@ -148,8 +198,24 @@ body {
   transform: translateY(0);
 }
 
+/* Children marked .stagger reveal after their section, offset by
+   --stagger-delay set inline per item. */
+[data-reveal] .stagger {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--stagger-delay, 0ms);
+}
+
+[data-reveal].is-revealed .stagger {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  [data-reveal],
+  [data-reveal] .stagger {
     opacity: 1;
     transform: none;
   }
@@ -179,6 +245,53 @@ body {
 
 .ledger-row[data-open="true"] .ledger-toggle-glyph {
   transform: rotate(45deg);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Command menu — ⌘K                                                  */
+/* ------------------------------------------------------------------ */
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.command-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: color-mix(in srgb, var(--ink) 20%, transparent);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.command-panel {
+  animation: menu-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.command-option[data-selected="true"] {
+  background: var(--paper-raised);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.command-option[data-selected="true"] .command-option-label {
+  color: var(--accent);
+}
+
+kbd.key-hint {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.125rem 0.375rem;
+  color: var(--ink-muted);
 }
 
 /* ------------------------------------------------------------------ */

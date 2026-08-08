@@ -190,10 +190,13 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
         <div className="lg:col-span-7">
           {!cover && project.figures ? (
             <dl className="grid grid-cols-2 border-t border-l border-line">
-              {project.figures.map((figure) => (
+              {project.figures.map((figure, figureIndex) => (
                 <div
                   key={figure.label}
-                  className="border-b border-r border-line bg-paper-raised p-6 sm:p-8"
+                  className="stagger border-b border-r border-line bg-paper-raised p-6 sm:p-8"
+                  style={
+                    { "--stagger-delay": `${figureIndex * 90}ms` } as React.CSSProperties
+                  }
                 >
                   <dt className="mono-label text-ink-muted">{figure.label}</dt>
                   <dd className="mt-4 font-serif text-2xl font-light tracking-tight text-ink sm:text-3xl">

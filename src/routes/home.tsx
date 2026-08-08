@@ -2,6 +2,7 @@ import type { Route } from "./+types/home";
 import { About } from "@/components/about/about";
 import { Experience, loader as experienceLoader } from "@/components/experience";
 import { Projects, loader as projectsLoader } from "@/components/projects";
+import { Research } from "@/components/research";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -32,16 +33,21 @@ function Hero() {
       <p className="mono-label rise rise-1 text-accent">
         Senior Design Systems Engineer — MagicSchool AI
       </p>
-      <h1 className="rise rise-2 mt-8 max-w-4xl font-serif text-[clamp(2.375rem,6.5vw,4.75rem)] font-light leading-[1.06] tracking-[-0.015em]">
-        I build the <em className="font-normal">platform</em> around the design
-        system, not only its <em className="font-normal">components</em>.
+      <h1 className="rise rise-2 mt-8 max-w-4xl font-serif text-[clamp(2.375rem,6.5vw,4.75rem)] font-light leading-[1.06] tracking-[-0.015em] [text-wrap:balance]">
+        I work the seam between <em className="font-normal">design</em> and{" "}
+        <em className="font-normal">engineering</em> — and measure what ships.
       </h1>
+      <p className="rise rise-3 mt-8 max-w-2xl text-[1.0625rem] leading-[1.7] text-ink-muted">
+        Design systems and the platforms around them, frontend architecture,
+        REST APIs, accessibility, and AI tooling that earns its rollout with a
+        controlled evaluation.
+      </p>
 
       <dl className="rise rise-3 mt-14 grid gap-x-8 gap-y-6 border-y border-line py-6 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <dt className="mono-label text-ink-muted">Focus</dt>
           <dd className="mt-2 text-[0.9375rem]">
-            Design Systems · Accessibility · AI Tooling
+            Design Systems · Frontend & APIs · AI Tooling · Accessibility
           </dd>
         </div>
         <div>
@@ -97,6 +103,7 @@ export default function Home() {
       <About />
       <Experience />
       <Projects />
+      <Research />
     </>
   );
 }

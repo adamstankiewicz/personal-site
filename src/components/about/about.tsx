@@ -15,13 +15,12 @@ export function About() {
       <div className="mt-10 grid gap-10 lg:grid-cols-12">
         <div className="space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
           <p>
-            I'm a design systems engineer with over 9 years of experience
-            building the platform around the design system, not only its
-            components: tokens, documentation, adoption tooling, and the
-            handoff between design and engineering. I thrive at the
-            intersection of design and engineering, crafting accessible,
-            reusable foundations that let product teams ship high-quality user
-            experiences efficiently.
+            I'm an engineer with over 9 years of experience working the seam
+            between design and engineering — design systems and the platforms
+            around them, frontend architecture, REST APIs, accessibility, and
+            the research and measurement that keep all of it honest. I build
+            accessible, reusable foundations that let product teams ship
+            high-quality user experiences efficiently.
           </p>
           <p>
             Currently, I'm a Senior Design Systems Engineer at{" "}
@@ -53,7 +52,21 @@ export function About() {
             peer-reviewed publications in ACM venues.
           </p>
         </div>
-        <aside className="lg:col-span-4">
+        <aside className="space-y-10 lg:col-span-4">
+          <div className="border-l border-line pl-6">
+            <p className="mono-label text-ink-muted">Operating principles</p>
+            <ul className="mt-3 space-y-3">
+              <li className="font-serif text-[1.0625rem] italic leading-snug">
+                Measure before rollout.
+              </li>
+              <li className="font-serif text-[1.0625rem] italic leading-snug">
+                Fix it in the system, not the call site.
+              </li>
+              <li className="font-serif text-[1.0625rem] italic leading-snug">
+                Own it end to end — API to interface.
+              </li>
+            </ul>
+          </div>
           <div className="border-l border-line pl-6">
             <p className="mono-label text-ink-muted">Off hours</p>
             <p className="mt-3 text-[0.9375rem] italic leading-relaxed text-ink-muted">
