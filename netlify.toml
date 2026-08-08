@@ -1,6 +1,8 @@
-# Optional build env var (set in the Netlify UI, never committed):
+# Optional build env vars (set in the Netlify UI, never committed):
 #   GH_STATS_TOKEN — GitHub token so footer PR counts include
 #   private-org work. Absent → public-only client fallback.
+#   NEXT_PUBLIC_CF_BEACON_TOKEN — Cloudflare Web Analytics token.
+#   Absent → no analytics script ships.
 [build]
 command = "npm run build"
 publish = "out"

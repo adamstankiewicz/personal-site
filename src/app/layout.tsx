@@ -81,6 +81,18 @@ export default function RootLayout({
       </head>
       <body className="bg-paper text-ink font-serif antialiased min-h-screen">
         <SiteChrome>{children}</SiteChrome>
+        {/* Cloudflare Web Analytics: free, cookieless, no consent
+            banner needed. Baked in only when the token is present at
+            build time; absent, the site ships no analytics at all. */}
+        {process.env.NEXT_PUBLIC_CF_BEACON_TOKEN ? (
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({
+              token: process.env.NEXT_PUBLIC_CF_BEACON_TOKEN,
+            })}
+          />
+        ) : null}
       </body>
     </html>
   );
