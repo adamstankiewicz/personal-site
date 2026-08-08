@@ -23,7 +23,6 @@
   --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
-  --color-accent-2: var(--accent-2);
 
   --font-display: var(--font-display);
   --font-serif: var(--font-serif);
@@ -666,28 +665,3 @@ html.barrel-roll body {
   animation: barrel-roll 900ms var(--ease-spring);
 }
 
-/* ------------------------------------------------------------------ */
-/*  Legacy (SECTIONAL) classes still referenced mid-rebuild.           */
-/*  Each block is deleted as its section lands on the new system.      */
-/* ------------------------------------------------------------------ */
-
-.condensed-caps {
-  font-family: var(--font-display);
-  font-weight: 520;
-  letter-spacing: -0.01em;
-}
-
-.inset {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: var(--paper);
-}
-
-.inset-tab {
-  display: inline-block;
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}

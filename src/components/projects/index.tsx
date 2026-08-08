@@ -147,11 +147,11 @@ function Inset({ project, index }: { project: Project; index: number }) {
   const thumbnails = rest.slice(0, 3);
 
   return (
-    <article className="inset mt-10 p-5 sm:p-8">
+    <article className="py-12 first:pt-10 last:pb-0 sm:py-14">
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <p className="inset-tab -ml-1">No. {number}</p>
-          <h3 className="condensed-caps mt-5 text-2xl sm:text-[1.75rem]">
+          <p className="mono-label text-accent">Case {number}</p>
+          <h3 className="title-md mt-4 text-[1.5rem] sm:text-[1.75rem]">
             {project.href ? (
               <a
                 href={project.href}
@@ -171,7 +171,7 @@ function Inset({ project, index }: { project: Project; index: number }) {
             <dl className="mt-8 space-y-5">
               {project.details.map((detail: ProjectDetail) => (
                 <div key={detail.label} className="border-l-2 border-line pl-4">
-                  <dt className="mono-label text-accent-2">{detail.label}</dt>
+                  <dt className="mono-label text-accent">{detail.label}</dt>
                   <dd className="mt-1.5 max-w-[58ch] text-[0.9375rem] leading-[1.7]">
                     {detail.text}
                   </dd>
@@ -187,7 +187,7 @@ function Inset({ project, index }: { project: Project; index: number }) {
                 {project.capabilities.map((capability) => (
                   <li
                     key={capability}
-                    className="border border-line px-2 py-0.5 font-mono text-[0.6875rem] tracking-wide text-ink"
+                    className="rounded-full border border-line px-2.5 py-0.5 font-mono text-[0.6875rem] tracking-wide text-ink"
                   >
                     {capability}
                   </li>
@@ -236,12 +236,9 @@ function Inset({ project, index }: { project: Project; index: number }) {
 
         <div className="lg:col-span-7">
           {!cover && project.figures ? (
-            <dl className="grid grid-cols-2 gap-px overflow-hidden bg-paper-raised">
+            <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-line bg-line">
               {project.figures.map((figure) => (
-                <div
-                  key={figure.label}
-                  className="bg-paper-raised p-6 sm:p-8"
-                >
+                <div key={figure.label} className="bg-paper p-6 sm:p-8">
                   <dt className="mono-label text-ink-muted">{figure.label}</dt>
                   <dd className="stat-value mt-4 text-ink">
                     {figure.value}
@@ -302,7 +299,7 @@ export function Projects() {
   return (
     <section id="work" className="scroll-mt-16 pb-24 sm:pb-32">
       <SectionHeader number="03" title="Selected Work" annotation="Three things, up close" />
-      <div>
+      <div className="divide-y divide-line">
         {projects.map((project, index) => (
           <Inset key={project.title} project={project} index={index} />
         ))}

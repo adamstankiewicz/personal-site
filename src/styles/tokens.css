@@ -12,7 +12,6 @@
   --ink-muted: #5f5f67;
   --accent: #1435e5;
   --accent-strong: #0f28b3;
-  --accent-2: #1435e5;
   --font-display: var(--font-bricolage), "Bricolage Grotesque", "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-serif: var(--font-archivo), "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -36,5 +35,4 @@
   --ink-muted: #a0a2ac;
   --accent: #8b9dff;
   --accent-strong: #8b9dff;
-  --accent-2: #8b9dff;
 }
