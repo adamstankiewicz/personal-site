@@ -74,8 +74,9 @@ function Inset({ project, index }: { project: Project; index: number }) {
                 <ExternalLink
                   href={project.href}
                   className="mono-link !text-inherit hover:!text-accent"
+                  icon
                 >
-                  Live ↗
+                  Live
                 </ExternalLink>
               </li>
             ) : null}
@@ -84,8 +85,9 @@ function Inset({ project, index }: { project: Project; index: number }) {
                 <ExternalLink
                   href={project.githubUrl}
                   className="mono-link !text-inherit hover:!text-accent"
+                  icon
                 >
-                  Source ↗
+                  Source
                 </ExternalLink>
               </li>
             ) : null}

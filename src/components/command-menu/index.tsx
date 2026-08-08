@@ -8,7 +8,7 @@ export interface Command {
   id: string;
   label: string;
   group: "Navigate" | "Actions" | "Elsewhere";
-  hint?: string;
+  hint?: React.ReactNode;
   run: () => void;
 }
 

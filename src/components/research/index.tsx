@@ -96,8 +96,9 @@ export function Research() {
       <ExternalLink
         href="https://scholar.google.com/citations?user=lJSHz8QAAAAJ"
         className="mono-link mt-10 inline-block"
+        icon
       >
-        Full list on Google Scholar ↗
+        Full list on Google Scholar
       </ExternalLink>
     </section>
   );

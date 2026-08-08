@@ -12,7 +12,7 @@ export default function NotFound() {
         on the home page.
       </p>
       <Link href="/" className="mono-link mt-10 inline-block">
-        Back to home ↗
+        ← Back to home
       </Link>
     </section>
   );

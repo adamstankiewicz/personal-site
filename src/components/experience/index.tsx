@@ -202,8 +202,9 @@ function Waypoint({
               <ExternalLink
                 href={companyUrl}
                 className="mono-link mt-4 inline-block"
+                icon
               >
-                Visit {company} ↗
+                Visit {company}
               </ExternalLink>
             </div>
             <div className="space-y-6 lg:col-span-5">

@@ -301,11 +301,21 @@ p {
   transition: color var(--dur-fast) var(--ease-out);
 }
 
-.contact-arrow {
+/* One icon for every external link, sized with its label. */
+.external-icon {
   display: inline-block;
-  font-size: 0.45em;
-  vertical-align: 0.55em;
-  margin-left: 0.1em;
+  width: 0.72em;
+  height: 0.72em;
+  margin-left: 0.4em;
+  vertical-align: -0.02em;
+}
+
+svg.contact-arrow {
+  width: 0.42em;
+  height: 0.42em;
+  margin-left: 0.14em;
+  vertical-align: 0.5em;
+  stroke-width: 1;
   transition: transform var(--dur-base) var(--ease-out);
 }
 

@@ -5,7 +5,7 @@ import { HeroName } from "@/components/hero-name";
 import { Lab } from "@/components/lab";
 import { Projects } from "@/components/projects";
 import { Research } from "@/components/research";
-import { ExternalLink } from "@/components/ui/external-link";
+import { ExternalIcon, ExternalLink } from "@/components/ui/external-link";
 
 function TitleBlock() {
   return (
@@ -59,7 +59,7 @@ function Contact() {
         className="contact-link display-title mt-6 inline-block text-[clamp(1.75rem,5.5vw,4.25rem)]"
       >
         agstanki@gmail.com
-        <span aria-hidden="true" className="contact-arrow"> ↗</span>
+        <ExternalIcon className="contact-arrow" />
       </a>
     </section>
   );

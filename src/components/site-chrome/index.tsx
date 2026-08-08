@@ -8,7 +8,7 @@ import { prefersReducedMotion, useHighContrast } from "@/lib/hooks";
 import { scrollToSection } from "@/lib/section-scroll";
 import { GitHubStats, LocalTime } from "./footer-meta";
 import buildInfo from "@/generated/build-info.json";
-import { ExternalLink } from "@/components/ui/external-link";
+import { ExternalIcon, ExternalLink } from "@/components/ui/external-link";
 import { Kbd } from "@/components/ui/kbd";
 
 const NAV_ITEMS = [
@@ -139,21 +139,21 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         id: "github",
         label: "GitHub",
         group: "Elsewhere",
-        hint: "↗",
+        hint: <ExternalIcon />,
         run: () => window.open("https://github.com/adamstankiewicz", "_blank", "noopener,noreferrer"),
       },
       {
         id: "linkedin",
         label: "LinkedIn",
         group: "Elsewhere",
-        hint: "↗",
+        hint: <ExternalIcon />,
         run: () => window.open("https://linkedin.com/in/stankiewiczadam", "_blank", "noopener,noreferrer"),
       },
       {
         id: "scholar",
         label: "Google Scholar",
         group: "Elsewhere",
-        hint: "↗",
+        hint: <ExternalIcon />,
         run: () =>
           window.open(
             "https://scholar.google.com/citations?user=lJSHz8QAAAAJ",
@@ -277,8 +277,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 <ExternalLink
                   href="https://github.com/adamstankiewicz/personal-site"
                   className="link"
+                  icon
                 >
-                  View source ↗
+                  View source
                 </ExternalLink>
               </p>
             </div>
@@ -286,18 +287,18 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               <p className="mono-label text-ink-muted">Elsewhere</p>
               <ul className="mt-2">
                 <li>
-                  <ExternalLink href="https://github.com/adamstankiewicz" className="mono-link inline-block py-1.5">
-                    GitHub ↗
+                  <ExternalLink href="https://github.com/adamstankiewicz" className="mono-link inline-block py-1.5" icon>
+                    GitHub
                   </ExternalLink>
                 </li>
                 <li>
-                  <ExternalLink href="https://linkedin.com/in/stankiewiczadam" className="mono-link inline-block py-1.5">
-                    LinkedIn ↗
+                  <ExternalLink href="https://linkedin.com/in/stankiewiczadam" className="mono-link inline-block py-1.5" icon>
+                    LinkedIn
                   </ExternalLink>
                 </li>
                 <li>
-                  <ExternalLink href="https://scholar.google.com/citations?user=lJSHz8QAAAAJ" className="mono-link inline-block py-1.5">
-                    Google Scholar ↗
+                  <ExternalLink href="https://scholar.google.com/citations?user=lJSHz8QAAAAJ" className="mono-link inline-block py-1.5" icon>
+                    Google Scholar
                   </ExternalLink>
                 </li>
                 <li>
@@ -322,8 +323,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 <ExternalLink
                   href="https://github.com/adamstankiewicz/personal-site/commits/master"
                   className="mono-link !text-inherit hover:!text-accent"
+                  icon
                 >
-                  History ↗
+                  History
                 </ExternalLink>
               </p>
               <p className="mono-label mt-3 text-ink-muted">
@@ -344,8 +346,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 <ExternalLink
                   href="https://github.com/adamstankiewicz/personal-site/blob/master/tokens/tokens.json"
                   className="mono-link !text-inherit hover:!text-accent"
+                  icon
                 >
-                  tokens.json ↗
+                  tokens.json
                 </ExternalLink>{" "}
                 (DTCG)
               </p>
