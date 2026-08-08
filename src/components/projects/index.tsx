@@ -1,10 +1,24 @@
 import { SectionHeader } from "@/components/section-header";
-import { Project } from "./types";
+import { Project, ProjectDetail } from "./types";
 
 const projects: Project[] = [
   {
     title: 'Spellbook MCP Server',
-    description: "An MCP server that lets AI coding agents build UI against Spellbook's real component APIs instead of inventing markup, with a compiler-backed validator type-checking every generated line.",
+    description: "The design system, made legible to AI. An MCP server that lets coding agents build UI against Spellbook's real component APIs instead of inventing markup.",
+    details: [
+      {
+        label: 'The problem',
+        text: "Coding agents guessed at component APIs and invented markup that looked right and wasn't. Designers had no way to check resolved token values before handoff.",
+      },
+      {
+        label: 'The build',
+        text: "Nine MCP tools over 70+ React component specs, resolved design tokens, icon catalogs, and curated examples, backed by a compiler-backed validator that type-checks generated JSX against the real APIs. The manifest regenerates from source on every release, so the tools can never drift from the system.",
+      },
+      {
+        label: 'The test',
+        text: "A controlled evaluation before rollout: 25 production UI tasks, three model tiers, identical harness. The baseline agent already had full access to the design system source. The treatment added only the MCP tools.",
+      },
+    ],
     figures: [
       { label: 'First-attempt correctness', value: '36% → 88%' },
       { label: 'Inference cost per task', value: '−35–41%' },
@@ -143,6 +157,19 @@ function Inset({ project, index }: { project: Project; index: number }) {
             )}
           </h3>
           <p className="mt-6 text-[1rem] leading-[1.75]">{project.description}</p>
+
+          {project.details ? (
+            <dl className="mt-8 space-y-5">
+              {project.details.map((detail: ProjectDetail) => (
+                <div key={detail.label} className="border-l-2 border-line pl-4">
+                  <dt className="mono-label text-accent-2">{detail.label}</dt>
+                  <dd className="mt-1.5 max-w-[58ch] text-[0.9375rem] leading-[1.7]">
+                    {detail.text}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
 
           <ul className="mono-label mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-2 text-ink-muted">
             {typeof project.stars === "number" ? (

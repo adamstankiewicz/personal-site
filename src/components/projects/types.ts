@@ -8,6 +8,11 @@ export interface ProjectFigure {
   value: string;
 }
 
+export interface ProjectDetail {
+  label: string;
+  text: string;
+}
+
 export interface Project {
   title: string;
   description: string;
@@ -15,6 +20,7 @@ export interface Project {
   githubUrl?: string;
   images?: ProjectImage[];
   figures?: ProjectFigure[];
+  details?: ProjectDetail[];
   technologies?: string[];
   stars?: number;
   installs?: number;

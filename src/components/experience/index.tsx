@@ -120,9 +120,15 @@ function RouteFlyer() {
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
+    // Rows expanding and collapsing change the container's height without
+    // a scroll event; the observer keeps the course in sync through the
+    // whole transition.
+    const resizeObserver = new ResizeObserver(onScroll);
+    resizeObserver.observe(container);
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      resizeObserver.disconnect();
       if (raf !== null) cancelAnimationFrame(raf);
     };
   }, []);
