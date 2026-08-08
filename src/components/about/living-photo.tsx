@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Water } from "@paper-design/shaders-react";
+import { PaperTexture } from "@paper-design/shaders-react";
 
 /**
- * The Winnipesaukee photo with a whisper of water movement over it —
- * dialed low enough that you notice the lake before you notice the
- * effect. Renders as a plain image on the server and under reduced
- * motion; the shader only takes over after mount.
+ * A photo finished like a fine matte print: a whisper of paper fiber,
+ * roughness, and speckle over the image, with zero geometric
+ * distortion. Static by nature. Renders as a plain image on the
+ * server; the shader takes over after mount.
  */
-export function LivingPhoto({
+export function PrintPhoto({
   src,
   alt,
   width,
@@ -20,12 +20,10 @@ export function LivingPhoto({
   width: number;
   height: number;
 }) {
-  const [shader, setShader] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setShader(true);
-    }
+    setMounted(true);
   }, []);
 
   return (
@@ -35,20 +33,25 @@ export function LivingPhoto({
       role="img"
       aria-label={alt}
     >
-      {shader ? (
-        <Water
+      {mounted ? (
+        <PaperTexture
           style={{ width: "100%", height: "100%" }}
           image={src}
           fit="cover"
           scale={1}
-          colorBack="#00000000"
-          caustic={0.04}
-          highlights={0.04}
-          layering={0.05}
-          edges={0.015}
-          waves={0.015}
-          size={4}
-          speed={0.18}
+          colorFront="#ffffff"
+          colorBack="#ffffff"
+          contrast={0.08}
+          roughness={0.25}
+          fiber={0.14}
+          fiberSize={0.25}
+          crumples={0}
+          crumpleSize={0.3}
+          folds={0}
+          foldCount={1}
+          fade={0}
+          drops={0.08}
+          speed={0}
         />
       ) : (
         <img src={src} alt="" width={width} height={height} loading="lazy" decoding="async" />

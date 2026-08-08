@@ -1,5 +1,5 @@
 import { SectionHeader } from "@/components/section-header";
-import { LivingPhoto } from "./living-photo";
+import { PrintPhoto } from "./living-photo";
 
 function ProseLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -48,7 +48,7 @@ export function About() {
               Team.
             </p>
             <figure className="mt-6">
-              <LivingPhoto
+              <PrintPhoto
                 src="/images/flying/winnipesaukee.jpg"
                 alt="Aerial view from a small plane over Lake Winnipesaukee, New Hampshire, in fall, the wing strut in frame, foliage and a runway below"
                 width={2400}
@@ -59,16 +59,12 @@ export function About() {
               </figcaption>
             </figure>
             <figure className="mt-6">
-              <div className="photo">
-                <img
-                  src="/images/flying/monadnock.jpg"
-                  alt="View from a small plane of Mount Monadnock under late-day clouds, the wing strut crossing the frame"
-                  width={1400}
-                  height={1050}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
+              <PrintPhoto
+                src="/images/flying/monadnock.jpg"
+                alt="View from a small plane of Mount Monadnock under late-day clouds, the wing strut crossing the frame"
+                width={1400}
+                height={1050}
+              />
               <figcaption className="mono-label mt-3 text-ink-muted">
                 Mount Monadnock, from 4,500 ft
               </figcaption>
