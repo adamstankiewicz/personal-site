@@ -129,8 +129,9 @@ export function GitHubStats() {
                 rx={1}
                 className="fill-accent"
               >
-                {/* Native tooltip: hovering a bar names its year. */}
-                <title>{`${year.y} · ${year.opened} PRs opened`}</title>
+                {/* Native tooltip: hovering a bar names its year. The
+                    series always ends at the bake's in-progress year. */}
+                <title>{`${year.y}${i === years.length - 1 ? " (to date)" : ""} · ${year.opened} PRs opened`}</title>
               </rect>
             );
           })}
