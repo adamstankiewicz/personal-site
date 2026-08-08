@@ -10,8 +10,7 @@ export function SectionHeader({ number, title, annotation }: SectionHeaderProps)
       <span className="ghost-numeral" aria-hidden="true">
         {number}
       </span>
-      <h2 className="flex items-baseline gap-3">
-        <span className="mono-label text-accent">{number}</span>
+      <h2>
         <span className="title-md text-[1.125rem]">{title}</span>
       </h2>
       {annotation ? (
