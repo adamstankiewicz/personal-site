@@ -83,18 +83,28 @@ export function Gallery({
       if (raf !== null) return;
       raf = requestAnimationFrame(() => {
         raf = null;
-        const center = track.scrollLeft + track.clientWidth / 2;
+        // Center-nearest breaks at the ends of the strip: when several
+        // slides fit at once, the first slide's center can never reach
+        // the track's center, so scroll position 0 would read as
+        // "slide 2" and ← would have nowhere to go. The ends clamp to
+        // the first and last slide instead.
+        const maxScroll = track.scrollWidth - track.clientWidth;
         let best = 0;
-        let bestDistance = Infinity;
-        Array.from(track.children).forEach((child, index) => {
-          const slide = child as HTMLElement;
-          const mid = slide.offsetLeft + slide.offsetWidth / 2;
-          const distance = Math.abs(mid - center);
-          if (distance < bestDistance) {
-            bestDistance = distance;
-            best = index;
-          }
-        });
+        if (maxScroll > 4 && track.scrollLeft >= maxScroll - 4) {
+          best = track.children.length - 1;
+        } else if (track.scrollLeft > 4) {
+          const center = track.scrollLeft + track.clientWidth / 2;
+          let bestDistance = Infinity;
+          Array.from(track.children).forEach((child, index) => {
+            const slide = child as HTMLElement;
+            const mid = slide.offsetLeft + slide.offsetWidth / 2;
+            const distance = Math.abs(mid - center);
+            if (distance < bestDistance) {
+              bestDistance = distance;
+              best = index;
+            }
+          });
+        }
         setCurrent(best);
       });
     };
