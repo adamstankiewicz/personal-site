@@ -86,7 +86,7 @@ export function ProgressRail({
     // duplicates, so the rail steps aside.
     <div
       className="progress-rail"
-      data-yield={activeSection === "route" || undefined}
+      data-yield={activeSection === "experience" || undefined}
     >
       <div className="progress-rail-track">
         <div ref={fillRef} className="progress-rail-fill" aria-hidden="true" />
