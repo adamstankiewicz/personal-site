@@ -1209,3 +1209,130 @@ kbd.key-hint {
   }
 }
 
+/* ------------------------------------------------------------------ */
+/*  Print — a resume, not a printout of the interactive site           */
+/* ------------------------------------------------------------------ */
+
+@media print {
+  /* Always the light palette on paper, whatever theme was active on
+     screen — re-declared on every selector that can set these so none
+     of them out-specificity this block. */
+  :root,
+  .dark,
+  .hc,
+  .dark.hc {
+    --paper: #ffffff;
+    --paper-raised: #f6f6f7;
+    --line: #e7e7e9;
+    --ink: #131316;
+    --ink-muted: #5f5f67;
+    --accent: #1435e5;
+  }
+
+  /* Chrome that means nothing on paper: sticky nav, the scroll rail,
+     the command menu, mode toggles, the atmosphere shader, the
+     experience section's draggable scrubber and its track. */
+  .site-header,
+  .progress-rail,
+  .command-overlay,
+  .atmosphere,
+  .route-flyer,
+  .route::before,
+  .route-line {
+    display: none !important;
+  }
+
+  /* Lab is live interaction specimens by definition — a shader canvas
+     and draggable demos have no meaning frozen on a page, so the
+     section is skipped rather than printed as dead boxes. */
+  #lab {
+    display: none !important;
+  }
+
+  /* Work case studies keep their text (title, description, stack) —
+     genuinely resume-relevant — but the horizontal scroll strip and
+     its lightbox don't reflow to a page; only the screenshots are
+     lost, not the writing. */
+  .gallery-track,
+  .gallery-dialog,
+  figure:has(> .gallery-track) figcaption.flex {
+    display: none !important;
+  }
+
+  /* Same reasoning as Lab: the Spellbook replay is a click-to-step
+     demo that reveals more content per step. Frozen at its first
+     step it's mostly empty chrome — a big, mostly-blank box that
+     eats real page space for no payoff on paper. */
+  .replay {
+    display: none !important;
+  }
+
+  /* Every experience row prints open regardless of on-screen state:
+     print is a read-everything-at-once context, and a resume where
+     half the history is collapsed to a header isn't one. */
+  .ledger-row-body {
+    grid-template-rows: 1fr !important;
+  }
+  .ledger-row-body > div > div {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .waypoint-marker,
+  .ledger-toggle-glyph {
+    display: none !important;
+  }
+
+  /* Scroll-reveal animations are keyed off IntersectionObserver, which
+     doesn't run for a print pass — force the settled end state so
+     nothing prints half-faded or offset. */
+  .rise {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* "⌘K for commands" in the footer colophon means nothing on paper. */
+  footer p:has(kbd) {
+    display: none !important;
+  }
+
+  /* Screen-only decoration that either wastes ink or renders as a
+     stray box on a light background. */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  body {
+    background: var(--paper) !important;
+  }
+
+  a {
+    color: inherit !important;
+    text-decoration: underline !important;
+  }
+
+  /* No break-inside: avoid on a ledger row: these descriptions run
+     full paragraphs, not resume bullets, and forcing a whole one to
+     stay together strands the rest of the previous page blank
+     whenever it doesn't fit — worse than the rare row that splits
+     across a page like any other reflowing text. Only keep a heading
+     from being stranded alone at a page's foot. */
+  h1,
+  h2,
+  h3 {
+    break-after: avoid-page;
+  }
+
+  /* The contact email is sized in vw for screen drama; on a print
+     page that's still a huge glyph with acres of padding around it
+     built for scroll-triggered breathing room nothing needs on
+     paper. Fixed, modest, tight. */
+  .contact-link {
+    font-size: 2rem !important;
+  }
+  section[aria-label="Contact"] {
+    padding-block: 1rem !important;
+  }
+}
+

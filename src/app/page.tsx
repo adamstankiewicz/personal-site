@@ -38,13 +38,20 @@ function TitleBlock() {
           </ExternalLink>
           , since 2025
         </span>{" "}
-        · <span className="whitespace-nowrap">previously edX / 2U</span> ·{" "}
-        <ExternalLink
-          href="/pdfs/Adam_Stankiewicz_Resume.pdf"
-          className="mono-link whitespace-nowrap !text-ink hover:!text-accent"
-        >
-          Résumé ↓
-        </ExternalLink>
+        · <span className="whitespace-nowrap">previously edX / 2U</span>
+        {/* A link to a PDF of this same content is pointless on
+            paper — hidden as one unit with its leading separator so
+            print doesn't strand a dangling "·". */}
+        <span className="print:hidden">
+          {" "}
+          ·{" "}
+          <ExternalLink
+            href="/pdfs/Adam_Stankiewicz_Resume.pdf"
+            className="mono-link whitespace-nowrap !text-ink hover:!text-accent"
+          >
+            Résumé ↓
+          </ExternalLink>
+        </span>
       </p>
     </section>
   );
