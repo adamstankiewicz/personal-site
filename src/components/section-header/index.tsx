@@ -6,16 +6,13 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ number, title, annotation }: SectionHeaderProps) {
   return (
-    <div className="relative flex items-baseline justify-between border-t-2 border-line-strong pt-4">
+    <div className="relative flex items-baseline justify-between border-t border-line pt-5">
       <span className="ghost-numeral" aria-hidden="true">
         {number}
       </span>
       <h2 className="flex items-baseline gap-3">
-        <span className="mono-label text-accent">Panel {number}</span>
-        <span className="condensed-caps text-[0.8125rem]">{title}</span>
-        <span className="panel-stamp" aria-hidden="true">
-          ✓
-        </span>
+        <span className="mono-label text-accent">{number}</span>
+        <span className="title-md text-[1.0625rem]">{title}</span>
       </h2>
       {annotation ? (
         <p className="mono-label hidden text-ink-muted sm:block">{annotation}</p>

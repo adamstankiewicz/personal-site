@@ -3,17 +3,15 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ------------------------------------------------------------------ */
-/*  The Ledger — warm paper, ink, one rust accent.                     */
-/* ------------------------------------------------------------------ */
-
-/* ------------------------------------------------------------------ */
+/*  The Index — white field, hairline rules, one cobalt accent.        */
+/*                                                                     */
 /*  Tokens live in src/styles/tokens.css, generated from               */
 /*  tokens/tokens.json (DTCG). This file consumes them.                */
 /*                                                                     */
 /*  Motion philosophy: motion is response, not decoration. The page    */
 /*  enters once (hero choreography); after that, nothing moves unless  */
-/*  the visitor caused it. Mode changes (open, toggle) get a  */
-/*  spring; feedback (hover, press) stays under 200ms.                 */
+/*  the visitor caused it. Mode changes (open, toggle) get a spring;   */
+/*  feedback (hover, press) stays under 200ms.                         */
 /* ------------------------------------------------------------------ */
 
 @theme inline {
@@ -24,8 +22,10 @@
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
   --color-accent-2: var(--accent-2);
 
+  --font-display: var(--font-display);
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
 }
@@ -76,32 +76,19 @@ p {
   text-wrap: pretty;
 }
 
-/* A whisper of paper grain over everything. */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  pointer-events: none;
-  opacity: 0.35;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-}
-
-.dark body::after {
-  mix-blend-mode: screen;
-  opacity: 0.25;
-}
-
 ::selection {
   background: var(--accent);
   color: var(--paper);
 }
 
+.dark ::selection {
+  color: #0d0e11;
+}
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 1px;
+  border-radius: 2px;
 }
 
 /* ------------------------------------------------------------------ */
@@ -112,9 +99,9 @@ body::after {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
   transition: border-color 240ms ease, background-color 240ms ease;
 }
@@ -150,6 +137,10 @@ body::after {
   transform: scaleX(1);
 }
 
+.nav-link[data-active="true"]::after {
+  transform: scaleX(1);
+}
+
 .theme-glyph {
   display: inline-block;
   transition: transform var(--dur-open) var(--ease-spring);
@@ -181,9 +172,9 @@ body::after {
 }
 
 .link {
-  color: var(--accent-2);
+  color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--accent-2) 40%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
   transition: color 160ms ease, text-decoration-color 160ms ease;
@@ -191,8 +182,8 @@ body::after {
 
 @media (hover: hover) {
   .link:hover {
-    color: var(--accent);
-    text-decoration-color: var(--accent);
+    color: var(--accent-strong);
+    text-decoration-color: var(--accent-strong);
   }
 }
 
@@ -210,6 +201,31 @@ body::after {
   .mono-link:hover {
     color: var(--accent);
   }
+}
+
+/* Display voice — Bricolage Grotesque, mixed case, tight. */
+.display-title {
+  font-family: var(--font-display);
+  font-weight: 560;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+}
+
+/* Working titles — section names, row titles, case-study names. */
+.title-md {
+  font-family: var(--font-display);
+  font-weight: 520;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-weight: 520;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.625rem, 3vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
 }
 
 /* ------------------------------------------------------------------ */
@@ -238,16 +254,23 @@ body::after {
 .rise-4 { animation-delay: 220ms; }
 
 /* ------------------------------------------------------------------ */
-/*  Hero stats — the numbers do the talking                            */
+/*  Ghost section numerals                                             */
 /* ------------------------------------------------------------------ */
 
-.stat-value {
-  font-family: var(--font-serif);
-  font-weight: 300;
-  font-variant-numeric: tabular-nums;
-  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+.ghost-numeral {
+  position: absolute;
+  right: 0;
+  top: -0.75rem;
+  z-index: -1;
+  font-family: var(--font-display);
+  font-weight: 640;
+  font-size: clamp(6rem, 14vw, 11rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  opacity: 0.04;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* ------------------------------------------------------------------ */
@@ -255,9 +278,37 @@ body::after {
 /* ------------------------------------------------------------------ */
 
 .plate {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
   box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 7%, transparent),
-    0 12px 32px -12px color-mix(in srgb, var(--ink) 18%, transparent);
+    0 1px 2px color-mix(in srgb, var(--ink) 6%, transparent),
+    0 16px 40px -16px color-mix(in srgb, var(--ink) 16%, transparent);
+}
+
+/* Framed project screenshots — a slow, deliberate zoom on hover. */
+.plate-img {
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .group:hover .plate-img {
+    transform: scale(1.02);
+  }
+}
+
+/* Personal photographs — plain, honest, softly rounded. */
+.photo {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 6%, transparent),
+    0 12px 32px -14px color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* ------------------------------------------------------------------ */
@@ -266,11 +317,12 @@ body::after {
 
 @media (hover: hover) {
   .ledger-row > button:hover {
-    background: color-mix(in srgb, var(--paper-raised) 60%, transparent);
+    background: color-mix(in srgb, var(--paper-raised) 70%, transparent);
   }
 }
 
 .ledger-row > button {
+  border-radius: var(--radius-sm);
   transition: background-color var(--dur-fast) var(--ease-out);
 }
 
@@ -312,98 +364,7 @@ body::after {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Ghost section numerals                                             */
-/* ------------------------------------------------------------------ */
-
-.ghost-numeral {
-  position: absolute;
-  right: 0;
-  top: -0.5rem;
-  z-index: -1;
-  font-family: var(--font-serif);
-  font-weight: 800;
-  font-stretch: 125%;
-  font-size: clamp(6rem, 14vw, 11rem);
-  line-height: 0.8;
-  letter-spacing: -0.04em;
-  color: var(--ink);
-  opacity: 0.05;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* ------------------------------------------------------------------ */
-/*  Chart typography — condensed for labels, expanded for display      */
-/* ------------------------------------------------------------------ */
-
-.display-title {
-  font-family: var(--font-serif);
-  font-weight: 800;
-  font-stretch: 118%;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 0.94;
-}
-
-.condensed-caps {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  font-stretch: 78%;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-}
-
-.stat-value {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-stretch: 115%;
-  font-variant-numeric: tabular-nums;
-  font-size: clamp(1.625rem, 3vw, 2.25rem);
-  line-height: 1.1;
-  letter-spacing: 0;
-}
-
-/* ------------------------------------------------------------------ */
-/*  Chart frame — graticule ticks along the viewport edges (≥lg)       */
-/* ------------------------------------------------------------------ */
-
-@media (min-width: 1024px) {
-  .chart-frame::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 45;
-    pointer-events: none;
-    border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
-    background-image:
-      repeating-linear-gradient(
-        to right,
-        color-mix(in srgb, var(--ink) 30%, transparent) 0 1px,
-        transparent 1px 48px
-      ),
-      repeating-linear-gradient(
-        to right,
-        color-mix(in srgb, var(--ink) 30%, transparent) 0 1px,
-        transparent 1px 48px
-      ),
-      repeating-linear-gradient(
-        to bottom,
-        color-mix(in srgb, var(--ink) 30%, transparent) 0 1px,
-        transparent 1px 48px
-      ),
-      repeating-linear-gradient(
-        to bottom,
-        color-mix(in srgb, var(--ink) 30%, transparent) 0 1px,
-        transparent 1px 48px
-      );
-    background-size: 100% 6px, 100% 6px, 6px 100%, 6px 100%;
-    background-position: top left, bottom left, top left, top right;
-    background-repeat: no-repeat;
-  }
-}
-
-/* ------------------------------------------------------------------ */
-/*  The route — a plotted course down the page                         */
+/*  Timeline — a plotted line down the experience index                */
 /* ------------------------------------------------------------------ */
 
 .route {
@@ -411,9 +372,21 @@ body::after {
   padding-left: 2.75rem;
 }
 
+/* The full track, always present, hairline. */
+.route::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 14px;
+  bottom: 14px;
+  width: 1px;
+  background: var(--line);
+}
+
+/* The drawn portion — cobalt, scaled by scroll (JS drives scaleY). */
 .route-line {
   position: absolute;
-  left: 10px;
+  left: 10.5px;
   top: 14px;
   bottom: 14px;
   width: 2px;
@@ -432,117 +405,163 @@ body::after {
   position: relative;
 }
 
+/* Row markers: small open circles on the track; filled when open. */
 .waypoint-marker {
   position: absolute;
-  left: -2.75rem;
-  top: 2px;
-  width: 22px;
-  height: 22px;
-  color: var(--accent);
+  left: calc(-2.75rem + 6px);
+  top: 8px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink-muted);
   background: var(--paper);
+  transition: border-color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+}
+
+.ledger-row[data-open="true"] .waypoint-marker {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+/* The scrubber handle — rides the line with scroll, draggable. */
+.route-flyer {
+  position: absolute;
+  left: 11.5px;
+  top: 0;
+  z-index: 2;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2.5px solid var(--paper);
+  box-shadow: 0 0 0 1px var(--accent),
+    0 2px 8px color-mix(in srgb, var(--accent) 40%, transparent);
+  will-change: transform;
+  cursor: grab;
+  touch-action: none;
+  /* generous hit area for dragging */
+  padding: 6px;
+  box-sizing: content-box;
+  margin: -6px;
+  background-clip: padding-box;
+}
+
+.route-flyer::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2.5px solid var(--paper);
+}
+
+.route-flyer:active {
+  cursor: grabbing;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-flyer {
+    display: none;
+  }
 }
 
 /* ------------------------------------------------------------------ */
-/*  Terrain plate — a real photograph, treated as part of the chart    */
+/*  Progress rail — quiet scroll position, right edge (≥lg)            */
 /* ------------------------------------------------------------------ */
 
-.terrain-plate {
+.progress-rail {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (min-width: 1024px) {
+  .progress-rail {
+    display: flex;
+  }
+}
+
+.progress-rail-track {
   position: relative;
-  border: 2px solid var(--line-strong);
+  width: 2px;
+  height: 38vh;
+  background: var(--line);
+  border-radius: 1px;
   overflow: hidden;
 }
 
-.terrain-plate img {
-  display: block;
-  width: 100%;
-  height: clamp(280px, 44vw, 460px);
-  object-fit: cover;
-  filter: saturate(0.92);
+.progress-rail-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform-origin: top;
+  transform: scaleY(0);
+  will-change: transform;
 }
 
-.dark .terrain-plate img {
-  filter: saturate(0.85) brightness(0.82);
+.progress-rail-tick {
+  position: absolute;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  cursor: pointer;
+  /* the visible dot */
+  background: none;
+  border: none;
+  padding: 0;
 }
 
-/* Graticule laid over the photograph */
-.terrain-plate::after {
+.progress-rail-tick::after {
   content: "";
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    repeating-linear-gradient(
-      to right,
-      color-mix(in srgb, var(--paper) 32%, transparent) 0 1px,
-      transparent 1px 96px
-    ),
-    repeating-linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--paper) 32%, transparent) 0 1px,
-      transparent 1px 96px
-    );
-}
-
-.terrain-plate-course {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  color: var(--accent);
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
-}
-
-.terrain-plate-caption {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 3;
+  inset: 3px;
+  border-radius: 50%;
   background: var(--paper);
-  border-top: 2px solid var(--line-strong);
-  border-right: 2px solid var(--line-strong);
-  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--ink-muted);
+  transition: background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-open) var(--ease-spring);
 }
 
-/* ------------------------------------------------------------------ */
-/*  Photo plates — keylined field photos                               */
-/* ------------------------------------------------------------------ */
-
-.photo-plate {
-  border: 1.5px solid var(--accent-2);
-  padding: 0.375rem;
-  background: var(--paper);
+.progress-rail-tick[data-active="true"]::after {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.35);
 }
 
-.photo-plate img {
-  display: block;
-  width: 100%;
-  height: auto;
-  filter: saturate(0.92);
+@media (hover: hover) {
+  .progress-rail-tick:hover::after {
+    border-color: var(--accent);
+  }
 }
 
-.dark .photo-plate img {
-  filter: saturate(0.85) brightness(0.82);
-}
-
-/* ------------------------------------------------------------------ */
-/*  Chart insets — the one place heavy cartographic borders belong     */
-/* ------------------------------------------------------------------ */
-
-.inset {
-  border: 1.5px solid var(--accent-2);
-  background: color-mix(in srgb, var(--paper-raised) 55%, var(--paper));
-}
-
-.inset-tab {
-  display: inline-block;
-  background: var(--accent-2);
-  color: var(--paper);
+.progress-rail-label {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 0.25rem 0.75rem;
+  color: var(--ink-muted);
+  writing-mode: vertical-rl;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color 160ms ease;
+}
+
+@media (hover: hover) {
+  .progress-rail-label:hover {
+    color: var(--accent);
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -573,7 +592,7 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: 70;
-  background: color-mix(in srgb, var(--ink) 20%, transparent);
+  background: color-mix(in srgb, var(--ink) 16%, transparent);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   animation: overlay-in var(--dur-fast) var(--ease-out) both;
@@ -582,6 +601,8 @@ body::after {
 .command-panel {
   /* Springs because it's a mode change — the page's one "pop". */
   animation: menu-in var(--dur-open) var(--ease-spring) both;
+  border-radius: var(--radius-md);
+  overflow: hidden;
 }
 
 .command-option[data-selected="true"] {
@@ -598,145 +619,13 @@ kbd.key-hint {
   font-size: 0.625rem;
   letter-spacing: 0.08em;
   border: 1px solid var(--line);
-  border-radius: 3px;
+  border-radius: var(--radius-xs);
   padding: 0.125rem 0.375rem;
   color: var(--ink-muted);
 }
 
-/* Framed project screenshots — a slow, deliberate zoom on hover. */
-.plate-img {
-  transition: transform var(--dur-slow) var(--ease-out);
-}
-
-@media (hover: hover) {
-  .group:hover .plate-img {
-    transform: scale(1.02);
-  }
-}
-
 /* ------------------------------------------------------------------ */
-/*  Flight instruments — scroll telemetry (desktop)                    */
-/* ------------------------------------------------------------------ */
-
-.instruments {
-  position: fixed;
-  right: 14px;
-  bottom: 14px;
-  z-index: 50;
-  display: none;
-  gap: 1rem;
-  align-items: baseline;
-  border: 1px solid var(--line-strong);
-  background: color-mix(in srgb, var(--paper) 92%, transparent);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  padding: 0.4rem 0.75rem;
-}
-
-@media (min-width: 1024px) {
-  .instruments {
-    display: flex;
-  }
-}
-
-.instruments span {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink-muted);
-}
-
-.instruments b {
-  font-weight: 500;
-  color: var(--ink);
-}
-
-/* ------------------------------------------------------------------ */
-/*  Route flyer — rides the course line with scroll                    */
-/* ------------------------------------------------------------------ */
-
-.route-flyer {
-  position: absolute;
-  left: 11px;
-  top: 0;
-  z-index: 2;
-  width: 18px;
-  height: 18px;
-  color: var(--accent);
-  will-change: transform;
-  cursor: grab;
-  touch-action: none;
-  /* generous hit area for dragging */
-  padding: 6px;
-  box-sizing: content-box;
-  margin: -6px;
-}
-
-.route-flyer:active {
-  cursor: grabbing;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .route-flyer {
-    display: none;
-  }
-}
-
-/* ------------------------------------------------------------------ */
-/*  Terrain crosshair — surveyor's cursor over the photograph          */
-/* ------------------------------------------------------------------ */
-
-.crosshair-h,
-.crosshair-v {
-  position: absolute;
-  z-index: 2;
-  pointer-events: none;
-  background: color-mix(in srgb, var(--paper) 65%, transparent);
-  opacity: 0;
-  transition: opacity var(--dur-fast) var(--ease-out);
-}
-
-.crosshair-h {
-  left: 0;
-  right: 0;
-  height: 1px;
-}
-
-.crosshair-v {
-  top: 0;
-  bottom: 0;
-  width: 1px;
-}
-
-.crosshair-chip {
-  position: absolute;
-  z-index: 3;
-  pointer-events: none;
-  background: var(--paper);
-  border: 1px solid var(--line-strong);
-  padding: 0.2rem 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.1em;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink);
-  opacity: 0;
-  transition: opacity var(--dur-fast) var(--ease-out);
-  white-space: nowrap;
-}
-
-@media (hover: hover) {
-  .terrain-plate:hover .crosshair-h,
-  .terrain-plate:hover .crosshair-v,
-  .terrain-plate:hover .crosshair-chip {
-    opacity: 1;
-  }
-}
-
-/* ------------------------------------------------------------------ */
-/*  Day/night terminator — theme change sweeps across the page         */
+/*  Theme change — a wipe across the page via View Transitions         */
 /* ------------------------------------------------------------------ */
 
 ::view-transition-old(root) {
@@ -744,10 +633,10 @@ kbd.key-hint {
 }
 
 ::view-transition-new(root) {
-  animation: terminator 640ms var(--ease-out);
+  animation: theme-wipe 640ms var(--ease-out);
 }
 
-@keyframes terminator {
+@keyframes theme-wipe {
   from {
     clip-path: inset(0 100% 0 0);
   }
@@ -761,51 +650,6 @@ kbd.key-hint {
   ::view-transition-new(root) {
     animation: none;
   }
-}
-
-/* ------------------------------------------------------------------ */
-/*  Section stamps — panels get marked as you pass through             */
-/* ------------------------------------------------------------------ */
-
-.panel-stamp {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-left: 0.75rem;
-  border: 1.5px solid var(--accent);
-  border-radius: 50%;
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  vertical-align: middle;
-  transform: rotate(-10deg) scale(0);
-  opacity: 0;
-  transition: transform var(--dur-open) var(--ease-spring),
-    opacity var(--dur-fast) var(--ease-out);
-}
-
-section[data-stamped] .panel-stamp {
-  transform: rotate(-10deg) scale(1);
-  opacity: 0.9;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .panel-stamp {
-    transform: rotate(-10deg) scale(1);
-  }
-  section[data-stamped] .panel-stamp {
-    transform: rotate(-10deg) scale(1);
-  }
-}
-
-/* ------------------------------------------------------------------ */
-/*  Scroll-spy — the active section keeps its underline                */
-/* ------------------------------------------------------------------ */
-
-.nav-link[data-active="true"]::after {
-  transform: scaleX(1);
 }
 
 /* ------------------------------------------------------------------ */
@@ -826,14 +670,77 @@ html.barrel-roll body {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Instruments — the landed state offers the climb back up            */
+/*  Legacy (SECTIONAL) classes still referenced mid-rebuild.           */
+/*  Each block is deleted as its section lands on the new system.      */
 /* ------------------------------------------------------------------ */
 
-.instruments button {
+.condensed-caps {
+  font-family: var(--font-display);
+  font-weight: 520;
+  letter-spacing: -0.01em;
+}
+
+.terrain-plate {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.terrain-plate img {
+  display: block;
+  width: 100%;
+  height: clamp(280px, 44vw, 460px);
+  object-fit: cover;
+}
+
+.terrain-plate-course,
+.crosshair-h,
+.crosshair-v,
+.crosshair-chip,
+.panel-stamp {
+  display: none;
+}
+
+.terrain-plate-caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(6px);
+  padding: 0.5rem 0.875rem;
+  border-top-right-radius: var(--radius-sm);
+}
+
+.photo-plate {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 6%, transparent),
+    0 12px 32px -14px color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+.photo-plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.inset {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+}
+
+.inset-tab {
+  display: inline-block;
+  color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
-  cursor: pointer;
+}
+
+.instruments {
+  display: none;
 }

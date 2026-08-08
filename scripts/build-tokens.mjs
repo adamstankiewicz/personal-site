@@ -52,6 +52,7 @@ function resolve(value, seen = new Set()) {
 const VAR_NAME = {
   semantic: (key) => `--${key}`,
   font: (key) => `--font-${key}`,
+  radius: (key) => `--radius-${key}`,
   duration: (key) => `--dur-${key}`,
   easing: (key) => `--ease-${key}`,
 };
