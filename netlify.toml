@@ -7,7 +7,9 @@ publish = "out"
 
 # The CF beacon token is public by design — it ships in the page
 # source of every visitor — so it can live here, unlike GH_STATS_TOKEN.
-[build.environment]
+# Production-scoped: deploy previews and branch deploys build without
+# it, so preview traffic never pollutes the analytics.
+[context.production.environment]
 NEXT_PUBLIC_CF_BEACON_TOKEN = "20e74d274d66421ba7b930e76dd3f1c6"
 
 [dev]
