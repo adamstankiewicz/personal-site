@@ -171,7 +171,10 @@ export function Gallery({
         ))}
       </div>
 
-      <figcaption className="mt-3 flex items-baseline justify-end gap-4">
+      {/* A lone slide needs no counter or arrows. */}
+      <figcaption
+        className={`mt-3 items-baseline justify-end gap-4 ${images.length > 1 ? "flex" : "hidden"}`}
+      >
         <span className="flex shrink-0 items-baseline gap-2">
           <span
             className="mono-label tabular-nums text-ink-muted"
@@ -242,27 +245,31 @@ export function Gallery({
                 {active.alt}
               </span>
               <span className="flex shrink-0 items-baseline gap-2">
-                <span className="mono-label tabular-nums text-ink-muted">
-                  <TextMorph as="span">{`${(modalIndex ?? 0) + 1} / ${images.length}`}</TextMorph>
-                </span>
-                <button
-                  type="button"
-                  className="gallery-nav"
-                  aria-label="Previous screenshot"
-                  disabled={modalIndex === 0}
-                  onClick={() => setModalIndex((modalIndex ?? 0) - 1)}
-                >
-                  ←
-                </button>
-                <button
-                  type="button"
-                  className="gallery-nav"
-                  aria-label="Next screenshot"
-                  disabled={modalIndex === images.length - 1}
-                  onClick={() => setModalIndex((modalIndex ?? 0) + 1)}
-                >
-                  →
-                </button>
+                {images.length > 1 ? (
+                  <>
+                    <span className="mono-label tabular-nums text-ink-muted">
+                      <TextMorph as="span">{`${(modalIndex ?? 0) + 1} / ${images.length}`}</TextMorph>
+                    </span>
+                    <button
+                      type="button"
+                      className="gallery-nav"
+                      aria-label="Previous screenshot"
+                      disabled={modalIndex === 0}
+                      onClick={() => setModalIndex((modalIndex ?? 0) - 1)}
+                    >
+                      ←
+                    </button>
+                    <button
+                      type="button"
+                      className="gallery-nav"
+                      aria-label="Next screenshot"
+                      disabled={modalIndex === images.length - 1}
+                      onClick={() => setModalIndex((modalIndex ?? 0) + 1)}
+                    >
+                      →
+                    </button>
+                  </>
+                ) : null}
                 <button
                   type="button"
                   className="gallery-nav"

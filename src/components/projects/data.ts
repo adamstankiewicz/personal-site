@@ -76,12 +76,6 @@ export const projects: Project[] = [
         height: 468,
       },
       {
-        src: '/images/projects/chatinput-a11y.png',
-        alt: "The accessibility contract and slot-composition API from ChatInput's docs: focus behavior, reduced-motion fallback, aria-live drop announcements",
-        width: 1600,
-        height: 455,
-      },
-      {
         src: '/images/projects/chatinput-docs.png',
         alt: "ChatInput's documentation: the card-chrome organism, with its Do's and Don'ts",
         width: 1600,
@@ -115,28 +109,10 @@ export const projects: Project[] = [
     ],
     images: [
       {
-        src: '/images/projects/a11y-pr-comment.png',
-        alt: 'Sticky pull-request comment surfacing new axe violations introduced by the PR',
-        width: 1796,
-        height: 1016,
-      },
-      {
-        src: '/images/projects/a11y-report.png',
-        alt: 'Self-contained accessibility report with findings grouped by rule and per-finding screenshots',
-        width: 3456,
-        height: 3150,
-      },
-      {
-        src: '/images/projects/a11y-dashboard-overview.png',
-        alt: 'Accessibility guild dashboard overview with coverage-normalized signals',
-        width: 3456,
-        height: 3748,
-      },
-      {
-        src: '/images/projects/a11y-dashboard-violations.png',
-        alt: 'Dashboard violations grid with sorting and filtering by rule, impact, and screen',
-        width: 3456,
-        height: 2056,
+        src: '/images/projects/chatinput-a11y.png',
+        alt: "The per-component accessibility contract from ChatInput's Storybook docs — focus behavior, reduced-motion fallback, aria-live announcements — the kind of contract the CI scans check in aggregate",
+        width: 1600,
+        height: 455,
       },
     ],
     technologies: [
