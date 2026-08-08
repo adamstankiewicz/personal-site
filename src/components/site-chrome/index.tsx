@@ -6,6 +6,7 @@ import { TextMorph } from "torph/react";
 import { CommandMenu, type Command } from "@/components/command-menu";
 import { ProgressRail } from "@/components/progress-rail";
 import buildInfo from "@/generated/build-info.json";
+import bakedGhStats from "@/generated/gh-stats.json";
 
 // Aggregate public-GitHub leverage: PRs opened, and others' PRs
 // reviewed. Fetched client-side (unauthenticated, so private-org work
@@ -16,7 +17,15 @@ function GitHubStats() {
     null
   );
 
+  // Baked at build time with an org-authorized token when available;
+  // covers private work too and skips the client fetch entirely.
+  const baked =
+    bakedGhStats.scope === "all" &&
+    typeof bakedGhStats.opened === "number" &&
+    typeof bakedGhStats.reviewed === "number";
+
   useEffect(() => {
+    if (baked) return;
     try {
       const cached = sessionStorage.getItem("gh-pr-stats");
       if (cached) {
@@ -42,13 +51,23 @@ function GitHubStats() {
         } catch {}
       })
       .catch(() => {});
-  }, []);
+  }, [baked]);
 
-  if (!stats) return null;
+  const display = baked
+    ? {
+        opened: bakedGhStats.opened as number,
+        reviewed: bakedGhStats.reviewed as number,
+        label: "across GitHub",
+      }
+    : stats
+      ? { ...stats, label: "public GitHub" }
+      : null;
+
+  if (!display) return null;
   return (
     <p className="mono-label mt-3 text-ink-muted">
-      {stats.opened.toLocaleString()} PRs opened ·{" "}
-      {stats.reviewed.toLocaleString()} reviewed · public GitHub
+      {display.opened.toLocaleString()} PRs opened ·{" "}
+      {display.reviewed.toLocaleString()} reviewed · {display.label}
     </p>
   );
 }

@@ -6,8 +6,9 @@
     "tokens": "node scripts/build-tokens.mjs",
     "tokens:check": "node scripts/build-tokens.mjs --check",
     "buildinfo": "node scripts/build-info.mjs",
-    "dev": "npm run tokens && npm run buildinfo && next dev",
-    "build": "npm run tokens:check && npm run buildinfo && next build",
+    "ghstats": "node scripts/build-gh-stats.mjs",
+    "dev": "npm run tokens && npm run buildinfo && npm run ghstats && next dev",
+    "build": "npm run tokens:check && npm run buildinfo && npm run ghstats && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },
