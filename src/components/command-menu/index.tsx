@@ -38,12 +38,21 @@ export function CommandMenu({ open, onClose, commands }: CommandMenuProps) {
       .filter((section) => section.items.length > 0);
   }, [filtered]);
 
-  // Reset state each time the menu opens.
+  // Reset state each time the menu opens; lock background scroll while open.
+  // Skip autofocus on touch devices so the keyboard doesn't spring up.
   useEffect(() => {
     if (open) {
       setQuery("");
       setSelected(0);
-      requestAnimationFrame(() => inputRef.current?.focus());
+      const isTouch = window.matchMedia("(hover: none)").matches;
+      if (!isTouch) {
+        requestAnimationFrame(() => inputRef.current?.focus());
+      }
+      const previousOverflow = document.documentElement.style.overflow;
+      document.documentElement.style.overflow = "hidden";
+      return () => {
+        document.documentElement.style.overflow = previousOverflow;
+      };
     }
   }, [open]);
 
@@ -65,6 +74,9 @@ export function CommandMenu({ open, onClose, commands }: CommandMenuProps) {
       if (e.key === "Escape") {
         e.preventDefault();
         onClose();
+      } else if (e.key === "Tab") {
+        // Keep focus inside the dialog; arrow keys navigate the list.
+        e.preventDefault();
       } else if (e.key === "ArrowDown") {
         e.preventDefault();
         setSelected((s) => (s + 1) % Math.max(filtered.length, 1));
@@ -115,8 +127,12 @@ export function CommandMenu({ open, onClose, commands }: CommandMenuProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Type a command…"
-            className="w-full bg-transparent font-mono text-[0.8125rem] tracking-wide outline-none placeholder:text-ink-muted"
+            className="w-full bg-transparent font-mono text-base tracking-wide outline-none placeholder:text-ink-muted sm:text-[0.8125rem]"
             aria-label="Search commands"
+            spellCheck={false}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
           />
           <kbd className="key-hint">esc</kbd>
         </div>

@@ -42,6 +42,15 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -59,7 +68,22 @@ html {
 
 body {
   font-optical-sizing: auto;
-  transition: background-color 240ms ease, color 240ms ease;
+  text-rendering: optimizeLegibility;
+  /* No bg/color transition here: theme switches should snap, per
+     interfaces.rauno.me — staggered per-element transitions look broken. */
+}
+
+button {
+  user-select: none;
+  touch-action: manipulation;
+}
+
+a {
+  touch-action: manipulation;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 /* A whisper of paper grain over everything. */
@@ -126,7 +150,12 @@ body::after {
   transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.nav-link:hover::after,
+@media (hover: hover) {
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+}
+
 .nav-link:focus-visible::after {
   transform: scaleX(1);
 }
@@ -161,9 +190,11 @@ body::after {
   transition: color 160ms ease, text-decoration-color 160ms ease;
 }
 
-.link:hover {
-  color: var(--accent);
-  text-decoration-color: var(--accent);
+@media (hover: hover) {
+  .link:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
 }
 
 .mono-link {
@@ -176,8 +207,10 @@ body::after {
   transition: color 160ms ease;
 }
 
-.mono-link:hover {
-  color: var(--accent);
+@media (hover: hover) {
+  .mono-link:hover {
+    color: var(--accent);
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -246,7 +279,7 @@ body::after {
 .ledger-row-body {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .ledger-row[data-open="true"] .ledger-row-body {
@@ -346,7 +379,7 @@ html[data-inspect="true"] .inspect-chip {
 }
 
 .command-panel {
-  animation: menu-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: menu-in 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .command-option[data-selected="true"] {

@@ -194,7 +194,7 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
                   }
                 >
                   <dt className="mono-label text-ink-muted">{figure.label}</dt>
-                  <dd className="mt-4 font-serif text-2xl font-light tracking-tight text-ink sm:text-3xl">
+                  <dd className="mt-4 font-serif text-2xl font-light tabular-nums tracking-tight text-ink sm:text-3xl">
                     {figure.value}
                   </dd>
                 </div>
@@ -213,7 +213,10 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
                 src={cover.src}
                 alt={cover.alt}
                 loading="lazy"
-                className="w-full transition-transform duration-700 ease-out group-hover:scale-[1.015]"
+                decoding="async"
+                width={3024}
+                height={1550}
+                className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.015]"
               />
             </a>
           ) : null}
@@ -224,7 +227,15 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
                   key={image.src}
                   className="overflow-hidden border border-line bg-paper-raised"
                 >
-                  <img src={image.src} alt={image.alt} loading="lazy" className="w-full" />
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    loading="lazy"
+                    decoding="async"
+                    width={3024}
+                    height={1550}
+                    className="h-auto w-full"
+                  />
                 </div>
               ))}
             </div>

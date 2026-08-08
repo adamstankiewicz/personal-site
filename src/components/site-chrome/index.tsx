@@ -209,7 +209,11 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           <div className="flex items-baseline gap-5 sm:gap-6">
             <nav aria-label="Main navigation" className="flex items-baseline gap-5 sm:gap-6">
               {NAV_ITEMS.map((item) => (
-                <a key={item.id} href={`/#${item.id}`} className="mono-link nav-link">
+                <a
+                  key={item.id}
+                  href={`/#${item.id}`}
+                  className="mono-link nav-link -my-2 inline-block py-2"
+                >
                   {item.label}
                 </a>
               ))}
@@ -251,24 +255,24 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             </div>
             <div>
               <p className="mono-label text-ink-muted">Elsewhere</p>
-              <ul className="mt-3 space-y-2">
+              <ul className="mt-2">
                 <li>
-                  <a href="https://github.com/adamstankiewicz" target="_blank" rel="noopener noreferrer" className="mono-link">
+                  <a href="https://github.com/adamstankiewicz" target="_blank" rel="noopener noreferrer" className="mono-link inline-block py-1.5">
                     GitHub ↗
                   </a>
                 </li>
                 <li>
-                  <a href="https://linkedin.com/in/stankiewiczadam" target="_blank" rel="noopener noreferrer" className="mono-link">
+                  <a href="https://linkedin.com/in/stankiewiczadam" target="_blank" rel="noopener noreferrer" className="mono-link inline-block py-1.5">
                     LinkedIn ↗
                   </a>
                 </li>
                 <li>
-                  <a href="https://scholar.google.com/citations?user=lJSHz8QAAAAJ" target="_blank" rel="noopener noreferrer" className="mono-link">
+                  <a href="https://scholar.google.com/citations?user=lJSHz8QAAAAJ" target="_blank" rel="noopener noreferrer" className="mono-link inline-block py-1.5">
                     Google Scholar ↗
                   </a>
                 </li>
                 <li>
-                  <a href="/pdfs/Adam_Stankiewicz_Resume.pdf" target="_blank" rel="noopener noreferrer" className="mono-link">
+                  <a href="/pdfs/Adam_Stankiewicz_Resume.pdf" target="_blank" rel="noopener noreferrer" className="mono-link inline-block py-1.5">
                     Résumé ↓
                   </a>
                 </li>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Newsreader, Geist_Mono } from "next/font/google";
 import { SiteChrome } from "@/components/site-chrome";
 
@@ -17,6 +17,13 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f2ea" },
+    { media: "(prefers-color-scheme: dark)", color: "#171512" },
+  ],
+};
 
 export const metadata: Metadata = {
   title: "Adam Stankiewicz — Senior Design Systems Engineer",
