@@ -1,6 +1,34 @@
+# Optional build env vars (set in the Netlify UI, never committed):
+#   GH_STATS_TOKEN — GitHub token so footer PR counts include
+#   private-org work. Absent → public-only client fallback.
 [build]
-command = "react-router build"
-publish = "build/client"
+command = "npm run build"
+publish = "out"
+
+# The CF beacon token is public by design — it ships in the page
+# source of every visitor — so it can live here, unlike GH_STATS_TOKEN.
+# Production-scoped: deploy previews and branch deploys build without
+# it, so preview traffic never pollutes the analytics.
+[context.production.environment]
+NEXT_PUBLIC_CF_BEACON_TOKEN = "20e74d274d66421ba7b930e76dd3f1c6"
 
 [dev]
-command = "react-router dev"
+command = "npm run dev"
+
+# The build emits the OG card as an extensionless file; without this,
+# Netlify would serve it as application/octet-stream and some link
+# scrapers would ignore it.
+[[headers]]
+for = "/opengraph-image"
+[headers.values]
+Content-Type = "image/png"
+
+# Baseline security headers. No CSP: the before-paint theme script is
+# inline, so a CSP would need a hash re-derived on every edit of that
+# script — brittle for a static site with no user content to protect.
+[[headers]]
+for = "/*"
+[headers.values]
+X-Content-Type-Options = "nosniff"
+X-Frame-Options = "DENY"
+Referrer-Policy = "strict-origin-when-cross-origin"

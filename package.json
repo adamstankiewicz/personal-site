@@ -2,38 +2,36 @@
   "name": "adamstankiewicz-portfolio",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=20.9"
+  },
   "scripts": {
-    "build": "react-router build",
-    "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "tokens": "node scripts/build-tokens.mjs",
+    "tokens:check": "node scripts/build-tokens.mjs --check",
+    "buildinfo": "node scripts/build-info.mjs",
+    "ghstats": "node scripts/build-gh-stats.mjs",
+    "postinstall": "npm run buildinfo && npm run ghstats",
+    "dev": "npm run tokens && npm run buildinfo && npm run ghstats && next dev",
+    "build": "npm run tokens:check && npm run buildinfo && npm run ghstats && next build",
+    "lint": "eslint .",
+    "test": "node --test scripts/",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@headlessui/react": "^2.2.3",
-    "@react-router/node": "^7.0.4",
-    "@react-router/serve": "^7.0.4",
-    "@tailwindcss/vite": "^4.1.7",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "framer-motion": "^10.18.0",
-    "isbot": "^5.1.28",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-intl": "^7.1.11",
-    "react-responsive": "^10.0.1",
-    "react-router": "^7.6.0",
-    "react-router-dom": "^7.6.0",
-    "tailwindcss": "^4.1.7",
-    "typewriter-effect": "^2.22.0"
+    "@paper-design/shaders-react": "^0.0.79",
+    "next": "^16.3.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "torph": "^0.1.0"
   },
   "devDependencies": {
-    "@netlify/vite-plugin-react-router": "^1.0.1",
-    "@react-router/dev": "^7.6.0",
-    "@types/node": "^20",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.1",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.5",
-    "vite-tsconfig-paths": "^5.1.4"
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3"
   }
 }

@@ -11,7 +11,3 @@ export interface ExperienceItemProps {
   description: string;
   technologies: string[];
 }
-
-export interface ExperienceData {
-  experiences: ExperienceItemProps[];
-}

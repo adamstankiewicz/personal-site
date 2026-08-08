@@ -1,117 +1,147 @@
-import { useRouteLoaderData } from 'react-router';
-import { Project } from './types';
-import { ProjectCard } from './ProjectCard';
+import { SectionHeader } from "@/components/ui/section-header";
+import { Chip } from "@/components/ui/chip";
+import { Gallery } from "./gallery";
+import { SpellbookReplay } from "./spellbook-replay";
+import { projects } from "./data";
+import { Project, ProjectDetail } from "./types";
+import { ExternalLink } from "@/components/ui/external-link";
 
-export const projects: Project[] = [
-  {
-    title: 'Paragon, Design System & Component Library',
-    description: 'Developed and maintained Paragon, an open-source design system and React component library providing the UI foundation for the Open edX learning platform, empowering product teams to build consistent and accessible user interfaces.',
-    href: 'https://paragon-openedx-v22.netlify.app',
-    githubUrl: 'https://github.com/openedx/paragon',
-    images: [
-      {
-        src: '/images/projects/paragon.png',
-        alt: 'Paragon home page',
-      },
-      {
-        src: '/images/projects/paragon-colors.png',
-        alt: 'Paragon color palette',
-      },
-      {
-        src: '/images/projects/paragon-button.png',
-        alt: 'Paragon button component',
-      },
-      {
-        src: '/images/projects/paragon-pagination.png',
-        alt: 'Paragon pagination component',
-      },
-      {
-        src: '/images/projects/paragon-usage.png',
-        alt: 'Paragon usage insights',
-      },
-    ],
-    technologies: [
-      'JavaScript',
-      'TypeScript',
-      'React',
-      'Style Dictionary',
-      'CSS',
-      'Sass',
-      'Gatsby',
-      'GitHub Actions',
-      'Figma',
-    ],
-    stars: 130,
-    installs: 4000000,
-  },
-  {
-    title: 'edX Enterprise',
-    description: 'Led the frontend architecture for the enterprise platform at edX, providing comprehensive solutions for both learners and administrators. The platform supports user onboarding, content discovery, course enrollment, and administrative management for enterprise customers.',
-    href: 'https://business.edx.org',
-    images: [
-      {
-        src: '/images/projects/enterprise-learner-dashboard.png',
-        alt: 'Enterprise Learner Portal - Dashboard',
-      },
-      {
-        src: '/images/projects/enterprise-learner-search.png',
-        alt: 'Enterprise Learner Portal - Search',
-      },
-      {
-        src: '/images/projects/enterprise-learner-course.png',
-        alt: 'Enterprise Learner Portal - Course',
-      },
-      {
-        src: '/images/projects/enterprise-admin-learner-credit.png',
-        alt: 'Enterprise Admin Portal - Learner Credit',
-      },
-      {
-        src: '/images/projects/enterprise-admin-learner-credit-assignment-allocation.png',
-        alt: 'Enterprise Admin Portal - Learner Credit Allocation',
-      },
-      {
-        src: '/images/projects/enterprise-admin-highlights.png',
-        alt: 'Enterprise Admin Portal - Highlights',
-      },
-    ],
-    technologies: [
-      'JavaScript',
-      'TypeScript',
-      'React',
-      'React Router',
-      'State Management',
-      'React Query',
-      'Redux',
-      'Python',
-      'Django',
-      'MySQL',
-      'Redis',
-      'Celery',
-      'GitHub Actions',
-      'Docker',
-    ],
-  },
-];
-
-// Export the loader function
-export async function loader() {
-  return { projects };
+function formatInstalls(installs: number) {
+  const millions = installs / 1_000_000;
+  const compact = Number.isInteger(millions)
+    ? String(millions)
+    : millions.toFixed(1);
+  return `${compact}M+ npm downloads`;
 }
 
-// Export the Projects component
-export function Projects() {
-  const { projects } = useRouteLoaderData('routes/home') as { projects: Project[] };
-
+function Inset({ project }: { project: Project }) {
   return (
-    <section id="projects" className="mb-16 scroll-mt-16 md:mb-24 lg:mb-24 lg:scroll-mt-24">
-      <div>
-        <ol className="group/list">
-          {projects.map((project, index) => (
-            <div key={index}>
-              <ProjectCard project={project} />
+    <article className="py-12 first:pt-10 last:pb-0 sm:py-14">
+      <div className="grid gap-10 lg:grid-cols-12">
+        <div className="min-w-0 lg:col-span-5">
+          <p className="mono-label text-ink-muted">{project.context}</p>
+          <h3 className="title-md mt-4 text-[1.5rem] sm:text-[1.75rem]">
+            {project.href ? (
+              <ExternalLink
+                href={project.href}
+                className="transition-colors hover:text-accent"
+              >
+                {project.title}
+              </ExternalLink>
+            ) : (
+              project.title
+            )}
+          </h3>
+          <p className="mt-6 text-[1rem] leading-[1.75]">{project.description}</p>
+
+          {project.details ? (
+            <dl className="mt-8 space-y-5">
+              {project.details.map((detail: ProjectDetail) => (
+                <div key={detail.label} className="border-l-2 border-line pl-4">
+                  <dt className="mono-label text-ink">{detail.label}</dt>
+                  <dd className="mt-1.5 max-w-[58ch] text-[0.9375rem] leading-[1.7]">
+                    {detail.text}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+
+          {project.capabilities ? (
+            <div className="mt-6">
+              <p className="mono-label text-ink-muted">What the tools cover</p>
+              <ul className="mt-2.5 flex flex-wrap gap-1.5">
+                {project.capabilities.map((capability) => (
+                  <Chip key={capability} as="li">
+                    {capability}
+                  </Chip>
+                ))}
+              </ul>
             </div>
-          ))}
-        </ol>
+          ) : null}
+
+          <ul className="mono-label mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-2 text-ink-muted">
+            {typeof project.stars === "number" ? (
+              <li>★ {project.stars}</li>
+            ) : null}
+            {typeof project.installs === "number" ? (
+              <li>{formatInstalls(project.installs)}</li>
+            ) : null}
+            {project.href ? (
+              <li>
+                <ExternalLink
+                  href={project.href}
+                  className="mono-link !text-inherit hover:!text-accent"
+                  icon
+                >
+                  Live
+                </ExternalLink>
+              </li>
+            ) : null}
+            {project.githubUrl ? (
+              <li>
+                <ExternalLink
+                  href={project.githubUrl}
+                  className="mono-link !text-inherit hover:!text-accent"
+                  icon
+                >
+                  Source
+                </ExternalLink>
+              </li>
+            ) : null}
+          </ul>
+
+          <p className="mt-8 border-t border-line pt-5 font-mono text-[0.75rem] leading-relaxed tracking-wide text-ink-muted">
+            {(project.technologies ?? []).join(" · ")}
+          </p>
+        </div>
+
+        <div className="min-w-0 lg:sticky lg:top-24 lg:col-span-7 lg:self-start">
+          {project.replay ? (
+            <div className="mb-6">
+              <SpellbookReplay />
+              <p className="mono-label mt-3 text-ink-muted">
+                A scripted reconstruction of how a run works, not a recorded
+                transcript
+              </p>
+            </div>
+          ) : null}
+          {!project.images?.length && project.figures ? (
+            <>
+              <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-line bg-line">
+                {project.figures.map((figure) => (
+                  <div key={figure.label} className="bg-paper p-6 sm:p-8">
+                    <dt className="mono-label text-ink-muted">{figure.label}</dt>
+                    <dd className="stat-value mt-4 text-ink">
+                      {figure.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              {project.figuresNote ? (
+                <p className="mono-label mt-3 text-ink-muted">
+                  {project.figuresNote}
+                </p>
+              ) : null}
+            </>
+          ) : null}
+          {project.images?.length ? (
+            <Gallery images={project.images} title={project.title} />
+          ) : null}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export function Projects() {
+  return (
+    <section id="work" className="scroll-mt-28 pb-24 sm:scroll-mt-16 sm:pb-32">
+      <SectionHeader number="03" title="Selected Work" annotation="Five things, up close" />
+      <div className="divide-y divide-line">
+        {projects.map((project) => (
+          <Inset key={project.title} project={project} />
+        ))}
       </div>
     </section>
   );

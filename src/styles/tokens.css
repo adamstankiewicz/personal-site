@@ -1,0 +1,98 @@
+/* GENERATED FILE — do not edit by hand.
+ * Source of truth: tokens/tokens.json (DTCG format)
+ * Regenerate: npm run tokens · Drift gate: npm run tokens:check
+ */
+
+:root {
+  --paper: #ffffff;
+  --paper-raised: #f6f6f7;
+  --line: #e7e7e9;
+  --line-strong: #131316;
+  --ink: #131316;
+  --ink-muted: #5f5f67;
+  --accent: #1435e5;
+  --accent-strong: #0f28b3;
+  --danger: #b42318;
+  --success: #1a7f37;
+  --font-display: var(--font-bricolage), "Bricolage Grotesque", "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-archivo), "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-open: 320ms;
+  --dur-slow: 560ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-anticipate: cubic-bezier(0.45, -0.18, 0.2, 1);
+  --ease-spring: linear(0, 0.317 5.6%, 0.604 11.2%, 0.83 16.9%, 0.985 22.7%, 1.062 28.6%, 1.078 33%, 1.056 39.4%, 1.007 50.4%, 0.988 59.7%, 0.996 74.4%, 1);
+}
+
+.dark {
+  --paper: #0d0e11;
+  --paper-raised: #17181c;
+  --line: #292a30;
+  --line-strong: #f1f1f3;
+  --ink: #f1f1f3;
+  --ink-muted: #a0a2ac;
+  --accent: #8b9dff;
+  --accent-strong: #8b9dff;
+  --danger: #ff9d92;
+  --success: #7ee2a8;
+}
+
+/* High contrast is a token variant, not a special case: values under
+ * the hc / dark-hc extensions land here, once for the OS preference
+ * and once for the site's own toggle. */
+@media (prefers-contrast: more) {
+  :root {
+    --paper-raised: #ffffff;
+    --line: #5f5f67;
+    --line-strong: #000000;
+    --ink: #000000;
+    --ink-muted: #434349;
+    --accent: #0f28b3;
+    --accent-strong: #0f28b3;
+    --danger: #8a1a10;
+    --success: #116329;
+  }
+
+  .dark {
+    --paper: #000000;
+    --paper-raised: #0d0e11;
+    --line: #a0a2ac;
+    --line-strong: #ffffff;
+    --ink: #ffffff;
+    --ink-muted: #f1f1f3;
+    --accent: #b1c0ff;
+    --accent-strong: #b1c0ff;
+    --danger: #ffb3a9;
+    --success: #9df0bd;
+  }
+}
+
+.hc {
+  --paper-raised: #ffffff;
+  --line: #5f5f67;
+  --line-strong: #000000;
+  --ink: #000000;
+  --ink-muted: #434349;
+  --accent: #0f28b3;
+  --accent-strong: #0f28b3;
+  --danger: #8a1a10;
+  --success: #116329;
+}
+
+.dark.hc {
+  --paper: #000000;
+  --paper-raised: #0d0e11;
+  --line: #a0a2ac;
+  --line-strong: #ffffff;
+  --ink: #ffffff;
+  --ink-muted: #f1f1f3;
+  --accent: #b1c0ff;
+  --accent-strong: #b1c0ff;
+  --danger: #ffb3a9;
+  --success: #9df0bd;
+}

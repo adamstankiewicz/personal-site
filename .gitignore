@@ -7,3 +7,15 @@
 
 # Netlify
 .netlify
+
+# next.js
+/.next/
+/out/
+*.tsbuildinfo
+.gstack/
+
+# generated at build time
+/src/generated/
+
+# old React Router artifacts never return
+/build/
