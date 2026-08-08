@@ -253,6 +253,16 @@ function Waypoint({
 export function Experience() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
+  // The title block's route strip can open a specific waypoint.
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      const { index } = (e as CustomEvent<{ index: number }>).detail;
+      setOpenIndex(index);
+    };
+    window.addEventListener("waypoint:open", onOpen);
+    return () => window.removeEventListener("waypoint:open", onOpen);
+  }, []);
+
   const listed = experiences.filter((experience) => experience.company);
   const footnote = experiences.find((experience) => !experience.company);
 

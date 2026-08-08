@@ -1,16 +1,10 @@
 import { About } from "@/components/about/about";
 import { CompassRose } from "@/components/compass-rose";
+import { RouteStrip } from "@/components/route-strip";
 import { TerrainPlate } from "@/components/terrain-plate";
 import { Experience } from "@/components/experience";
 import { Projects } from "@/components/projects";
 import { Research } from "@/components/research";
-
-const STATS = [
-  { value: "8M+", label: "Daily users" },
-  { value: "5.9M+", label: "npm downloads" },
-  { value: "100M+", label: "Learners reached" },
-  { value: "5", label: "ACM publications" },
-];
 
 function TitleBlock() {
   return (
@@ -46,20 +40,10 @@ function TitleBlock() {
           </div>
         </div>
 
-        {/* Stats row */}
-        <dl className="rise rise-4 grid grid-cols-2 border-t border-line lg:grid-cols-4">
-          {STATS.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={`px-5 py-5 sm:px-8 ${i > 0 ? "border-l border-line" : ""} ${
-                i >= 2 ? "max-lg:border-t max-lg:border-line" : ""
-              } ${i === 2 ? "max-lg:border-l-0" : ""}`}
-            >
-              <dd className="stat-value">{stat.value}</dd>
-              <dt className="mono-label mt-1.5 text-ink-muted">{stat.label}</dt>
-            </div>
-          ))}
-        </dl>
+        {/* The route so far, 2010 to now — each stop jumps to its details */}
+        <div className="rise rise-4 border-t border-line">
+          <RouteStrip />
+        </div>
       </div>
 
       {/* A real view from the left seat, treated as part of the chart */}
