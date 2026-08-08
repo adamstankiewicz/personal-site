@@ -28,8 +28,8 @@ export function About() {
             universities. Watching real students use something I made pulled me
             into human-computer interaction research at Carnegie Mellon,
             studying how people learn together at scale — work that still
-            shapes how I build: interview users, measure behavior, let evidence
-            set the roadmap.
+            shapes how I build: instrument the product, measure real behavior,
+            and let evidence set the roadmap.
           </p>
           <p>
             Then came seven years at <ProseLink href="https://edx.org">edX</ProseLink> /{" "}
