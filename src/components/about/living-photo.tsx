@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { PaperTexture } from "@paper-design/shaders-react";
 
 /**
- * A photo finished like a fine matte print: a whisper of paper fiber,
- * roughness, and speckle over the image, with zero geometric
- * distortion. The grain leans in slightly under the cursor and
- * settles back when it leaves. Renders as a plain image on the
- * server and stays static under reduced motion.
+ * An honest photo with a print-texture spotlight: the paper grain
+ * only exists in a soft radius that trails the cursor, easing after
+ * it and fading out on leave. The image itself never distorts.
+ * Plain image on the server, on touch screens, and under reduced
+ * motion.
  */
 export function PrintPhoto({
   src,
@@ -21,70 +21,77 @@ export function PrintPhoto({
   width: number;
   height: number;
 }) {
-  const [mounted, setMounted] = useState(false);
-  const [reactive, setReactive] = useState(false);
-  const [boost, setBoost] = useState(0);
-  const targetRef = useRef(0);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(false);
+  const pos = useRef({ x: 50, y: 50, tx: 50, ty: 50 });
+  const hovering = useRef(false);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    setMounted(true);
-    setReactive(
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
-        window.matchMedia("(hover: hover)").matches
+    setActive(
+      window.matchMedia("(hover: hover)").matches &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
     );
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
-  const easeToward = (target: number) => {
-    targetRef.current = target;
-    if (rafRef.current !== null) return;
-    const tick = () => {
-      rafRef.current = null;
-      setBoost((prev) => {
-        const next = prev + (targetRef.current - prev) * 0.1;
-        if (Math.abs(next - targetRef.current) < 0.01) return targetRef.current;
-        rafRef.current = requestAnimationFrame(tick);
-        return next;
-      });
-    };
-    rafRef.current = requestAnimationFrame(tick);
+  const tick = () => {
+    const p = pos.current;
+    p.x += (p.tx - p.x) * 0.14;
+    p.y += (p.ty - p.y) * 0.14;
+    const el = wrapRef.current;
+    if (el) {
+      el.style.setProperty("--mx", `${p.x}%`);
+      el.style.setProperty("--my", `${p.y}%`);
+    }
+    const settled = Math.hypot(p.tx - p.x, p.ty - p.y) < 0.15;
+    rafRef.current =
+      hovering.current || !settled ? requestAnimationFrame(tick) : null;
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    const rect = wrapRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    pos.current.tx = ((e.clientX - rect.left) / rect.width) * 100;
+    pos.current.ty = ((e.clientY - rect.top) / rect.height) * 100;
+    if (rafRef.current === null) rafRef.current = requestAnimationFrame(tick);
   };
 
   return (
     <div
-      className="photo"
+      ref={wrapRef}
+      className="photo print-photo"
       style={{ aspectRatio: `${width} / ${height}` }}
-      role="img"
-      aria-label={alt}
-      onPointerEnter={reactive ? () => easeToward(1) : undefined}
-      onPointerLeave={reactive ? () => easeToward(0) : undefined}
+      onPointerEnter={active ? () => (hovering.current = true) : undefined}
+      onPointerMove={active ? onPointerMove : undefined}
+      onPointerLeave={active ? () => (hovering.current = false) : undefined}
     >
-      {mounted ? (
-        <PaperTexture
-          style={{ width: "100%", height: "100%" }}
-          image={src}
-          fit="cover"
-          scale={1}
-          colorFront="#ffffff"
-          colorBack="#ffffff"
-          contrast={0.08 + boost * 0.04}
-          roughness={0.22 + boost * 0.18}
-          fiber={0.12 + boost * 0.12}
-          fiberSize={0.25}
-          crumples={0}
-          crumpleSize={0.3}
-          folds={0}
-          foldCount={1}
-          fade={0}
-          drops={0.06 + boost * 0.08}
-          speed={0}
-        />
-      ) : (
-        <img src={src} alt="" width={width} height={height} loading="lazy" decoding="async" />
-      )}
+      <img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
+      {active ? (
+        <div className="print-texture" aria-hidden="true">
+          <PaperTexture
+            style={{ width: "100%", height: "100%" }}
+            image={src}
+            fit="cover"
+            scale={1}
+            colorFront="#ffffff"
+            colorBack="#ffffff"
+            contrast={0.15}
+            roughness={0.5}
+            fiber={0.32}
+            fiberSize={0.25}
+            crumples={0}
+            crumpleSize={0.3}
+            folds={0}
+            foldCount={1}
+            fade={0}
+            drops={0.15}
+            speed={0}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

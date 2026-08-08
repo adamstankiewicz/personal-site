@@ -360,6 +360,7 @@ p {
 
 /* Personal photographs — plain, honest, softly rounded. */
 .photo {
+  position: relative;
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow:
@@ -371,6 +372,31 @@ p {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* Print-texture spotlight: the grain layer exists only in a soft
+   radius around the cursor (CSS-var-driven mask, eased in JS), and
+   fades away entirely when the pointer leaves. */
+.print-texture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-open) var(--ease-out);
+  mask-image: radial-gradient(
+    11rem circle at var(--mx, 50%) var(--my, 50%),
+    black 30%,
+    transparent 72%
+  );
+  -webkit-mask-image: radial-gradient(
+    11rem circle at var(--mx, 50%) var(--my, 50%),
+    black 30%,
+    transparent 72%
+  );
+}
+
+.print-photo:hover .print-texture {
+  opacity: 1;
 }
 
 /* ------------------------------------------------------------------ */
