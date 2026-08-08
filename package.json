@@ -15,6 +15,7 @@
     "build": "npm run tokens:check && npm run buildinfo && npm run ghstats && next build",
     "lint": "eslint .",
     "test": "node --test scripts/",
+    "e2e": "playwright test",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -25,12 +26,14 @@
     "torph": "^0.1.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.57.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.0",
+    "serve": "^14.2.6",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
   }
