@@ -12,6 +12,13 @@ const dims = (image: ProjectImage) => ({
   height: image.height ?? 1550,
 });
 
+// The strip displays a downsized jpg variant of each png (see srcSet
+// below), so that file is already in cache when the lightbox opens.
+const thumbSrc = (src: string) =>
+  src.endsWith(".png")
+    ? src.replace("/projects/", "/projects/slides/").replace(/\.png$/, ".jpg")
+    : src;
+
 /**
  * A horizontal, scroll-snapped strip of same-size screenshots. Every
  * slide opens a native <dialog> lightbox (Escape closes, backdrop
@@ -321,6 +328,22 @@ export function Gallery({
                 alt={active.alt}
                 width={dims(active).width}
                 height={dims(active).height}
+                // Before the file arrives an <img> has no intrinsic
+                // size (the attributes only supply a ratio), so the
+                // fit-content dialog would open collapsed and pop to
+                // full size on load. A definite width — the viewport
+                // caps resolved explicitly, height transferred through
+                // the ratio — makes the box identical before and after.
+                // The strip's already-cached thumbnail paints behind
+                // the streaming full-res file so the box is never blank.
+                style={{
+                  aspectRatio: `${dims(active).width} / ${dims(active).height}`,
+                  width: `min(94vw, 72rem, calc(78vh * ${(
+                    dims(active).width / dims(active).height
+                  ).toFixed(4)}))`,
+                  backgroundImage: `url("${thumbSrc(active.src)}")`,
+                  backgroundSize: "100% 100%",
+                }}
               />
             )}
             <figcaption className="flex items-baseline justify-between gap-4 border-t border-line px-4 py-3">
