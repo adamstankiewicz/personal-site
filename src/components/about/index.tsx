@@ -21,9 +21,7 @@ export function About() {
             always split two ways — usually both at once. The day job is
             shipping features on a product team; running alongside it, I’m
             building the design system, the design tokens, and the
-            accessibility tooling that team builds with. I stopped trying
-            to pick a side a long time ago; each one makes me better at
-            the other.
+            accessibility tooling that team builds with.
           </p>
           <p>
             I started out in research. A video learning platform I built as
