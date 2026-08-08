@@ -3,4 +3,4 @@
 export const SITE_URL = "https://adamstankiewicz.dev";
 
 export const SITE_DESCRIPTION =
-  "Product engineer on the surface, design systems engineer underneath: features, components, design tokens, and tooling. Currently at MagicSchool AI.";
+  "Shipping features that reach millions of people, and the systems, design tokens, and tooling other teams build with and extend. Currently at MagicSchool AI.";
