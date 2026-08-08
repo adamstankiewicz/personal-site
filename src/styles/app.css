@@ -734,6 +734,7 @@ svg.contact-arrow {
   width: 100%;
   padding: 0;
   text-align: left;
+  cursor: pointer;
   background: var(--paper-raised);
 }
 
