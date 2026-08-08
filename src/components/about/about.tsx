@@ -42,21 +42,38 @@ export function About() {
         <aside className="lg:col-span-4">
           <div className="border-l border-line pl-6">
             <p className="mono-label text-ink-muted">Off hours</p>
-            <p className="mt-3 text-[0.9375rem] italic leading-relaxed text-ink-muted">
+            <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">
               Usually hiking with my Australian Cattle Dog (Duke), flying my
               Cessna 172 around New England, or reminiscing about my days on
               the U.S. Boomerang Team.
             </p>
-            <figure className="photo-plate mt-5">
-              <img
-                src="/images/flying/monadnock.jpg"
-                alt="View from a small plane of Mount Monadnock under late-day clouds, the wing strut crossing the frame"
-                width={1400}
-                height={1050}
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption className="mono-label mt-2 px-1 pb-1 text-ink-muted">
+            <figure className="mt-6">
+              <div className="photo">
+                <img
+                  src="/images/flying/winnipesaukee.jpg"
+                  alt="Aerial view from a small plane over Lake Winnipesaukee, New Hampshire, in fall, the wing strut in frame, foliage and a runway below"
+                  width={2400}
+                  height={1800}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <figcaption className="mono-label mt-3 text-ink-muted">
+                Lake Winnipesaukee, from the left seat
+              </figcaption>
+            </figure>
+            <figure className="mt-6">
+              <div className="photo">
+                <img
+                  src="/images/flying/monadnock.jpg"
+                  alt="View from a small plane of Mount Monadnock under late-day clouds, the wing strut crossing the frame"
+                  width={1400}
+                  height={1050}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <figcaption className="mono-label mt-3 text-ink-muted">
                 Mount Monadnock, from 4,500 ft
               </figcaption>
             </figure>
