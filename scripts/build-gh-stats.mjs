@@ -12,10 +12,15 @@ import { execSync } from "node:child_process";
 import { mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { mergeStats } from "./gh-stats-merge.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = join(root, "src", "generated");
 const OUTPUT = join(outDir, "gh-stats.json");
+// Committed high-water mark: a fresh bake can only raise these numbers,
+// so losing visibility into a private org later (a token that no longer
+// sees a former employer's repos) can't shrink the recorded history.
+const FLOOR = join(root, "data", "gh-stats-floor.json");
 
 const USER = "adamstankiewicz";
 
@@ -87,6 +92,21 @@ if (token) {
   console.log("gh-stats: no GH_STATS_TOKEN — footer will use client fallback");
 }
 
+let floor = null;
+try {
+  floor = JSON.parse(readFileSync(FLOOR, "utf8"));
+} catch {}
+const merged = mergeStats(stats, floor);
+
 mkdirSync(outDir, { recursive: true });
-writeFileSync(OUTPUT, `${JSON.stringify(stats, null, 2)}\n`);
-console.log(`Wrote ${OUTPUT} (${stats.scope ?? "fallback"})`);
+writeFileSync(OUTPUT, `${JSON.stringify(merged, null, 2)}\n`);
+console.log(`Wrote ${OUTPUT} (${merged.scope ?? "fallback"})`);
+
+// Ratchet the committed floor upward on full-scope bakes (local builds;
+// commit the change). CI writes are ephemeral, which is fine — the
+// merge above is what protects CI output.
+if (merged.scope === "all" && JSON.stringify(merged) !== JSON.stringify(floor)) {
+  mkdirSync(dirname(FLOOR), { recursive: true });
+  writeFileSync(FLOOR, `${JSON.stringify(merged, null, 2)}\n`);
+  console.log(`Ratcheted ${FLOOR}`);
+}
