@@ -143,6 +143,12 @@ export function Gallery({
               ) : (
                 <img
                   src={image.src}
+                  srcSet={
+                    image.src.endsWith(".png")
+                      ? `${image.src.replace("/projects/", "/projects/slides/").replace(/\.png$/, ".jpg")} 1280w, ${image.src} ${image.width ?? 3024}w`
+                      : undefined
+                  }
+                  sizes="(min-width: 640px) 34rem, 88vw"
                   alt=""
                   loading="lazy"
                   decoding="async"

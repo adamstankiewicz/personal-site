@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { scrollToSection } from "@/lib/section-scroll";
 
 export interface RailSection {
   id: string;
@@ -91,11 +92,7 @@ export function ProgressRail({
             style={{ top: `${(tick.at * 100).toFixed(2)}%` }}
             data-active={activeSection === tick.id}
             aria-label={`Jump to ${tick.label}`}
-            onClick={() =>
-              document
-                .getElementById(tick.id)
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
+            onClick={() => scrollToSection(tick.id)}
           />
         ))}
       </div>
@@ -105,10 +102,7 @@ export function ProgressRail({
         onClick={() =>
           landed
             ? window.scrollTo({ top: 0, behavior: "smooth" })
-            : activeSection &&
-              document
-                .getElementById(activeSection)
-                ?.scrollIntoView({ behavior: "smooth" })
+            : activeSection && scrollToSection(activeSection)
         }
       >
         {landed ? "Back to top ↑" : activeLabel}

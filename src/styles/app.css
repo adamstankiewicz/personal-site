@@ -247,11 +247,12 @@ p {
   -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 96%);
 }
 
-/* The contact bookend rises from the page's end instead. */
+/* The contact bookend rises from the page's end and stops clean at
+   the footer divider. */
 .atmosphere[data-flip] {
-  inset: 0 calc(50% - 50vw) -4rem;
-  mask-image: linear-gradient(to top, black 45%, transparent 96%);
-  -webkit-mask-image: linear-gradient(to top, black 45%, transparent 96%);
+  inset: 0 calc(50% - 50vw) 0;
+  mask-image: linear-gradient(to top, black 40%, transparent 96%);
+  -webkit-mask-image: linear-gradient(to top, black 40%, transparent 96%);
 }
 
 .hero-letter {

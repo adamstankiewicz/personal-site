@@ -1,8 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { GrainGradient } from "@paper-design/shaders-react";
+import dynamic from "next/dynamic";
 import { SectionHeader } from "@/components/section-header";
+
+// Shares the atmosphere's async chunk; never in the critical bundle.
+const GrainGradient = dynamic(
+  () => import("@paper-design/shaders-react").then((m) => m.GrainGradient),
+  { ssr: false }
+);
 
 /* ------------------------------------------------------------------ */
 /*  Shared bits                                                        */
@@ -27,6 +33,21 @@ function useReducedMotion() {
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
   return reduced;
+}
+
+// Defer shader mounting until the browser is idle so the WebGL chunk
+// never competes with the page's own load.
+function useIdleMounted() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    if ("requestIdleCallback" in window) {
+      const id = requestIdleCallback(() => setMounted(true), { timeout: 2000 });
+      return () => cancelIdleCallback(id);
+    }
+    const id = setTimeout(() => setMounted(true), 350);
+    return () => clearTimeout(id);
+  }, []);
+  return mounted;
 }
 
 function LabCard({
@@ -118,6 +139,7 @@ function WeightWord() {
     <div
       ref={ref}
       className="flex h-full items-center justify-center"
+      role="img"
       aria-label={WORD}
     >
       <span aria-hidden="true" className="font-display text-[2.5rem] tracking-tight sm:text-[3rem]">
@@ -227,7 +249,10 @@ function GrainField() {
   const [tempo, setTempo] = useState(0.5);
   const dark = useDarkTheme();
   const reduced = useReducedMotion();
+  const idle = useIdleMounted();
   const preset = SHAPE_PRESETS[shape];
+
+  if (!idle) return <div className="relative h-full" />;
 
   const palette = dark
     ? { colorBack: "#0d0e11", colors: ["#1f2861", "#161d4d", "#11141c"] }

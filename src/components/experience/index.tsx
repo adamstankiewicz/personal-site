@@ -127,8 +127,10 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
       const tip = Math.min(1, Math.max(0, (smoothedY + 2) / lineHeight));
       line.style.transform = `scaleY(${tip})`;
 
-      // The handle opens each waypoint as it arrives (suspended mid-drag).
-      if (!dragging) {
+      // The handle opens each waypoint as it arrives (suspended
+      // mid-drag, and during nav-driven smooth scrolls, whose motion
+      // our scroll compensation would otherwise cancel).
+      if (!dragging && !document.documentElement.dataset.navScrolling) {
         const rows = container.querySelectorAll<HTMLElement>(".ledger-row");
         let arrived = 0;
         rows.forEach((row, index) => {

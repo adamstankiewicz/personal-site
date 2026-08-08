@@ -1,12 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
   <style>
-    .bg { fill: #f4efdf; }
-    .fg { stroke: #b81375; }
+    .bg { fill: #ffffff; }
+    .line { stroke: #e7e7e9; }
+    .dot { fill: #1435e5; }
     @media (prefers-color-scheme: dark) {
-      .bg { fill: #101318; }
-      .fg { stroke: #f0549f; }
+      .bg { fill: #0d0e11; }
+      .line { stroke: #292a30; }
+      .dot { fill: #8b9dff; }
     }
   </style>
   <rect class="bg" width="128" height="128" rx="28"/>
-  <path class="fg" d="M64 30 L102 98 L26 98 Z" fill="none" stroke-width="9" stroke-linejoin="round"/>
+  <rect class="line" x="2" y="2" width="124" height="124" rx="26" fill="none" stroke-width="4"/>
+  <circle class="dot" cx="64" cy="64" r="26"/>
 </svg>

@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MeshGradient } from "@paper-design/shaders-react";
+import dynamic from "next/dynamic";
+
+// The WebGL library stays out of the critical bundle; the atmosphere
+// arrives a beat after the page does.
+const MeshGradient = dynamic(
+  () => import("@paper-design/shaders-react").then((m) => m.MeshGradient),
+  { ssr: false }
+);
 
 // Mostly paper with two periwinkle spots drifting through — visible
 // life, but the type stays in charge.
@@ -21,7 +28,12 @@ export function Atmosphere({ flip = false }: { flip?: boolean }) {
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    // Mount after the load settles: the shader chunk then fetches
+    // outside the critical path instead of racing the page's LCP.
+    const idle =
+      "requestIdleCallback" in window
+        ? requestIdleCallback(() => setMounted(true), { timeout: 2000 })
+        : setTimeout(() => setMounted(true), 350);
     setReducedMotion(
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     );
@@ -31,7 +43,14 @@ export function Atmosphere({ flip = false }: { flip?: boolean }) {
     sync();
     const observer = new MutationObserver(sync);
     observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if ("requestIdleCallback" in window) {
+        cancelIdleCallback(idle as number);
+      } else {
+        clearTimeout(idle as ReturnType<typeof setTimeout>);
+      }
+    };
   }, []);
 
   if (!mounted) return null;

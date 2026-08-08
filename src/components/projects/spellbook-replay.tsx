@@ -192,12 +192,12 @@ export function SpellbookReplay() {
         type="button"
         className="replay-stage"
         onClick={() => setShown((n) => (n >= TOTAL ? 1 : n + 1))}
-        aria-label={
-          done
-            ? "Replay the before-and-after walkthrough from the start"
-            : "Advance both agents one step"
-        }
       >
+        <span className="sr-only">
+          {done
+            ? "Replay the before-and-after walkthrough from the start."
+            : "Advance both agents one step."}
+        </span>
         <div className="grid sm:grid-cols-2">
           <ReplayColumn
             title="Filesystem only"

@@ -50,9 +50,7 @@ const TOKENS = [
   { name: "accent", varName: "--accent" },
 ];
 
-function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-}
+import { scrollToSection } from "@/lib/section-scroll";
 
 function applyTheme() {
   const dark = document.documentElement.classList.toggle("dark");
@@ -223,6 +221,11 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 <a
                   key={item.id}
                   href={`/#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    history.replaceState(null, "", `#${item.id}`);
+                    scrollToSection(item.id);
+                  }}
                   className="mono-link nav-link -my-2 inline-block py-2"
                   data-active={activeSection === item.id}
                   aria-current={activeSection === item.id ? "true" : undefined}
@@ -236,9 +239,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               type="button"
               onClick={() => setMenuOpen(true)}
               className="mono-link -my-2 hidden cursor-pointer items-baseline gap-1.5 py-2 sm:flex"
-              aria-label="Open command menu"
             >
               <kbd className="key-hint">⌘K</kbd>
+              <span className="sr-only">opens the command menu</span>
             </button>
           </div>
         </div>
