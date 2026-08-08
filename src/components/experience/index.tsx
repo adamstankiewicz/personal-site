@@ -102,39 +102,61 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    // A continuous loop (only while the section is on screen) lerps the
+    // handle toward its target every frame, so layout shifts from rows
+    // opening read as a glide rather than a teleport. Arrivals are
+    // judged on the un-smoothed target so the logic stays exact.
     let raf: number | null = null;
+    let running = false;
     let lastArrived = -1;
     let dragging = false;
+    let smoothedY: number | null = null;
 
-    const update = () => {
+    const step = () => {
       raf = null;
       const rect = container.getBoundingClientRect();
       const anchor = window.innerHeight * 0.45;
       const progress = Math.min(1, Math.max(0, (anchor - rect.top) / rect.height));
-      const y = 14 + progress * (rect.height - 46);
-      flyer.style.transform = `translate(-50%, ${y}px)`;
-      // The drawn course always ends exactly at the arrow's tip.
+      const targetY = 14 + progress * (rect.height - 46);
+      smoothedY =
+        smoothedY === null ? targetY : smoothedY + (targetY - smoothedY) * 0.22;
+      if (Math.abs(targetY - smoothedY) < 0.1) smoothedY = targetY;
+      flyer.style.transform = `translate(-50%, ${smoothedY}px)`;
+      // The drawn course always ends exactly at the handle.
       const lineHeight = line.offsetHeight;
-      const tip = Math.min(1, Math.max(0, (y + 2) / lineHeight));
+      const tip = Math.min(1, Math.max(0, (smoothedY + 2) / lineHeight));
       line.style.transform = `scaleY(${tip})`;
 
-      // The flyer opens each waypoint as it arrives (suspended mid-drag).
+      // The handle opens each waypoint as it arrives (suspended mid-drag).
       if (!dragging) {
         const rows = container.querySelectorAll<HTMLElement>(".ledger-row");
         let arrived = 0;
         rows.forEach((row, index) => {
           const rowTop = row.getBoundingClientRect().top - rect.top;
-          if (y >= rowTop - 8) arrived = index;
+          if (targetY >= rowTop - 8) arrived = index;
         });
         if (arrived !== lastArrived) {
           lastArrived = arrived;
           onArriveRef.current(arrived);
         }
       }
+      if (running) raf = requestAnimationFrame(step);
     };
-    const onScroll = () => {
-      if (raf === null) raf = requestAnimationFrame(update);
+
+    const start = () => {
+      if (raf === null) raf = requestAnimationFrame(step);
     };
+    const onScroll = start;
+
+    // Only burn frames while the timeline is actually visible.
+    const visibility = new IntersectionObserver(
+      ([entry]) => {
+        running = entry.isIntersecting;
+        if (running) start();
+      },
+      { rootMargin: "20% 0px" }
+    );
+    visibility.observe(container);
 
     // Dragging the flyer scrubs the page: pointer position maps back to a
     // scroll position, so scroll remains the single source of truth.
@@ -170,7 +192,7 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
       onScroll();
     };
 
-    update();
+    start();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     flyer.addEventListener("pointerdown", onPointerDown);
@@ -183,6 +205,7 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
     const resizeObserver = new ResizeObserver(onScroll);
     resizeObserver.observe(container);
     return () => {
+      running = false;
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       flyer.removeEventListener("pointerdown", onPointerDown);
@@ -190,6 +213,7 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
       flyer.removeEventListener("pointerup", onPointerUp);
       flyer.removeEventListener("pointercancel", onPointerUp);
       resizeObserver.disconnect();
+      visibility.disconnect();
       if (raf !== null) cancelAnimationFrame(raf);
     };
   }, []);
@@ -295,13 +319,13 @@ function Waypoint({
 export function Experience() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const routeRef = useRef<HTMLDivElement>(null);
-  // Scroll-triggered opens animate normally, but the arrived row's
-  // header is pinned to its viewport position on every frame of the
-  // transition. Without the pinning, collapsing a tall row above the
-  // handle pulls the page up underneath it and the arrival cascades
-  // straight past short rows.
+  // On scroll-arrival, the newly arrived row opens with its normal
+  // animation (growth happens below the handle, which is harmless),
+  // while the previously open row collapses in a single frame with a
+  // synchronous scroll compensation. Nothing animates against the
+  // user's wheel, and the collapse above can't cascade the trigger
+  // past short rows.
   const autoOpenRef = useRef<{ index: number; top: number } | null>(null);
-  const anchorRafRef = useRef<number | null>(null);
 
   const listed = experiences.filter((experience) => experience.company);
   const footnote = experiences.find((experience) => !experience.company);
@@ -311,45 +335,31 @@ export function Experience() {
       routeRef.current?.querySelectorAll<HTMLElement>(".ledger-row")[index];
     if (row) {
       autoOpenRef.current = { index, top: row.getBoundingClientRect().top };
+      routeRef.current?.setAttribute("data-instant-close", "");
     }
     setOpenIndex(index);
   };
 
   useLayoutEffect(() => {
-    if (anchorRafRef.current !== null) {
-      cancelAnimationFrame(anchorRafRef.current);
-      anchorRafRef.current = null;
-    }
     const pending = autoOpenRef.current;
     if (!pending) return;
     autoOpenRef.current = null;
+    const route = routeRef.current;
     const row =
-      routeRef.current?.querySelectorAll<HTMLElement>(".ledger-row")[
-        pending.index
-      ];
-    if (!row) return;
-
-    // Pin the header through the open/close animation (~410ms of
-    // grid transition plus content follow-through), then let go.
-    const until = performance.now() + 500;
-    const anchor = () => {
+      route?.querySelectorAll<HTMLElement>(".ledger-row")[pending.index];
+    if (row) {
       const delta = row.getBoundingClientRect().top - pending.top;
-      if (Math.abs(delta) > 0.5) {
+      if (delta !== 0) {
         window.scrollBy({ top: delta, behavior: "instant" as ScrollBehavior });
       }
-      anchorRafRef.current =
-        performance.now() < until ? requestAnimationFrame(anchor) : null;
-    };
-    anchor();
+    }
+    // One frame is enough: the collapse has already happened without a
+    // transition; the newly opened row's transition is running and
+    // keeps running after the attribute lifts.
+    requestAnimationFrame(() => {
+      route?.removeAttribute("data-instant-close");
+    });
   }, [openIndex]);
-
-  useEffect(() => {
-    return () => {
-      if (anchorRafRef.current !== null) {
-        cancelAnimationFrame(anchorRafRef.current);
-      }
-    };
-  }, []);
 
   return (
     <section id="route" className="scroll-mt-16 pb-24 sm:pb-32">

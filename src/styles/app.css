@@ -427,6 +427,24 @@ p {
   grid-template-rows: 1fr;
 }
 
+/* During a scroll-arrival, only the newly opened row animates; the
+   closing row snaps shut in the same frame as its scroll
+   compensation, so the page never shifts under the wheel. */
+.route[data-instant-close] .ledger-row-body,
+.route[data-instant-close] .ledger-row-body > div > div {
+  transition: none;
+}
+
+.route[data-instant-close] .ledger-row[data-open="true"] .ledger-row-body {
+  transition: grid-template-rows var(--dur-open) var(--ease-out);
+}
+
+.route[data-instant-close] .ledger-row[data-open="true"] .ledger-row-body > div > div {
+  transition: opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+  transition-delay: 90ms;
+}
+
 
 .ledger-row-body > div {
   overflow: hidden;
@@ -817,10 +835,25 @@ p {
   display: none;
 }
 
-.gallery-slide {
-  flex: 0 0 min(88%, 34rem);
+/* Slides share a height; width follows each image's true aspect, so
+   mixed portrait/landscape sets ride the same strip without cropping. */
+.gallery-item {
+  flex: 0 0 auto;
+  max-width: 88%;
   scroll-snap-align: center;
-  aspect-ratio: 3024 / 1550;
+}
+
+/* The caption takes exactly the slide's width — it wraps under its
+   own image instead of stretching the whole item wider. */
+.gallery-caption {
+  width: 0;
+  min-width: 100%;
+}
+
+.gallery-slide {
+  display: block;
+  height: 13rem;
+  max-width: 100%;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   overflow: hidden;

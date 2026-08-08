@@ -36,8 +36,8 @@ export function About() {
             for the <ProseLink href="https://openedx.org">Open edX</ProseLink>{" "}
             ecosystem while building edX for Business, and now{" "}
             <ProseLink href="https://magicschool.ai">MagicSchool AI</ProseLink>,
-            where I spend a good part of my week teaching AI coding agents
-            to respect a design system. The research years still show up:
+            where I've been teaching AI coding agents to respect a design
+            system. The research years still show up:
             for the big calls, I'd rather run an evaluation than argue
             from taste.
           </p>

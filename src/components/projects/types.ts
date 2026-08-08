@@ -1,6 +1,10 @@
 export interface ProjectImage {
   src: string;
   alt: string;
+  width?: number;
+  height?: number;
+  /** When set, the slide is a muted looping video; `src` is its poster. */
+  videoSrc?: string;
 }
 
 export interface ProjectFigure {

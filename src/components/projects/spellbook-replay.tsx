@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { TextMorph } from "torph/react";
 
 interface ReplayLine {
   kind: "call" | "read" | "write" | "error" | "result" | "pass" | "fail";
@@ -17,18 +18,23 @@ const TASK = "Build a small feature UI from a ticket.";
 const MCP_STEPS: ReplayLine[] = [
   {
     kind: "call",
-    label: "search-components",
-    text: "Finds the right components by name or description.",
+    label: "get-design-context",
+    text: "One call fans out across components, design tokens, and guidelines for the task.",
   },
   {
     kind: "call",
     label: "get-component",
-    text: "Pulls the full API: props, variants, subcomponents, examples.",
+    text: "The full spec: props, valid variants, subcomponents, constraints.",
+  },
+  {
+    kind: "call",
+    label: "get-story",
+    text: "A real Storybook snippet for the pattern, not JSX synthesized from memory.",
   },
   {
     kind: "call",
     label: "get-design-tokens",
-    text: "Gets semantic color, spacing, and typography values, resolved from source.",
+    text: "Semantic tokens with resolved values. No guessed hex.",
   },
   {
     kind: "write",
@@ -38,12 +44,12 @@ const MCP_STEPS: ReplayLine[] = [
   {
     kind: "call",
     label: "validate-component-usage",
-    text: "Lints the JSX for wrong props, accessibility issues, and design-token violations.",
+    text: "Lints the JSX: invalid variants, missing required props, unregistered color classes.",
   },
   {
     kind: "pass",
     label: "pass",
-    text: "Done. One attempt, six steps.",
+    text: "Done. One attempt, about six steps.",
   },
 ];
 
@@ -210,7 +216,7 @@ export function SpellbookReplay() {
 
       <div className="flex items-baseline justify-between gap-4 border-t border-line px-4 py-2.5">
         <span className="mono-label tabular-nums text-ink-muted">
-          step {Math.min(shown, TOTAL)} / {TOTAL}
+          <TextMorph as="span">{`step ${Math.min(shown, TOTAL)} / ${TOTAL}`}</TextMorph>
         </span>
         <span className="mono-label text-accent">
           {done ? "replay ↺" : "click to step both →"}

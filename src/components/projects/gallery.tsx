@@ -1,10 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { TextMorph } from "torph/react";
 
 export interface GalleryImage {
   src: string;
   alt: string;
+  width?: number;
+  height?: number;
+  /** When set, the slide is a muted looping video; `src` is its poster. */
+  videoSrc?: string;
 }
 
 /**
@@ -25,6 +30,31 @@ export function Gallery({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [current, setCurrent] = useState(0);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
+
+  // Video slides play only while on screen, and never under reduced
+  // motion; until then they cost viewers one poster frame.
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const videos = Array.from(track.querySelectorAll("video"));
+    if (!videos.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        }
+      },
+      { threshold: 0.4 }
+    );
+    videos.forEach((video) => observer.observe(video));
+    return () => observer.disconnect();
+  }, [images]);
 
   // The caption follows whichever slide is nearest the track's center.
   useEffect(() => {
@@ -72,6 +102,8 @@ export function Gallery({
   const openModal = (index: number) => {
     setModalIndex(index);
     dialogRef.current?.showModal();
+    // Native <dialog> makes the page inert but not scroll-locked.
+    document.documentElement.style.overflow = "hidden";
   };
 
   const active = modalIndex !== null ? images[modalIndex] : null;
@@ -86,34 +118,53 @@ export function Gallery({
         tabIndex={0}
       >
         {images.map((image, index) => (
-          <button
-            key={image.src}
-            type="button"
-            className="gallery-slide"
-            aria-label={`View larger: ${image.alt}`}
-            aria-current={index === current || undefined}
-            onClick={() => openModal(index)}
-          >
-            <img
-              src={image.src}
-              alt=""
-              loading="lazy"
-              decoding="async"
-              width={3024}
-              height={1550}
-            />
-          </button>
+          <div key={image.src} className="gallery-item">
+            <button
+              type="button"
+              className="gallery-slide"
+              style={{
+                aspectRatio: `${image.width ?? 3024} / ${image.height ?? 1550}`,
+              }}
+              aria-label={`View larger: ${image.alt}`}
+              aria-current={index === current || undefined}
+              onClick={() => openModal(index)}
+            >
+              {image.videoSrc ? (
+                <video
+                  src={image.videoSrc}
+                  poster={image.src}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  width={image.width ?? 3024}
+                  height={image.height ?? 1550}
+                />
+              ) : (
+                <img
+                  src={image.src}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  width={image.width ?? 3024}
+                  height={image.height ?? 1550}
+                />
+              )}
+            </button>
+            <p className="gallery-caption mono-label mt-2.5 text-ink-muted">
+              {image.alt}
+            </p>
+          </div>
         ))}
       </div>
 
-      <figcaption className="mt-3 flex items-baseline justify-between gap-4">
-        <span className="mono-label text-ink-muted">{images[current]?.alt}</span>
+      <figcaption className="mt-3 flex items-baseline justify-end gap-4">
         <span className="flex shrink-0 items-baseline gap-2">
           <span
             className="mono-label tabular-nums text-ink-muted"
             aria-live="polite"
           >
-            {current + 1} / {images.length}
+            <TextMorph as="span">{`${current + 1} / ${images.length}`}</TextMorph>
           </span>
           <button
             type="button"
@@ -143,7 +194,10 @@ export function Gallery({
         onClose={() => {
           // The close event can be delivered after a quick re-open;
           // only clear the image if the dialog is actually closed.
-          if (!dialogRef.current?.open) setModalIndex(null);
+          if (!dialogRef.current?.open) {
+            setModalIndex(null);
+            document.documentElement.style.overflow = "";
+          }
         }}
         onClick={(e) => {
           // Backdrop clicks land on the dialog element itself.
@@ -160,12 +214,26 @@ export function Gallery({
       >
         {active ? (
           <figure className="gallery-dialog-body">
-            <img src={active.src} alt={active.alt} />
+            {active.videoSrc ? (
+              <video
+                src={active.videoSrc}
+                poster={active.src}
+                controls
+                muted
+                loop
+                playsInline
+                autoPlay
+              />
+            ) : (
+              <img src={active.src} alt={active.alt} />
+            )}
             <figcaption className="flex items-baseline justify-between gap-4 border-t border-line px-4 py-3">
-              <span className="mono-label text-ink-muted">{active.alt}</span>
+              <span className="mono-label min-w-0 flex-1 text-ink-muted">
+                {active.alt}
+              </span>
               <span className="flex shrink-0 items-baseline gap-2">
                 <span className="mono-label tabular-nums text-ink-muted">
-                  {(modalIndex ?? 0) + 1} / {images.length}
+                  <TextMorph as="span">{`${(modalIndex ?? 0) + 1} / ${images.length}`}</TextMorph>
                 </span>
                 <button
                   type="button"

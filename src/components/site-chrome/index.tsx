@@ -2,9 +2,36 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { TextMorph } from "torph/react";
 import { CommandMenu, type Command } from "@/components/command-menu";
 import { ProgressRail } from "@/components/progress-rail";
 import buildInfo from "@/generated/build-info.json";
+
+// The footer clock reads Merrimack's wall time, ticking by the minute.
+function LocalTime() {
+  const [time, setTime] = useState<string | null>(null);
+
+  useEffect(() => {
+    const read = () =>
+      setTime(
+        new Date().toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          timeZone: "America/New_York",
+        })
+      );
+    read();
+    const interval = setInterval(read, 30_000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!time) return <>Merrimack, New Hampshire</>;
+  return (
+    <>
+      <TextMorph as="span">{time}</TextMorph> in Merrimack, New Hampshire
+    </>
+  );
+}
 
 const NAV_ITEMS = [
   { id: "about", label: "About" },
@@ -180,8 +207,15 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           <Link
             href="/"
             className="mono-label !text-ink no-underline transition-colors hover:!text-accent"
+            aria-label="Adam Stankiewicz, home"
           >
-            Adam Stankiewicz
+            {/* Squeeze the window: the wordmark folds down to a monogram. */}
+            <span className="hidden sm:inline" aria-hidden="true">
+              Adam Stankiewicz
+            </span>
+            <span className="sm:hidden" aria-hidden="true">
+              AS<span className="text-accent">.</span>
+            </span>
           </Link>
           <div className="flex items-baseline gap-5 sm:gap-6">
             <nav aria-label="Main navigation" className="flex items-baseline gap-5 sm:gap-6">
@@ -285,7 +319,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 <kbd className="key-hint">⌘K</kbd> for commands
               </p>
               <p className="mono-label mt-3 text-ink-muted">
-                Made in Merrimack, New Hampshire
+                <LocalTime />
               </p>
             </div>
           </div>
