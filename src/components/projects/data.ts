@@ -16,7 +16,7 @@ export const projects: Project[] = [
       },
       {
         label: 'The test',
-        text: "A 25-task evaluation across three Claude model tiers: same tasks, same models, only the MCP connection toggled. First-attempt success rose from 4–36% to 72–88% depending on the model, and cost per shipped task fell 35–41%. The sharpest finding: not one baseline failure was cleanly fixed by a round of review comments; with the MCP connected, there is rarely a mistake to review. A second, 40-prompt evaluation confirmed the mechanism, with steps per task falling from 12.7 to 5.8.",
+        text: "A 25-task evaluation across three Claude model tiers: same tasks, same models, only the MCP connection toggled. First-attempt success rose from 4–36% to 72–88% depending on the model, and cost per shipped task fell 35–41%. The sharpest finding: not one baseline failure was cleanly fixed by a round of review comments; with the MCP connected, there is rarely a mistake to review.",
       },
     ],
     capabilities: [
@@ -32,11 +32,11 @@ export const projects: Project[] = [
     figures: [
       { label: 'First-attempt success', value: '36% → 88%' },
       { label: 'Cost per shipped task', value: '−35–41%' },
-      { label: 'Steps per task', value: '12.7 → 5.8' },
+      { label: 'Evaluation', value: '25 tasks · 3 model tiers' },
       { label: 'Surface area', value: '9 tools · 70+ components' },
     ],
     figuresNote:
-      'Success and cost from the 25-task, three-tier study (shown for the model with the strongest unaided baseline; every difference statistically significant). Steps from the 40-prompt study.',
+      'Success and cost from the 25-task, three-tier study, shown for the model with the strongest unaided baseline; every difference statistically significant (p<0.001).',
     technologies: [
       'TypeScript',
       'Node.js',
