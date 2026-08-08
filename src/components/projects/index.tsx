@@ -19,7 +19,7 @@ function Inset({ project }: { project: Project }) {
     <article className="py-12 first:pt-10 last:pb-0 sm:py-14">
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="min-w-0 lg:col-span-5">
-          <p className="mono-label text-accent">{project.context}</p>
+          <p className="mono-label text-ink-muted">{project.context}</p>
           <h3 className="title-md mt-4 text-[1.5rem] sm:text-[1.75rem]">
             {project.href ? (
               <ExternalLink
@@ -38,7 +38,7 @@ function Inset({ project }: { project: Project }) {
             <dl className="mt-8 space-y-5">
               {project.details.map((detail: ProjectDetail) => (
                 <div key={detail.label} className="border-l-2 border-line pl-4">
-                  <dt className="mono-label text-accent">{detail.label}</dt>
+                  <dt className="mono-label text-ink">{detail.label}</dt>
                   <dd className="mt-1.5 max-w-[58ch] text-[0.9375rem] leading-[1.7]">
                     {detail.text}
                   </dd>

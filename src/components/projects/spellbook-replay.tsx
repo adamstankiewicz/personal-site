@@ -247,7 +247,7 @@ export function SpellbookReplay() {
     <Card className="replay" ref={rootRef}>
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line px-4 py-2.5">
         <p className="mono-label text-ink-muted">
-          Spellbook MCP · <span className="text-accent">before / after</span>
+          Spellbook MCP · before / after
         </p>
         <p className="mono-label text-ink-muted">scripted · no live model</p>
       </div>

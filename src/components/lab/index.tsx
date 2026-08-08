@@ -31,7 +31,7 @@ function LabCard({
       <div className="lab-stage">{children}</div>
       <div className="border-t border-line px-5 py-4">
         <p className="flex items-baseline gap-3">
-          <span className="mono-label text-accent">{number}</span>
+          <span className="mono-label text-ink-muted">{number}</span>
           <span className="title-md text-[1rem]">{title}</span>
         </p>
         <p className="mt-2 text-[0.9375rem] leading-[1.6] text-ink-muted">

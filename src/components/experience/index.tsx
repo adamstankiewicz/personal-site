@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
-import { prefersReducedMotion } from "@/lib/hooks";
+import { hoverCapable, prefersReducedMotion } from "@/lib/hooks";
 import { earlierWork, experiences } from "./data";
 import { ExperienceItemProps } from "./types";
 import { ExternalLink } from "@/components/ui/external-link";
@@ -33,6 +33,12 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
     let dragging = false;
     let smoothedY: number | null = null;
     let navArrival = false;
+    // Arrival-driven row opens are a hover-device behavior. On touch,
+    // momentum scrolling fires arrivals mid-flick and the scroll
+    // compensation fights the native scroll — rows appear to open
+    // themselves and the page jumps. Phones get tap-to-open only; the
+    // flyer stays a visual progress handle and scrubber.
+    const autoOpen = hoverCapable();
 
     const step = () => {
       raf = null;
@@ -59,7 +65,7 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
           const rowTop = row.getBoundingClientRect().top - rect.top;
           if (targetY >= rowTop - 8) arrived = index;
         });
-        if (navArrival) {
+        if (navArrival || !autoOpen) {
           // Jumping here via the nav lands the anchor partway down the
           // course; the first row is where reading starts, so it opens
           // instead, and arrivals hold (tracking geometry silently)
@@ -203,7 +209,7 @@ function Waypoint({
         aria-controls={bodyId}
         className="group -mx-3 grid w-full cursor-pointer grid-cols-[4.5rem_1fr] items-baseline gap-x-4 px-3 py-2 text-left sm:grid-cols-[4.5rem_1fr_1fr_8.5rem_1.5rem]"
       >
-        <span className="mono-label tabular-nums text-accent">
+        <span className="mono-label tabular-nums text-ink-muted">
           {period.split("–")[0]}
         </span>
         <span className="title-md text-[1.125rem] transition-colors group-hover:text-accent sm:text-[1.25rem]">
@@ -327,7 +333,13 @@ export function Experience() {
               experience={experience}
               index={index}
               open={openIndex === index}
-              onToggle={() => setOpenIndex(openIndex === index ? null : index)}
+              // Closing collapses below its own header (nothing above
+              // shifts); opening routes through the same compensation as
+              // scroll arrivals, so the tapped header holds still even
+              // where scroll anchoring is missing (iOS Safari).
+              onToggle={() =>
+                openIndex === index ? setOpenIndex(null) : handleArrive(index)
+              }
             />
           ))}
         </ol>
