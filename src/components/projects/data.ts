@@ -105,8 +105,20 @@ export const projects: Project[] = [
     ],
     images: [
       {
+        src: '/images/projects/a11y-pr-comment.png',
+        alt: 'The sticky pull-request comment, separating violations a PR introduced from pre-existing debt (demonstration data)',
+        width: 1796,
+        height: 1016,
+      },
+      {
+        src: '/images/projects/a11y-report.png',
+        alt: 'The self-contained report: findings grouped by WCAG rule, each violation screenshotted with a copy-ready fix prompt (demonstration data)',
+        width: 3456,
+        height: 3150,
+      },
+      {
         src: '/images/projects/chatinput-a11y.png',
-        alt: "The per-component accessibility contract from ChatInput's Storybook docs — focus behavior, reduced-motion fallback, aria-live announcements — the kind of contract the CI scans check in aggregate",
+        alt: "The other half of the story: the per-component accessibility contract from ChatInput's Storybook docs that these scans check in aggregate",
         width: 1600,
         height: 455,
       },
