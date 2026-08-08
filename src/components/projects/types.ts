@@ -31,6 +31,4 @@ export interface Project {
   replay?: boolean;
   stars?: number;
   installs?: number;
-  date?: string | Date;
-  period?: string;
 }

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { useDarkTheme, useIdleMounted, useReducedMotion } from "@/lib/hooks";
 
 // The WebGL library stays out of the critical bundle; the atmosphere
 // arrives a beat after the page does.
@@ -23,35 +23,11 @@ const DARK = ["#0d0e11", "#141a36", "#101218", "#121734", "#0d0e11"];
  * for the contact bookend at the end of the page.
  */
 export function Atmosphere({ flip = false }: { flip?: boolean }) {
-  const [mounted, setMounted] = useState(false);
-  const [dark, setDark] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    // Mount after the load settles: the shader chunk then fetches
-    // outside the critical path instead of racing the page's LCP.
-    const idle =
-      "requestIdleCallback" in window
-        ? requestIdleCallback(() => setMounted(true), { timeout: 2000 })
-        : setTimeout(() => setMounted(true), 350);
-    setReducedMotion(
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    );
-
-    const root = document.documentElement;
-    const sync = () => setDark(root.classList.contains("dark"));
-    sync();
-    const observer = new MutationObserver(sync);
-    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-    return () => {
-      observer.disconnect();
-      if ("requestIdleCallback" in window) {
-        cancelIdleCallback(idle as number);
-      } else {
-        clearTimeout(idle as ReturnType<typeof setTimeout>);
-      }
-    };
-  }, []);
+  // Idle-gated so the shader chunk fetches outside the critical path
+  // instead of racing the page's LCP.
+  const mounted = useIdleMounted();
+  const dark = useDarkTheme();
+  const reducedMotion = useReducedMotion();
 
   if (!mounted) return null;
 

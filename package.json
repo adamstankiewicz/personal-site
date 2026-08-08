@@ -9,7 +9,6 @@
     "ghstats": "node scripts/build-gh-stats.mjs",
     "dev": "npm run tokens && npm run buildinfo && npm run ghstats && next dev",
     "build": "npm run tokens:check && npm run buildinfo && npm run ghstats && next build",
-    "start": "next start",
     "lint": "eslint .",
     "test": "node --test scripts/",
     "typecheck": "tsc --noEmit"

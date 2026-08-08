@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { SectionHeader } from "@/components/section-header";
+import { useDarkTheme, useIdleMounted, useReducedMotion } from "@/lib/hooks";
 
 // Shares the atmosphere's async chunk; never in the critical bundle.
 const GrainGradient = dynamic(
@@ -14,41 +15,6 @@ const GrainGradient = dynamic(
 /*  Shared bits                                                        */
 /* ------------------------------------------------------------------ */
 
-function useDarkTheme() {
-  const [dark, setDark] = useState(false);
-  useEffect(() => {
-    const root = document.documentElement;
-    const sync = () => setDark(root.classList.contains("dark"));
-    sync();
-    const observer = new MutationObserver(sync);
-    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
-  }, []);
-  return dark;
-}
-
-function useReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
-  return reduced;
-}
-
-// Defer shader mounting until the browser is idle so the WebGL chunk
-// never competes with the page's own load.
-function useIdleMounted() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    if ("requestIdleCallback" in window) {
-      const id = requestIdleCallback(() => setMounted(true), { timeout: 2000 });
-      return () => cancelIdleCallback(id);
-    }
-    const id = setTimeout(() => setMounted(true), 350);
-    return () => clearTimeout(id);
-  }, []);
-  return mounted;
-}
 
 function LabCard({
   number,

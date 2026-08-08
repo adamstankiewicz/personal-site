@@ -31,10 +31,25 @@ export const viewport: Viewport = {
   ],
 };
 
+const description =
+  "Product engineer on the surface, design systems engineer underneath: features, components, design tokens, and tooling. Currently at MagicSchool AI.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://adamstankiewicz.dev"),
   title: "Adam Stankiewicz · Product Engineering & Design Systems",
-  description:
-    "Product engineer on the surface, design systems engineer underneath: features, components, design tokens, and tooling. Currently at MagicSchool AI.",
+  description,
+  openGraph: {
+    title: "Adam Stankiewicz",
+    description,
+    url: "/",
+    siteName: "adamstankiewicz.dev",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Adam Stankiewicz",
+    description,
+  },
 };
 
 // Applies the persisted (or system) theme before first paint to avoid a flash.
