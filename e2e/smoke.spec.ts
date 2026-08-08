@@ -7,7 +7,7 @@ test("home page renders every section", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Adam Stankiewicz/);
 
-  for (const id of ["about", "route", "work", "research", "lab"]) {
+  for (const id of ["about", "experience", "work", "research", "lab"]) {
     await expect(page.locator(`section#${id}`)).toBeAttached();
   }
 

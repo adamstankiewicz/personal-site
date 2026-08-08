@@ -135,7 +135,7 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
     };
 
     const onNavEnd = (e: Event) => {
-      if ((e as CustomEvent<string>).detail !== "route") return;
+      if ((e as CustomEvent<string>).detail !== "experience") return;
       navArrival = true;
       onArriveRef.current(0);
       start();
@@ -353,7 +353,7 @@ export function Experience() {
   }, [openRows]);
 
   return (
-    <section id="route" className="scroll-mt-28 pb-24 sm:scroll-mt-16 sm:pb-32">
+    <section id="experience" className="scroll-mt-28 pb-24 sm:scroll-mt-16 sm:pb-32">
       <SectionHeader number="02" title="Experience" annotation="2010–Present" />
       <div ref={routeRef} className="route mt-10">
         <div className="route-line" aria-hidden="true" />

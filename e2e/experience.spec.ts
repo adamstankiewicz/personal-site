@@ -13,7 +13,7 @@ test("first experience row starts open", async ({ page }) => {
  * on slow CI runners the alternative is racing hydration.
  */
 async function scrollToSectionAndWaitForScrubber(page: Page) {
-  await page.locator("section#route").scrollIntoViewIfNeeded();
+  await page.locator("section#experience").scrollIntoViewIfNeeded();
   await page.waitForFunction(
     () => {
       const flyer = document.querySelector<HTMLElement>(".route-flyer");
@@ -41,7 +41,7 @@ test("scroll reveals rows additively and taps toggle only their own row", async 
   // The section grows as rows open, so the bottom is re-measured every
   // step rather than captured once.
   await page.evaluate(async () => {
-    const el = document.querySelector("section#route")!;
+    const el = document.querySelector("section#experience")!;
     for (let i = 0; i < 300; i++) {
       if (el.getBoundingClientRect().bottom < window.innerHeight * 0.4) break;
       window.scrollBy({ top: 80, behavior: "instant" });

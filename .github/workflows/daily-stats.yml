@@ -4,16 +4,24 @@ name: Daily stats refresh
 #
 #   1. Bake fresh counts. If data/gh-stats-floor.json ratcheted (the
 #      committed high-water mark — insurance against a token losing
-#      private-org visibility later), land it via a self-merging bot
-#      PR. The merge to master triggers Netlify's own deploy, which
-#      re-bakes the site.
+#      private-org visibility later), land it via a real PR. The merge
+#      to master triggers Netlify's own deploy, which re-bakes the
+#      site.
 #   2. If nothing ratcheted, POST the Netlify build hook instead so
 #      the displayed counts still refresh.
 #
-# Either path produces exactly one deploy per day. Requires two
-# repository secrets: GH_STATS_TOKEN (same PAT as Netlify's build env)
-# and NETLIFY_BUILD_HOOK_URL, plus the repo setting "Allow GitHub
-# Actions to create and approve pull requests".
+# Either path produces exactly one deploy per day. master requires the
+# "e2e" status check with no admin exemption, so this checks out and
+# pushes as GH_STATS_TOKEN (a personal PAT), not the default
+# GITHUB_TOKEN: GitHub never triggers new workflow runs off a
+# GITHUB_TOKEN-authored push (loop prevention), which would leave the
+# required check permanently unsatisfied. A PAT push is a normal user
+# push, so e2e fires on the PR like any other, and `gh pr merge --auto`
+# queues the merge to complete the moment it passes, rather than
+# racing it.
+#
+# Requires two repository secrets: GH_STATS_TOKEN (same PAT as
+# Netlify's build env) and NETLIFY_BUILD_HOOK_URL.
 
 on:
   schedule:
@@ -30,6 +38,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_STATS_TOKEN }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -44,7 +54,7 @@ jobs:
           node scripts/build-gh-stats.mjs
       - name: Land the ratchet, or trigger a rebuild
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
           HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
         run: |
           if git diff --quiet -- data/gh-stats-floor.json; then
@@ -66,4 +76,4 @@ jobs:
           gh pr create \
             --title "Ratchet gh-stats floor ($(date +%Y-%m-%d))" \
             --body "Automated daily high-water-mark bump for the footer's baked GitHub PR counts. Touches only data/gh-stats-floor.json; the merge itself triggers the Netlify redeploy."
-          gh pr merge --squash --delete-branch
+          gh pr merge --squash --delete-branch --auto
