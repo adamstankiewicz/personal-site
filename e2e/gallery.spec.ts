@@ -7,6 +7,10 @@ import { expect, test } from "@playwright/test";
  * each other. Slides now carry an explicit width; this pins it.
  */
 test("every work gallery slide has real width", async ({ page }) => {
+  // Iterates every slide across every Work gallery sequentially; on a
+  // cold CI runner that cumulative time can outrun the default 30s
+  // budget even though each slide settles fast once warm.
+  test.setTimeout(90_000);
   await page.goto("/");
   const slides = page.locator(".gallery-slide");
   await slides.first().waitFor({ state: "attached", timeout: 15000 });
@@ -62,6 +66,8 @@ test("gallery arrows reach both ends of the strip", async ({ page }) => {
 test("gallery captions sit under their own slides, not each other", async ({
   page,
 }) => {
+  // Same cross-gallery iteration as above; same cold-runner headroom.
+  test.setTimeout(90_000);
   await page.goto("/");
   const captions = page.locator(".gallery-caption");
   const count = await captions.count();
