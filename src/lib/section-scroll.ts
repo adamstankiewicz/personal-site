@@ -15,17 +15,23 @@ export function scrollToSection(id: string) {
   const root = document.documentElement;
   root.dataset.navScrolling = "true";
   let timer: ReturnType<typeof setTimeout> | null = null;
-  const clear = () => {
+  const finish = (cancelled: boolean) => {
     delete root.dataset.navScrolling;
-    window.removeEventListener("scrollend", clear);
+    window.removeEventListener("scrollend", onScrollEnd);
     if (timer) clearTimeout(timer);
-    if (cancelPending === clear) cancelPending = null;
-    // Scroll-driven behaviors can react to where the journey ended.
-    window.dispatchEvent(new CustomEvent("nav-scroll-end", { detail: id }));
+    if (cancelPending === cancel) cancelPending = null;
+    // Scroll-driven behaviors can react to where the journey ended —
+    // but a journey superseded by a newer one never "ended" anywhere,
+    // so it stays silent.
+    if (!cancelled) {
+      window.dispatchEvent(new CustomEvent("nav-scroll-end", { detail: id }));
+    }
   };
-  cancelPending = clear;
+  const onScrollEnd = () => finish(false);
+  const cancel = () => finish(true);
+  cancelPending = cancel;
   // scrollend covers browsers that ship it; the timeout covers the rest.
-  window.addEventListener("scrollend", clear, { once: true });
-  timer = setTimeout(clear, 1600);
+  window.addEventListener("scrollend", onScrollEnd, { once: true });
+  timer = setTimeout(onScrollEnd, 1600);
   el.scrollIntoView({ behavior: "smooth" });
 }

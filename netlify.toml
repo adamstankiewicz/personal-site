@@ -22,3 +22,13 @@ command = "npm run dev"
 for = "/opengraph-image"
 [headers.values]
 Content-Type = "image/png"
+
+# Baseline security headers. No CSP: the before-paint theme script is
+# inline, so a CSP would need a hash re-derived on every edit of that
+# script — brittle for a static site with no user content to protect.
+[[headers]]
+for = "/*"
+[headers.values]
+X-Content-Type-Options = "nosniff"
+X-Frame-Options = "DENY"
+Referrer-Policy = "strict-origin-when-cross-origin"

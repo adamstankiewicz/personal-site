@@ -49,13 +49,18 @@ export function openDialogFromOrigin(
   const transform = transformToOrigin(dialog, origin);
   if (!transform) return;
   const duration = durationToken("--dur-slow", FALLBACK.slow);
-  dialog.animate(
-    [
-      { transform, opacity: 0.4 },
-      { transform: "none", opacity: 1 },
-    ],
-    { duration, easing: token("--ease-spring", FALLBACK.spring) }
-  );
+  // --ease-spring is a linear() easing; browsers without linear()
+  // support throw on it, and this runs inside a layout effect, so
+  // degrade to no zoom rather than let the exception unmount the tree.
+  try {
+    dialog.animate(
+      [
+        { transform, opacity: 0.4 },
+        { transform: "none", opacity: 1 },
+      ],
+      { duration, easing: token("--ease-spring", FALLBACK.spring) }
+    );
+  } catch {}
   try {
     dialog.animate([{ opacity: 0 }, { opacity: 1 }], {
       duration: duration / 2,
@@ -100,7 +105,10 @@ export async function closeDialogToOrigin(
     await zoom.finished;
   } catch {}
   dialog.close();
-  // Lift the forwards fill so the next open starts from a clean slate.
-  dialog.getAnimations({ subtree: false }).forEach((a) => a.cancel());
+  // Lift the forwards fills so the next open starts from a clean slate.
+  // subtree: true is load-bearing: without it getAnimations() omits the
+  // ::backdrop animation, whose forwards fill would keep the backdrop
+  // invisible on every later open.
+  dialog.getAnimations({ subtree: true }).forEach((a) => a.cancel());
   delete dialog.dataset.zoomClosing;
 }

@@ -80,8 +80,9 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
 
     // Only burn frames while the timeline is actually visible.
     const visibility = new IntersectionObserver(
-      ([entry]) => {
-        running = entry.isIntersecting;
+      (entries) => {
+        // Crossings can batch; the latest entry is where we really are.
+        running = entries[entries.length - 1].isIntersecting;
         if (running) start();
       },
       { rootMargin: "20% 0px" }
@@ -279,6 +280,10 @@ export function Experience() {
 
 
   const handleArrive = (index: number) => {
+    // Arriving on the already-open row changes nothing — and a same-value
+    // set bails out of re-rendering, so the layout effect below would
+    // never consume the pending entry. Skip it entirely.
+    if (index === openIndex) return;
     const row =
       routeRef.current?.querySelectorAll<HTMLElement>(".ledger-row")[index];
     if (row) {

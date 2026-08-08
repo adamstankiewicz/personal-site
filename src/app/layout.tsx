@@ -58,7 +58,9 @@ const themeScript = `
 (function () {
   try {
     var stored = localStorage.getItem("theme");
-    var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    // Same validation as themeMode(): anything but the two explicit
+    // values (a legacy or garbage entry) means "follow the system".
+    var dark = stored === "dark" || stored === "light" ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
     if (dark) document.documentElement.classList.add("dark");
     if (localStorage.getItem("contrast") === "high") document.documentElement.classList.add("hc");
   } catch (e) {}

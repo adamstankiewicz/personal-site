@@ -6,6 +6,12 @@ import { closeDialogToOrigin, openDialogFromOrigin } from "@/lib/dialog-zoom";
 import { useReducedMotion } from "@/lib/hooks";
 import { ProjectImage } from "./types";
 
+// Most screenshots share one crop size; slides that differ override it.
+const dims = (image: ProjectImage) => ({
+  width: image.width ?? 3024,
+  height: image.height ?? 1550,
+});
+
 /**
  * A horizontal, scroll-snapped strip of same-size screenshots. Every
  * slide opens a native <dialog> lightbox (Escape closes, backdrop
@@ -60,7 +66,12 @@ export function Gallery({
       { threshold: 0.4 }
     );
     videos.forEach((video) => observer.observe(video));
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      // If reduced motion flips on mid-session, the effect re-runs and
+      // bails early — don't leave a video looping behind it.
+      videos.forEach((video) => video.pause());
+    };
   }, [images, reduced]);
 
   // The caption follows whichever slide is nearest the track's center.
@@ -158,51 +169,52 @@ export function Gallery({
         aria-label={`${title} screenshots`}
         tabIndex={0}
       >
-        {images.map((image, index) => (
-          <div key={image.src} className="gallery-item">
-            <button
-              type="button"
-              className="gallery-slide"
-              style={{
-                aspectRatio: `${image.width ?? 3024} / ${image.height ?? 1550}`,
-              }}
-              aria-label={`View larger: ${image.alt}`}
-              aria-current={index === current || undefined}
-              onClick={(e) => openModal(index, e.currentTarget)}
-            >
-              {image.videoSrc ? (
-                <video
-                  src={image.videoSrc}
-                  poster={image.src}
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  width={image.width ?? 3024}
-                  height={image.height ?? 1550}
-                />
-              ) : (
-                <img
-                  src={image.src}
-                  srcSet={
-                    image.src.endsWith(".png")
-                      ? `${image.src.replace("/projects/", "/projects/slides/").replace(/\.png$/, ".jpg")} 1280w, ${image.src} ${image.width ?? 3024}w`
-                      : undefined
-                  }
-                  sizes="(min-width: 640px) 34rem, 88vw"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  width={image.width ?? 3024}
-                  height={image.height ?? 1550}
-                />
-              )}
-            </button>
-            <p className="gallery-caption mono-label mt-2.5 text-ink-muted">
-              {image.alt}
-            </p>
-          </div>
-        ))}
+        {images.map((image, index) => {
+          const { width, height } = dims(image);
+          return (
+            <div key={image.src} className="gallery-item">
+              <button
+                type="button"
+                className="gallery-slide"
+                style={{ aspectRatio: `${width} / ${height}` }}
+                aria-label={`View larger: ${image.alt}`}
+                aria-current={index === current || undefined}
+                onClick={(e) => openModal(index, e.currentTarget)}
+              >
+                {image.videoSrc ? (
+                  <video
+                    src={image.videoSrc}
+                    poster={image.src}
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    width={width}
+                    height={height}
+                  />
+                ) : (
+                  <img
+                    src={image.src}
+                    srcSet={
+                      image.src.endsWith(".png")
+                        ? `${image.src.replace("/projects/", "/projects/slides/").replace(/\.png$/, ".jpg")} 1280w, ${image.src} ${width}w`
+                        : undefined
+                    }
+                    sizes="(min-width: 640px) 34rem, 88vw"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    width={width}
+                    height={height}
+                  />
+                )}
+              </button>
+              <p className="gallery-caption mono-label mt-2.5 text-ink-muted">
+                {image.alt}
+              </p>
+            </div>
+          );
+        })}
       </div>
 
       {/* No counter or arrows unless there is actually more to see. */}
@@ -210,9 +222,15 @@ export function Gallery({
         className={`mt-3 items-baseline justify-end gap-4 ${images.length > 1 && overflowing ? "flex" : "hidden"}`}
       >
         <span className="flex shrink-0 items-baseline gap-2">
+          {/* The morphing counter mutates character-by-character, which
+              garbles live announcements; screen readers get the plain
+              string, the morph is presentation only. */}
+          <span className="sr-only" aria-live="polite">
+            {`Screenshot ${current + 1} of ${images.length}`}
+          </span>
           <span
             className="mono-label tabular-nums text-ink-muted"
-            aria-live="polite"
+            aria-hidden="true"
           >
             <TextMorph as="span">{`${current + 1} / ${images.length}`}</TextMorph>
           </span>
@@ -220,8 +238,8 @@ export function Gallery({
             type="button"
             className="gallery-nav"
             aria-label="Previous screenshot"
-            disabled={current === 0}
-            onClick={() => scrollToSlide(current - 1)}
+            aria-disabled={current === 0 || undefined}
+            onClick={() => current > 0 && scrollToSlide(current - 1)}
           >
             ←
           </button>
@@ -229,8 +247,10 @@ export function Gallery({
             type="button"
             className="gallery-nav"
             aria-label="Next screenshot"
-            disabled={current === images.length - 1}
-            onClick={() => scrollToSlide(current + 1)}
+            aria-disabled={current === images.length - 1 || undefined}
+            onClick={() =>
+              current < images.length - 1 && scrollToSlide(current + 1)
+            }
           >
             →
           </button>
@@ -270,8 +290,8 @@ export function Gallery({
               <video
                 src={active.videoSrc}
                 poster={active.src}
-                width={active.width ?? 960}
-                height={active.height ?? 492}
+                width={dims(active).width}
+                height={dims(active).height}
                 controls
                 muted
                 loop
@@ -282,8 +302,8 @@ export function Gallery({
               <img
                 src={active.src}
                 alt={active.alt}
-                width={active.width ?? 3024}
-                height={active.height ?? 1550}
+                width={dims(active).width}
+                height={dims(active).height}
               />
             )}
             <figcaption className="flex items-baseline justify-between gap-4 border-t border-line px-4 py-3">
@@ -300,8 +320,11 @@ export function Gallery({
                       type="button"
                       className="gallery-nav"
                       aria-label="Previous screenshot"
-                      disabled={modalIndex === 0}
-                      onClick={() => setModalIndex((modalIndex ?? 0) - 1)}
+                      aria-disabled={modalIndex === 0 || undefined}
+                      onClick={() =>
+                        (modalIndex ?? 0) > 0 &&
+                        setModalIndex((modalIndex ?? 0) - 1)
+                      }
                     >
                       ←
                     </button>
@@ -309,8 +332,11 @@ export function Gallery({
                       type="button"
                       className="gallery-nav"
                       aria-label="Next screenshot"
-                      disabled={modalIndex === images.length - 1}
-                      onClick={() => setModalIndex((modalIndex ?? 0) + 1)}
+                      aria-disabled={modalIndex === images.length - 1 || undefined}
+                      onClick={() =>
+                        (modalIndex ?? 0) < images.length - 1 &&
+                        setModalIndex((modalIndex ?? 0) + 1)
+                      }
                     >
                       →
                     </button>

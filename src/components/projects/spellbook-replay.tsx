@@ -144,7 +144,10 @@ function ReplayColumn({
       <p className="mono-label border-b border-line px-3 py-2 text-ink-muted">
         {title}
       </p>
-      <ol ref={logRef} className="replay-log" aria-live="polite">
+      {/* Deliberately not a live region: autoplay would announce a new
+          line every second across two columns. The lists stay readable
+          on demand. */}
+      <ol ref={logRef} className="replay-log">
         {steps.slice(0, visible).map((line, index) => (
           <li key={index} className="replay-line" data-kind={line.kind}>
             {line.label ? (
@@ -176,6 +179,7 @@ export function SpellbookReplay() {
   const [shown, setShown] = useState(1);
   const done = shown >= TOTAL;
   const rootRef = useRef<HTMLDivElement>(null);
+  const advanceRef = useRef<HTMLButtonElement>(null);
   const shownRef = useRef(shown);
   const userTookOverRef = useRef(false);
   const playedThroughRef = useRef(false);
@@ -204,7 +208,10 @@ export function SpellbookReplay() {
       }
     };
     const observer = new IntersectionObserver(
-      ([entry]) => {
+      (entries) => {
+        // Crossings can batch under main-thread pressure; only the
+        // latest one reflects where the element actually is.
+        const entry = entries[entries.length - 1];
         const eligible =
           entry.isIntersecting &&
           !playedThroughRef.current &&
@@ -252,7 +259,7 @@ export function SpellbookReplay() {
 
       {/* Pointer convenience only: the real, focusable control is the
           button below. Keeping the log outside any button also keeps
-          its aria-live region and list semantics intact. */}
+          its list semantics intact. */}
       <div className="replay-stage" onClick={advance}>
         <div className="grid sm:grid-cols-2">
           <ReplayColumn
@@ -282,6 +289,9 @@ export function SpellbookReplay() {
               onClick={() => {
                 userTookOverRef.current = true;
                 setShown(1);
+                // Resetting unmounts this button; hand focus to the
+                // step control instead of dropping it on <body>.
+                advanceRef.current?.focus();
               }}
             >
               ↺ reset
@@ -289,6 +299,7 @@ export function SpellbookReplay() {
           ) : null}
         </span>
         <button
+          ref={advanceRef}
           type="button"
           className="mono-label cursor-pointer text-accent"
           onClick={advance}

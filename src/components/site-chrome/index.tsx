@@ -90,6 +90,16 @@ function ThemeToggle() {
 // activates, wired to a visible control so the mode is inspectable.
 function ContrastToggle() {
   const hc = useHighContrast();
+  // Another tab toggling contrast syncs this one, mirroring the
+  // storage listener the theme hook already has.
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== "contrast") return;
+      document.documentElement.classList.toggle("hc", e.newValue === "high");
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
   return (
     <button
       type="button"

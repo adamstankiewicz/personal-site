@@ -743,10 +743,6 @@ svg.contact-arrow {
 /* ------------------------------------------------------------------ */
 
 .replay-stage {
-  display: block;
-  width: 100%;
-  padding: 0;
-  text-align: left;
   cursor: pointer;
   /* Rapid advance-clicks shouldn't select the log text. */
   user-select: none;
@@ -791,7 +787,6 @@ svg.contact-arrow {
   scrollbar-width: thin;
 }
 
-/* Clicking the stage focuses it; keep the ring inside the panel. */
 @keyframes replay-line-in {
   from {
     opacity: 0;
@@ -937,13 +932,15 @@ svg.contact-arrow {
 }
 
 @media (hover: hover) {
-  .gallery-nav:hover:not(:disabled) {
+  .gallery-nav:hover:not([aria-disabled="true"]) {
     color: var(--accent);
     border-color: var(--accent);
   }
 }
 
-.gallery-nav:disabled {
+/* Boundary arrows stay focusable (a disabled attribute would drop
+   keyboard focus to <body>); aria-disabled + a no-op click instead. */
+.gallery-nav[aria-disabled="true"] {
   opacity: 0.4;
   cursor: not-allowed;
 }

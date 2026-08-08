@@ -39,7 +39,7 @@ test("group prefixes map to the right custom-property names", () => {
     font: { mono: { $type: "fontFamily", $value: "monospace" } },
     radius: { sm: { $type: "dimension", $value: "6px" } },
     duration: { fast: { $type: "duration", $value: "120ms" } },
-    easing: { out: { $type: "cubicBezier", $value: "ease-out" } },
+    easing: { out: { $type: "easingFunction", $value: "ease-out" } },
   });
   assert.match(css, /--font-mono: monospace;/);
   assert.match(css, /--radius-sm: 6px;/);
