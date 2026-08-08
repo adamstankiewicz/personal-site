@@ -1,4 +1,5 @@
 import { SectionHeader } from "@/components/section-header";
+import { LivingPhoto } from "./living-photo";
 
 function ProseLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -47,16 +48,12 @@ export function About() {
               Team.
             </p>
             <figure className="mt-6">
-              <div className="photo">
-                <img
-                  src="/images/flying/winnipesaukee.jpg"
-                  alt="Aerial view from a small plane over Lake Winnipesaukee, New Hampshire, in fall, the wing strut in frame, foliage and a runway below"
-                  width={2400}
-                  height={1800}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
+              <LivingPhoto
+                src="/images/flying/winnipesaukee.jpg"
+                alt="Aerial view from a small plane over Lake Winnipesaukee, New Hampshire, in fall, the wing strut in frame, foliage and a runway below"
+                width={2400}
+                height={1800}
+              />
               <figcaption className="mono-label mt-3 text-ink-muted">
                 Lake Winnipesaukee, from the left seat
               </figcaption>

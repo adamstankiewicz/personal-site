@@ -1,11 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  GrainGradient,
-  ImageDithering,
-  Water,
-} from "@paper-design/shaders-react";
+import { GrainGradient } from "@paper-design/shaders-react";
 import { SectionHeader } from "@/components/section-header";
 
 /* ------------------------------------------------------------------ */
@@ -210,10 +206,28 @@ const SHAPES = [
 ] as const;
 type Shape = (typeof SHAPES)[number];
 
+// Each shape gets its own baseline so none of them arrive harsh; the
+// sliders scale from there.
+const SHAPE_PRESETS: Record<
+  Shape,
+  { softness: number; intensity: number; noise: number }
+> = {
+  wave: { softness: 0.9, intensity: 0.32, noise: 0.25 },
+  dots: { softness: 0.8, intensity: 0.38, noise: 0.28 },
+  truchet: { softness: 0.75, intensity: 0.24, noise: 0.18 },
+  corners: { softness: 0.85, intensity: 0.28, noise: 0.2 },
+  ripple: { softness: 0.85, intensity: 0.32, noise: 0.22 },
+  blob: { softness: 0.9, intensity: 0.34, noise: 0.2 },
+  sphere: { softness: 0.85, intensity: 0.38, noise: 0.24 },
+};
+
 function GrainField() {
   const [shape, setShape] = useState<Shape>("dots");
+  const [gain, setGain] = useState(1);
+  const [tempo, setTempo] = useState(0.5);
   const dark = useDarkTheme();
   const reduced = useReducedMotion();
+  const preset = SHAPE_PRESETS[shape];
 
   const palette = dark
     ? { colorBack: "#0d0e11", colors: ["#1a2150", "#131840", "#11141c"] }
@@ -226,11 +240,39 @@ function GrainField() {
         colorBack={palette.colorBack}
         colors={palette.colors}
         shape={shape}
-        softness={0.8}
-        intensity={0.4}
-        noise={0.3}
-        speed={reduced ? 0 : 0.5}
+        softness={preset.softness}
+        intensity={Math.min(1, preset.intensity * gain)}
+        noise={Math.min(1, preset.noise * gain)}
+        speed={reduced ? 0 : tempo}
       />
+      <div className="absolute right-3 top-3 flex flex-col items-end gap-1.5">
+        <label className="lab-lever">
+          <span className="mono-label text-ink-muted">grain</span>
+          <input
+            type="range"
+            className="lab-slider"
+            min={0.3}
+            max={1.8}
+            step={0.05}
+            value={gain}
+            onChange={(e) => setGain(Number(e.target.value))}
+            aria-label="Grain intensity"
+          />
+        </label>
+        <label className="lab-lever">
+          <span className="mono-label text-ink-muted">speed</span>
+          <input
+            type="range"
+            className="lab-slider"
+            min={0}
+            max={1.2}
+            step={0.05}
+            value={tempo}
+            onChange={(e) => setTempo(Number(e.target.value))}
+            aria-label="Animation speed"
+          />
+        </label>
+      </div>
       <div className="absolute bottom-3 left-3 right-3 flex flex-wrap gap-1.5">
         {SHAPES.map((s) => (
           <button
@@ -241,71 +283,6 @@ function GrainField() {
             onClick={() => setShape(s)}
           >
             {s}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  05 — Water, over Winnipesaukee                                     */
-/* ------------------------------------------------------------------ */
-
-function WaterField() {
-  const reduced = useReducedMotion();
-
-  return (
-    <Water
-      style={{ width: "100%", height: "100%" }}
-      image="/images/flying/winnipesaukee.jpg"
-      fit="cover"
-      caustic={0.3}
-      highlights={0.15}
-      layering={0.25}
-      edges={0.12}
-      waves={0.08}
-      size={2}
-      speed={reduced ? 0 : 0.4}
-    />
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  06 — One-bit Monadnock                                             */
-/* ------------------------------------------------------------------ */
-
-const DOT_SIZES = [2, 3.5, 6] as const;
-
-function DitherField() {
-  const [dotSize, setDotSize] = useState<number>(3.5);
-  const dark = useDarkTheme();
-
-  return (
-    <div className="relative h-full">
-      <ImageDithering
-        style={{ width: "100%", height: "100%" }}
-        image="/images/flying/monadnock.jpg"
-        fit="cover"
-        type="8x8"
-        size={dotSize}
-        colorSteps={2}
-        originalColors={false}
-        colorFront={dark ? "#f1f1f3" : "#131316"}
-        colorHighlight={dark ? "#f1f1f3" : "#131316"}
-        colorBack={dark ? "#0d0e11" : "#ffffff"}
-        speed={0}
-      />
-      <div className="absolute bottom-3 left-3 flex gap-1.5">
-        {DOT_SIZES.map((size) => (
-          <button
-            key={size}
-            type="button"
-            className="lab-chip"
-            data-active={dotSize === size}
-            onClick={() => setDotSize(size)}
-          >
-            {size}px
           </button>
         ))}
       </div>
@@ -357,22 +334,6 @@ export function Lab() {
           mechanism="@paper-design/shaders-react · GrainGradient"
         >
           <GrainField />
-        </LabCard>
-        <LabCard
-          number="05"
-          title="Water, over Winnipesaukee"
-          description="The lake from the About photos, refracted through a caustic water shader. Some subjects earn their effect."
-          mechanism="Water · caustic image filter"
-        >
-          <WaterField />
-        </LabCard>
-        <LabCard
-          number="06"
-          title="One-bit Monadnock"
-          description="The same mountain, re-screened through an ordered Bayer dither, like a 1-bit Mac. Pick the dot size."
-          mechanism="ImageDithering · 8×8 Bayer"
-        >
-          <DitherField />
         </LabCard>
       </div>
     </section>

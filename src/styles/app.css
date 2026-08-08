@@ -990,6 +990,24 @@ p {
   border-color: var(--accent);
 }
 
+.lab-lever {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.lab-slider {
+  width: 5.5rem;
+  height: 2px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Command menu — ⌘K                                                  */
 /* ------------------------------------------------------------------ */
