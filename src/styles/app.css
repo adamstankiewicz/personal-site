@@ -23,6 +23,8 @@
   --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
 
   --font-display: var(--font-display);
   --font-serif: var(--font-serif);
@@ -735,6 +737,8 @@ svg.contact-arrow {
   padding: 0;
   text-align: left;
   cursor: pointer;
+  /* Rapid advance-clicks shouldn't select the log text. */
+  user-select: none;
   background: var(--paper-raised);
 }
 
@@ -815,16 +819,21 @@ svg.contact-arrow {
   border-color: color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
+/* Success is danger's counterpart — the second and last semantic
+   color. The chip text ("pass") says it without color too. */
 .replay-chip[data-kind="pass"] {
   color: var(--paper);
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--success);
+  border-color: var(--success);
 }
 
+/* Errors are the palette's one semantic exception: a signal red that
+   exists for state, not accent. The "Error:" text prefix and ✕ glyph
+   carry the same information without color. */
 .replay-chip[data-kind="error"],
 .replay-chip[data-kind="fail"] {
-  color: var(--ink);
-  border-color: var(--line-strong);
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 55%, transparent);
 }
 
 .replay-text {
@@ -891,7 +900,7 @@ svg.contact-arrow {
 
 @media (hover: hover) {
   .gallery-slide:hover {
-    border-color: var(--ink-muted);
+    border-color: var(--accent);
   }
 }
 

@@ -47,7 +47,13 @@ export function Atmosphere({ flip = false }: { flip?: boolean }) {
     // the listener.
     const host = wrapRef.current?.parentElement;
     if (!host) return;
+    // Two-stage motion: `energy` takes raw velocity impulses; the
+    // shader only ever sees `smoothed`, which chases it — quick on
+    // the attack, silky on the decay — so pointer jitter never
+    // twitches the field. The perceptual curve (^1.4) keeps small
+    // movements nearly invisible and big gestures unmistakable.
     let energy = 0;
+    let smoothed = 0;
     let rendered = 0;
     let raf: number | null = null;
     let last: { x: number; y: number; t: number } | null = null;
@@ -55,12 +61,15 @@ export function Atmosphere({ flip = false }: { flip?: boolean }) {
     const tick = () => {
       raf = null;
       energy *= 0.94;
-      if (energy < 0.005) energy = 0;
-      if (Math.abs(energy - rendered) > 0.004 || energy === 0) {
-        rendered = energy;
-        setStir(energy);
+      if (energy < 0.002) energy = 0;
+      smoothed += (energy - smoothed) * (energy > smoothed ? 0.16 : 0.08);
+      if (energy === 0 && smoothed < 0.004) smoothed = 0;
+      const value = Math.pow(smoothed, 1.4);
+      if (Math.abs(value - rendered) > 0.003 || (value === 0 && rendered !== 0)) {
+        rendered = value;
+        setStir(value);
       }
-      if (energy > 0) raf = requestAnimationFrame(tick);
+      if (energy > 0 || smoothed > 0) raf = requestAnimationFrame(tick);
     };
     const onMove = (e: PointerEvent) => {
       const now = performance.now();

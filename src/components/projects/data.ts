@@ -74,6 +74,12 @@ export const projects: Project[] = [
         height: 468,
       },
       {
+        src: '/images/projects/chatinput-a11y.png',
+        alt: "The accessibility contract from ChatInput's docs: focus, reduced motion, aria-live",
+        width: 1600,
+        height: 455,
+      },
+      {
         src: '/images/projects/chatinput-docs.png',
         alt: "ChatInput's docs: the card-chrome organism, with Do's and Don'ts",
         width: 1600,

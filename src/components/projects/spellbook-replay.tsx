@@ -106,7 +106,7 @@ const BASELINE_STEPS: ReplayLine[] = [
     text: "Rewrites the JSX from scratch.",
   },
   {
-    kind: "error",
+    kind: "result",
     label: "tsc ✓",
     text: "Compiles this time.",
   },

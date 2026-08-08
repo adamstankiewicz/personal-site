@@ -12,6 +12,8 @@
   --ink-muted: #5f5f67;
   --accent: #1435e5;
   --accent-strong: #0f28b3;
+  --danger: #b42318;
+  --success: #1a7f37;
   --font-display: var(--font-bricolage), "Bricolage Grotesque", "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-serif: var(--font-archivo), "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -36,6 +38,8 @@
   --ink-muted: #a0a2ac;
   --accent: #8b9dff;
   --accent-strong: #8b9dff;
+  --danger: #ff9d92;
+  --success: #7ee2a8;
 }
 
 /* High contrast is a token variant, not a special case: values under
@@ -50,6 +54,8 @@
     --ink-muted: #434349;
     --accent: #0f28b3;
     --accent-strong: #0f28b3;
+    --danger: #8a1a10;
+    --success: #116329;
   }
 
   .dark {
@@ -61,6 +67,8 @@
     --ink-muted: #f1f1f3;
     --accent: #b1c0ff;
     --accent-strong: #b1c0ff;
+    --danger: #ffb3a9;
+    --success: #9df0bd;
   }
 }
 
@@ -72,6 +80,8 @@
   --ink-muted: #434349;
   --accent: #0f28b3;
   --accent-strong: #0f28b3;
+  --danger: #8a1a10;
+  --success: #116329;
 }
 
 .dark.hc {
@@ -83,4 +93,6 @@
   --ink-muted: #f1f1f3;
   --accent: #b1c0ff;
   --accent-strong: #b1c0ff;
+  --danger: #ffb3a9;
+  --success: #9df0bd;
 }
