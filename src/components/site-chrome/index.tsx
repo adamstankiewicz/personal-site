@@ -14,7 +14,7 @@ import { Kbd } from "@/components/ui/kbd";
 
 const NAV_ITEMS = [
   { id: "about", label: "About" },
-  { id: "route", label: "Experience" },
+  { id: "experience", label: "Experience" },
   { id: "work", label: "Work" },
   { id: "research", label: "Publications" },
   { id: "lab", label: "Lab" },
