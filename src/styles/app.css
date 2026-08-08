@@ -494,12 +494,12 @@ p {
   height: 38vh;
   background: var(--line);
   border-radius: 1px;
-  overflow: hidden;
 }
 
 .progress-rail-fill {
   position: absolute;
   inset: 0;
+  border-radius: 1px;
   background: var(--accent);
   transform-origin: top;
   transform: scaleY(0);
@@ -509,12 +509,11 @@ p {
 .progress-rail-tick {
   position: absolute;
   left: 50%;
-  width: 10px;
-  height: 10px;
+  width: 18px;
+  height: 18px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   cursor: pointer;
-  /* the visible dot */
   background: none;
   border: none;
   padding: 0;
@@ -523,7 +522,7 @@ p {
 .progress-rail-tick::after {
   content: "";
   position: absolute;
-  inset: 3px;
+  inset: 5px;
   border-radius: 50%;
   background: var(--paper);
   border: 1px solid var(--ink-muted);
@@ -739,8 +738,4 @@ html.barrel-roll body {
   font-size: 0.6875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-}
-
-.instruments {
-  display: none;
 }

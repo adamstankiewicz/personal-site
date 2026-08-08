@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CommandMenu, type Command } from "@/components/command-menu";
-import { Instruments } from "@/components/instruments";
+import { ProgressRail } from "@/components/progress-rail";
 
 const NAV_ITEMS = [
   { id: "about", label: "About" },
@@ -164,8 +164,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     setAllowMotion(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
 
-  // Track the section in view: the nav underlines it, and each section
-  // gets its stamp the first time it appears.
+  // Track the section in view: the nav and the progress rail follow it.
   useEffect(() => {
     const sections = NAV_ITEMS.map((item) =>
       document.getElementById(item.id)
@@ -176,7 +175,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id);
-            entry.target.setAttribute("data-stamped", "");
           }
         }
       },
@@ -187,13 +185,13 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="chart-frame flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col">
       <CommandMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
         commands={commands}
       />
-      <Instruments />
+      <ProgressRail sections={NAV_ITEMS} activeSection={activeSection} />
 
       <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-baseline justify-between gap-y-3 px-6 py-5">
@@ -238,7 +236,8 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             <div>
               <p className="mono-label text-ink-muted">Colophon</p>
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">
-                Set in <span className="text-ink">Archivo</span> and{" "}
+                Set in <span className="font-display text-ink">Bricolage Grotesque</span>,{" "}
+                <span className="text-ink">Archivo</span>, and{" "}
                 <span className="font-mono text-[0.8125rem] text-ink">IBM Plex Mono</span>,
                 self-hosted. Statically rendered with Next.js, styled with
                 Tailwind, served from Netlify's CDN.{" "}
@@ -283,7 +282,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 <kbd className="key-hint">⌘K</kbd> for commands
               </p>
               <p className="mono-label mt-3 text-ink-muted">
-                Made in Merrimack, New Hampshire · 42.86° N, 71.49° W
+                Made in Merrimack, New Hampshire
               </p>
             </div>
           </div>
