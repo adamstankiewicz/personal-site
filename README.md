@@ -33,7 +33,7 @@ work on a fresh clone.
 
 | Variable | Where | Purpose |
 | --- | --- | --- |
-| `NEXT_PUBLIC_CF_BEACON_TOKEN` | Netlify build environment | Cloudflare Web Analytics beacon token (free, cookieless). Absent → the site ships no analytics script at all. |
+| `NEXT_PUBLIC_CF_BEACON_TOKEN` | `netlify.toml` (public by design — it ships in the page source) | Cloudflare Web Analytics beacon token (free, cookieless). Absent → the site ships no analytics script at all. |
 | `GH_STATS_TOKEN` | Netlify build environment | GitHub token used by `build-gh-stats.mjs` so the footer's PR counts include private-org work ("across GitHub"). Without it the script falls back to the local `gh` CLI's auth (dev machines), then to a client-side public-only fetch ("public GitHub"). Never commit a token; this is a public repository. |
 
 Token guidance: a fine-grained PAT with **Pull requests: read** +

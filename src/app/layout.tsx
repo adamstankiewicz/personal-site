@@ -86,7 +86,7 @@ export default function RootLayout({
             build time; absent, the site ships no analytics at all. */}
         {process.env.NEXT_PUBLIC_CF_BEACON_TOKEN ? (
           <script
-            defer
+            type="module"
             src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon={JSON.stringify({
               token: process.env.NEXT_PUBLIC_CF_BEACON_TOKEN,
