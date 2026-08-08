@@ -75,7 +75,11 @@ function TitleBlock() {
 
 function Contact() {
   return (
-    <section aria-label="Contact" className="border-t border-line pb-24 pt-16 sm:pb-32 sm:pt-20">
+    <section
+      aria-label="Contact"
+      className="relative border-t border-line pb-24 pt-16 sm:pb-32 sm:pt-20"
+    >
+      <Atmosphere flip />
       <p className="mono-label text-ink-muted">Get in touch</p>
       <p className="mt-5 max-w-xl text-[1.0625rem] leading-[1.7] text-ink-muted">
         Building something that needs both the product and the platform?

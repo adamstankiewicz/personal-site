@@ -237,7 +237,7 @@ p {
 /* ------------------------------------------------------------------ */
 
 /* The shader canvas bleeds past the content column and fades out
-   before the About section so the field returns to plain paper. */
+   before the next section so the field returns to plain paper. */
 .atmosphere {
   position: absolute;
   inset: -6rem calc(50% - 50vw) 0;
@@ -245,6 +245,13 @@ p {
   pointer-events: none;
   mask-image: linear-gradient(to bottom, black 55%, transparent 96%);
   -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 96%);
+}
+
+/* The contact bookend rises from the page's end instead. */
+.atmosphere[data-flip] {
+  inset: 0 calc(50% - 50vw) -4rem;
+  mask-image: linear-gradient(to top, black 45%, transparent 96%);
+  -webkit-mask-image: linear-gradient(to top, black 45%, transparent 96%);
 }
 
 .hero-letter {
@@ -280,6 +287,9 @@ p {
 
 .contact-arrow {
   display: inline-block;
+  font-size: 0.45em;
+  vertical-align: 0.55em;
+  margin-left: 0.1em;
   transition: transform var(--dur-base) var(--ease-out);
 }
 
@@ -324,7 +334,10 @@ p {
 .ghost-numeral {
   position: absolute;
   right: 0;
-  top: -0.75rem;
+  /* Flush with the section divider: pull up by the glyph's built-in
+     ascent gap so the visual top of the digits meets the rule. */
+  top: 0;
+  margin-top: -0.06em;
   z-index: -1;
   font-family: var(--font-display);
   font-weight: 640;
@@ -342,27 +355,8 @@ p {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Plates — screenshots float on light, not inside boxes              */
+/*  Photographs                                                        */
 /* ------------------------------------------------------------------ */
-
-.plate {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--ink) 6%, transparent),
-    0 16px 40px -16px color-mix(in srgb, var(--ink) 16%, transparent);
-}
-
-/* Framed project screenshots — a slow, deliberate zoom on hover. */
-.plate-img {
-  transition: transform var(--dur-slow) var(--ease-out);
-}
-
-@media (hover: hover) {
-  .group:hover .plate-img {
-    transform: scale(1.02);
-  }
-}
 
 /* Personal photographs — plain, honest, softly rounded. */
 .photo {
@@ -636,6 +630,104 @@ p {
   .progress-rail-label:hover {
     color: var(--accent);
   }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Gallery — same-size screenshots on a snapped strip + lightbox      */
+/* ------------------------------------------------------------------ */
+
+.gallery-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding: 3px; /* room for focus rings */
+  margin: -3px;
+}
+
+.gallery-track::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-slide {
+  flex: 0 0 min(88%, 34rem);
+  scroll-snap-align: center;
+  aspect-ratio: 3024 / 1550;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  padding: 0;
+  background: var(--paper-raised);
+  cursor: zoom-in;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .gallery-slide:hover {
+    border-color: var(--ink-muted);
+  }
+}
+
+.gallery-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-nav {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--paper);
+  padding: 0.125rem 0.5rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .gallery-nav:hover:not(:disabled) {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+}
+
+.gallery-nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.gallery-dialog {
+  border: none;
+  padding: 0;
+  background: transparent;
+  max-width: min(94vw, 72rem);
+}
+
+.gallery-dialog::backdrop {
+  background: rgba(10, 10, 14, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.gallery-dialog-body {
+  background: var(--paper);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.gallery-dialog-body > img {
+  display: block;
+  max-width: 100%;
+  max-height: 78vh;
+  width: auto;
+  margin: 0 auto;
 }
 
 /* ------------------------------------------------------------------ */
