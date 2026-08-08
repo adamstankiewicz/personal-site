@@ -419,23 +419,12 @@ body::after {
   width: 2px;
   background: var(--accent);
   transform-origin: top;
+  will-change: transform;
 }
 
-/* Draw the course as it enters the viewport, where supported. */
-@supports (animation-timeline: view()) {
+@media (prefers-reduced-motion: reduce) {
   .route-line {
-    animation: route-draw linear both;
-    animation-timeline: view();
-    animation-range: entry 20% cover 70%;
-  }
-
-  @keyframes route-draw {
-    from {
-      transform: scaleY(0);
-    }
-    to {
-      transform: scaleY(1);
-    }
+    transform: none !important;
   }
 }
 

@@ -95,7 +95,10 @@ function RouteFlyer() {
   useEffect(() => {
     const flyer = flyerRef.current;
     const container = flyer?.parentElement;
-    if (!flyer || !container) return;
+    const line = container?.querySelector<HTMLElement>(".route-line");
+    if (!flyer || !container || !line) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let raf: number | null = null;
     const update = () => {
@@ -105,6 +108,10 @@ function RouteFlyer() {
       const progress = Math.min(1, Math.max(0, (anchor - rect.top) / rect.height));
       const y = 14 + progress * (rect.height - 46);
       flyer.style.transform = `translate(-50%, ${y}px)`;
+      // The drawn course always ends exactly at the arrow's tip.
+      const lineHeight = line.offsetHeight;
+      const tip = Math.min(1, Math.max(0, (y + 2) / lineHeight));
+      line.style.transform = `scaleY(${tip})`;
     };
     const onScroll = () => {
       if (raf === null) raf = requestAnimationFrame(update);
