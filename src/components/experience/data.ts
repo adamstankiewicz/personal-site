@@ -9,7 +9,7 @@ export const experiences: ExperienceItemProps[] = [
       { title: "Senior Design Systems Engineer", period: "2025–Present" },
     ],
     description:
-      "Tech lead on a product squad and steward of Spellbook, the design system behind an AI platform for K-12 educators serving ~8M people across 36,000 schools. Built the Spellbook MCP server, giving AI agents semantic component discovery and a compiler-backed validator so they build against real APIs instead of inventing markup, and rebuilt the design-token layer on DTCG. Working with the accessibility guild, a designer and a handful of engineers, automated the axe-core checks that run on every pull request and led the remediation behind the company's first VPAT, which unlocked enterprise deals.",
+      "Tech lead on a product squad and steward of Spellbook, the design system behind an AI platform for K-12 educators serving ~8M people across 36,000 schools. Built the Spellbook MCP server, giving AI agents semantic component discovery and a compiler-backed validator so they build against real APIs instead of inventing markup, and rebuilt the design-token layer on DTCG. Working with the accessibility guild, a designer and a handful of engineers, led the remediation behind the company's first VPAT, which unlocked enterprise deals. Now rolling out automated axe-core checks on every pull request to help the platform stay conformant.",
     technologies: [
       "TypeScript",
       "React",
