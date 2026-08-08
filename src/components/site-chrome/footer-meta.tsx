@@ -90,6 +90,8 @@ export function GitHubStats() {
   const firstActive = allYears.findIndex((year) => year.opened > 0);
   const years = firstActive >= 0 ? allYears.slice(firstActive) : [];
   const max = Math.max(1, ...years.map((year) => year.opened));
+  // The sparkline's origin, made legible: "since 2014".
+  const since = years[0]?.y;
 
   return (
     <>
@@ -101,7 +103,11 @@ export function GitHubStats() {
         <span className="whitespace-nowrap">
           {display.reviewed.toLocaleString()} reviewed
         </span>{" "}
-        · <span className="whitespace-nowrap">{display.label}</span>
+        ·{" "}
+        <span className="whitespace-nowrap">
+          {display.label}
+          {since ? ` since ${since}` : ""}
+        </span>
       </p>
       {years.length > 1 ? (
         <svg
