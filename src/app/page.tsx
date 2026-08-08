@@ -24,16 +24,21 @@ function TitleBlock() {
 
       {/* One quiet line instead of a spec sheet. */}
       <p className="rise rise-4 mono-label mt-14 border-t border-line pb-20 pt-6 text-ink-muted sm:pb-24">
-        <ExternalLink
-          href="https://magicschool.ai"
-          className="mono-link !text-ink hover:!text-accent"
-        >
-          MagicSchool AI
-        </ExternalLink>
-        , since 2025 · previously edX / 2U ·{" "}
+        {/* Segments hold together; narrow screens wrap only at the
+            separators instead of mid-phrase. */}
+        <span className="whitespace-nowrap">
+          <ExternalLink
+            href="https://magicschool.ai"
+            className="mono-link !text-ink hover:!text-accent"
+          >
+            MagicSchool AI
+          </ExternalLink>
+          , since 2025
+        </span>{" "}
+        · <span className="whitespace-nowrap">previously edX / 2U</span> ·{" "}
         <ExternalLink
           href="/pdfs/Adam_Stankiewicz_Resume.pdf"
-          className="mono-link !text-ink hover:!text-accent"
+          className="mono-link whitespace-nowrap !text-ink hover:!text-accent"
         >
           Résumé ↓
         </ExternalLink>
