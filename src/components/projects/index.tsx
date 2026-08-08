@@ -254,7 +254,7 @@ function Inset({ project, index }: { project: Project; index: number }) {
   return (
     <article className="py-12 first:pt-10 last:pb-0 sm:py-14">
       <div className="grid gap-10 lg:grid-cols-12">
-        <div className="lg:col-span-5">
+        <div className="min-w-0 lg:col-span-5">
           <p className="mono-label text-accent">Case {number}</p>
           <h3 className="title-md mt-4 text-[1.5rem] sm:text-[1.75rem]">
             {project.href ? (
@@ -339,7 +339,7 @@ function Inset({ project, index }: { project: Project; index: number }) {
           </p>
         </div>
 
-        <div className="lg:sticky lg:top-24 lg:col-span-7 lg:self-start">
+        <div className="min-w-0 lg:sticky lg:top-24 lg:col-span-7 lg:self-start">
           {project.replay ? (
             <div className="mb-6">
               <SpellbookReplay />

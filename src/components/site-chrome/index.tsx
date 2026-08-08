@@ -215,8 +215,8 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               AS<span className="text-accent">.</span>
             </span>
           </Link>
-          <div className="flex items-baseline gap-5 sm:gap-6">
-            <nav aria-label="Main navigation" className="flex items-baseline gap-5 sm:gap-6">
+          <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2 sm:gap-x-6">
+            <nav aria-label="Main navigation" className="flex flex-wrap items-baseline gap-x-5 gap-y-2 sm:gap-x-6">
               {NAV_ITEMS.map((item) => (
                 <a
                   key={item.id}
