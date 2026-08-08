@@ -2,116 +2,218 @@
 
 import { useEffect, useRef, useState } from "react";
 
-interface ReplayStep {
-  kind: "task" | "call" | "result" | "write" | "pass";
+interface ReplayLine {
+  kind: "call" | "read" | "write" | "error" | "result" | "pass" | "fail";
   label?: string;
   text: string;
 }
 
-// A scripted reconstruction of how a run works, using the server's
-// real tools — not a recorded transcript, and never a live model.
-const STEPS: ReplayStep[] = [
-  {
-    kind: "task",
-    label: "Task",
-    text: "A ticket arrives: build a small feature UI.",
-  },
+const TASK = "Build a small feature UI from a ticket.";
+
+// Both columns are scripted reconstructions shaped by the evaluation
+// (40 prompts × 5 conditions): the baseline agent averaged 2.35
+// attempts and ~27 steps; the MCP agent converged in one attempt and
+// ~6 steps. No live model, no network.
+const MCP_STEPS: ReplayLine[] = [
   {
     kind: "call",
     label: "search-components",
-    text: "The agent finds the right components by name or description.",
+    text: "Finds the right components by name or description.",
   },
   {
     kind: "call",
     label: "get-component",
-    text: "It pulls the full API: props, variants, subcomponents, examples.",
+    text: "Pulls the full API: props, variants, subcomponents, examples.",
   },
   {
     kind: "call",
     label: "get-design-tokens",
-    text: "Semantic color, spacing, and typography values, resolved from source.",
-  },
-  {
-    kind: "result",
-    text: "Real components and real values, instead of invented markup and guessed hex.",
+    text: "Gets semantic color, spacing, and typography values, resolved from source.",
   },
   {
     kind: "write",
-    label: "agent writes",
-    text: "The UI is assembled from system primitives.",
+    label: "writes",
+    text: "Assembles the UI from system primitives.",
   },
   {
     kind: "call",
     label: "validate-component-usage",
-    text: "The JSX is linted for incorrect props, accessibility issues, and design-token violations.",
+    text: "Lints the JSX for wrong props, accessibility issues, and design-token violations.",
   },
   {
     kind: "pass",
     label: "pass",
-    text: "One attempt, about six steps. The baseline agent thrashed for two attempts and thirteen.",
+    text: "Done. One attempt, six steps.",
   },
 ];
 
+const BASELINE_STEPS: ReplayLine[] = [
+  {
+    kind: "read",
+    label: "grep",
+    text: "Greps the component library for likely names.",
+  },
+  {
+    kind: "read",
+    label: "read",
+    text: "Opens component source, reads the props by hand.",
+  },
+  {
+    kind: "write",
+    label: "writes",
+    text: "Writes JSX, guessing at two props.",
+  },
+  {
+    kind: "error",
+    label: "tsc ✕",
+    text: "Error: prop does not exist on this component.",
+  },
+  {
+    kind: "read",
+    label: "read",
+    text: "Reads more source, tries a different prop.",
+  },
+  {
+    kind: "error",
+    label: "tsc ✕",
+    text: "Error: wrong variant name.",
+  },
+  {
+    kind: "write",
+    label: "writes",
+    text: "Hardcodes a hex value instead of the design token.",
+  },
+  {
+    kind: "result",
+    text: "Attempt two begins.",
+  },
+  {
+    kind: "read",
+    label: "read",
+    text: "Rereads the source tree.",
+  },
+  {
+    kind: "write",
+    label: "writes",
+    text: "Rewrites the JSX from scratch.",
+  },
+  {
+    kind: "error",
+    label: "tsc ✓",
+    text: "Compiles this time.",
+  },
+  {
+    kind: "fail",
+    label: "done",
+    text: "Two attempts and ~26 steps. In the eval, 45% of baseline runs hit the step ceiling.",
+  },
+];
+
+const TOTAL = BASELINE_STEPS.length;
+
+function ReplayColumn({
+  title,
+  steps,
+  shown,
+  summary,
+}: {
+  title: string;
+  steps: ReplayLine[];
+  shown: number;
+  summary: string;
+}) {
+  const logRef = useRef<HTMLOListElement>(null);
+  const visible = Math.min(shown, steps.length);
+  const done = shown >= steps.length;
+
+  useEffect(() => {
+    const log = logRef.current;
+    if (log) log.scrollTop = log.scrollHeight;
+  }, [visible]);
+
+  return (
+    <div className="replay-column" data-done={done || undefined}>
+      <p className="mono-label border-b border-line px-3 py-2 text-ink-muted">
+        {title}
+      </p>
+      <ol ref={logRef} className="replay-log" aria-live="polite">
+        {steps.slice(0, visible).map((line, index) => (
+          <li key={index} className="replay-line" data-kind={line.kind}>
+            {line.label ? (
+              <span className="replay-chip" data-kind={line.kind}>
+                {line.label}
+              </span>
+            ) : null}
+            <span className="replay-text">{line.text}</span>
+          </li>
+        ))}
+      </ol>
+      <p
+        className="replay-summary mono-label border-t border-line px-3 py-2"
+        data-visible={done || undefined}
+      >
+        {summary}
+      </p>
+    </div>
+  );
+}
+
 /**
- * Step through a Spellbook MCP run at your own pace. Entirely
- * scripted: no model, no network, just the shape of the loop the
- * evaluation measured. Click, Enter, or Space advances.
+ * The same ticket, twice: a baseline agent with filesystem access
+ * only, and an agent with the Spellbook MCP tools. One click advances
+ * both. The MCP side finishes while the baseline is still thrashing —
+ * which is the whole point. Entirely scripted; never a live model.
  */
 export function SpellbookReplay() {
   const [shown, setShown] = useState(1);
-  const logRef = useRef<HTMLOListElement>(null);
-  const done = shown >= STEPS.length;
-
-  const advance = () => {
-    setShown((n) => (n >= STEPS.length ? 1 : n + 1));
-  };
-
-  // Keep the newest line in view inside the panel's own scroll area.
-  useEffect(() => {
-    const log = logRef.current;
-    if (!log) return;
-    log.scrollTop = log.scrollHeight;
-  }, [shown]);
+  const done = shown >= TOTAL;
 
   return (
     <div className="replay">
-      <div className="flex items-baseline justify-between gap-4 border-b border-line px-4 py-2.5">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line px-4 py-2.5">
         <p className="mono-label text-ink-muted">
-          Spellbook MCP · <span className="text-accent">replay</span>
+          Spellbook MCP · <span className="text-accent">before / after</span>
         </p>
         <p className="mono-label text-ink-muted">scripted · no live model</p>
       </div>
 
+      <p className="border-b border-line px-4 py-2.5 text-[0.875rem]">
+        <span className="mono-label mr-2 text-ink-muted">Task</span>
+        {TASK}
+      </p>
+
       <button
         type="button"
         className="replay-stage"
-        onClick={advance}
+        onClick={() => setShown((n) => (n >= TOTAL ? 1 : n + 1))}
         aria-label={
           done
-            ? "Replay the Spellbook MCP walkthrough from the start"
-            : "Advance the Spellbook MCP walkthrough one step"
+            ? "Replay the before-and-after walkthrough from the start"
+            : "Advance both agents one step"
         }
       >
-        <ol ref={logRef} className="replay-log" aria-live="polite">
-          {STEPS.slice(0, shown).map((step, index) => (
-            <li key={index} className="replay-line" data-kind={step.kind}>
-              {step.label ? (
-                <span className="replay-chip" data-kind={step.kind}>
-                  {step.label}
-                </span>
-              ) : null}
-              <span className="replay-text">{step.text}</span>
-            </li>
-          ))}
-        </ol>
+        <div className="grid sm:grid-cols-2">
+          <ReplayColumn
+            title="Filesystem only"
+            steps={BASELINE_STEPS}
+            shown={shown}
+            summary="2.35 attempts avg · ~27 steps"
+          />
+          <ReplayColumn
+            title="With Spellbook MCP"
+            steps={MCP_STEPS}
+            shown={shown}
+            summary="1 attempt · ~6 steps · pass"
+          />
+        </div>
       </button>
 
       <div className="flex items-baseline justify-between gap-4 border-t border-line px-4 py-2.5">
         <span className="mono-label tabular-nums text-ink-muted">
-          {shown} / {STEPS.length}
+          step {Math.min(shown, TOTAL)} / {TOTAL}
         </span>
         <span className="mono-label text-accent">
-          {done ? "replay ↺" : "click to step →"}
+          {done ? "replay ↺" : "click to step both →"}
         </span>
       </div>
     </div>

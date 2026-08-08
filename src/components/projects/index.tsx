@@ -18,7 +18,7 @@ const projects: Project[] = [
       },
       {
         label: 'The test',
-        text: "A controlled evaluation before rollout: 40 component-generation prompts across five conditions on an identical harness. The baseline agent already had full filesystem access to the design system source; the treatment added only the nine tools. The gap widens with task complexity: with the MCP the agent holds a flat ~6 steps across difficulty tiers while the baseline thrashes near the step ceiling.",
+        text: "A controlled evaluation before rollout: 40 component-generation prompts across five conditions on an identical harness. The baseline agent already had full filesystem access to the design system source; the treatment added only the nine tools. TypeScript pass rose from 76% to 100%, and the gap widens with task complexity: with the MCP the agent holds a flat ~6 steps across difficulty tiers while the baseline thrashes near the step ceiling.",
       },
     ],
     capabilities: [
@@ -32,7 +32,7 @@ const projects: Project[] = [
     ],
     replay: true,
     figures: [
-      { label: 'TypeScript pass rate', value: '76% → 100%' },
+      { label: 'Attempts per task', value: '2.35 → 1.0' },
       { label: 'Quality score', value: '78% → 97%' },
       { label: 'Steps per task', value: '12.7 → 5.8' },
       { label: 'Cost per output', value: '≈ halved' },

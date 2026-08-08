@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { GrainGradient } from "@paper-design/shaders-react";
+import {
+  GrainGradient,
+  ImageDithering,
+  Water,
+} from "@paper-design/shaders-react";
 import { SectionHeader } from "@/components/section-header";
 
 /* ------------------------------------------------------------------ */
@@ -245,6 +249,71 @@ function GrainField() {
 }
 
 /* ------------------------------------------------------------------ */
+/*  05 — Water, over Winnipesaukee                                     */
+/* ------------------------------------------------------------------ */
+
+function WaterField() {
+  const reduced = useReducedMotion();
+
+  return (
+    <Water
+      style={{ width: "100%", height: "100%" }}
+      image="/images/flying/winnipesaukee.jpg"
+      fit="cover"
+      caustic={0.3}
+      highlights={0.15}
+      layering={0.25}
+      edges={0.12}
+      waves={0.08}
+      size={2}
+      speed={reduced ? 0 : 0.4}
+    />
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  06 — One-bit Monadnock                                             */
+/* ------------------------------------------------------------------ */
+
+const DOT_SIZES = [2, 3.5, 6] as const;
+
+function DitherField() {
+  const [dotSize, setDotSize] = useState<number>(3.5);
+  const dark = useDarkTheme();
+
+  return (
+    <div className="relative h-full">
+      <ImageDithering
+        style={{ width: "100%", height: "100%" }}
+        image="/images/flying/monadnock.jpg"
+        fit="cover"
+        type="8x8"
+        size={dotSize}
+        colorSteps={2}
+        originalColors={false}
+        colorFront={dark ? "#f1f1f3" : "#131316"}
+        colorHighlight={dark ? "#f1f1f3" : "#131316"}
+        colorBack={dark ? "#0d0e11" : "#ffffff"}
+        speed={0}
+      />
+      <div className="absolute bottom-3 left-3 flex gap-1.5">
+        {DOT_SIZES.map((size) => (
+          <button
+            key={size}
+            type="button"
+            className="lab-chip"
+            data-active={dotSize === size}
+            onClick={() => setDotSize(size)}
+          >
+            {size}px
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  The section                                                        */
 /* ------------------------------------------------------------------ */
 
@@ -284,10 +353,26 @@ export function Lab() {
         <LabCard
           number="04"
           title="Grain, seven ways"
-          description="A WebGL grain shader from the same library as the hero's atmosphere. It comes in seven shapes; here are a few of them, louder than the hero would ever allow."
+          description="A WebGL grain shader from the same library as the hero's atmosphere. It comes in seven shapes; here are all of them, louder than the hero would ever allow."
           mechanism="@paper-design/shaders-react · GrainGradient"
         >
           <GrainField />
+        </LabCard>
+        <LabCard
+          number="05"
+          title="Water, over Winnipesaukee"
+          description="The lake from the About photos, refracted through a caustic water shader. Some subjects earn their effect."
+          mechanism="Water · caustic image filter"
+        >
+          <WaterField />
+        </LabCard>
+        <LabCard
+          number="06"
+          title="One-bit Monadnock"
+          description="The same mountain, re-screened through an ordered Bayer dither, like a 1-bit Mac. Pick the dot size."
+          mechanism="ImageDithering · 8×8 Bayer"
+        >
+          <DitherField />
         </LabCard>
       </div>
     </section>

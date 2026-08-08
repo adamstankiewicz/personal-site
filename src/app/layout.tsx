@@ -34,7 +34,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Adam Stankiewicz · Product Engineering & Design Systems",
   description:
-    "Product engineer on the surface, design systems engineer underneath. I care that everything a team ships feels like one person made it. Currently at MagicSchool AI.",
+    "Product engineer on the surface, design systems engineer underneath: features, components, design tokens, and tooling. Currently at MagicSchool AI.",
 };
 
 // Applies the persisted (or system) theme before first paint to avoid a flash.

@@ -668,14 +668,47 @@ p {
   background: var(--paper-raised);
 }
 
+.replay-column + .replay-column {
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 640px) {
+  .replay-column + .replay-column {
+    border-top: none;
+    border-left: 1px solid var(--line);
+  }
+}
+
+/* The finished column settles back while the other keeps working. */
+.replay-column[data-done] .replay-log {
+  opacity: 0.55;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.replay-summary {
+  color: var(--ink-muted);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.replay-summary[data-visible] {
+  opacity: 1;
+  color: var(--accent);
+}
+
 .replay-log {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
-  padding: 1rem;
-  height: 15rem;
+  gap: 0.875rem;
+  padding: 0.875rem;
+  height: 16rem;
   overflow-y: auto;
   scrollbar-width: thin;
+}
+
+/* Clicking the stage focuses it; keep the ring inside the panel. */
+.replay-stage:focus-visible {
+  outline-offset: -3px;
 }
 
 @keyframes replay-line-in {
@@ -689,10 +722,12 @@ p {
   }
 }
 
+/* Chip above text: side-by-side wraps badly in half-width columns. */
 .replay-line {
   display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
   animation: replay-line-in var(--dur-base) var(--ease-out) both;
 }
 
@@ -720,17 +755,24 @@ p {
   border-color: var(--accent);
 }
 
-.replay-line[data-kind="task"] .replay-text {
-  font-weight: 550;
+.replay-chip[data-kind="error"],
+.replay-chip[data-kind="fail"] {
+  color: var(--ink);
+  border-color: var(--line-strong);
 }
 
 .replay-text {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   line-height: 1.55;
 }
 
-.replay-line[data-kind="result"] .replay-text {
+.replay-line[data-kind="result"] .replay-text,
+.replay-line[data-kind="read"] .replay-text {
   color: var(--ink-muted);
+}
+
+.replay-line[data-kind="error"] .replay-text {
+  font-style: italic;
 }
 
 /* ------------------------------------------------------------------ */
@@ -804,11 +846,19 @@ p {
   cursor: not-allowed;
 }
 
+/* Explicit centering: the preflight reset interferes with the UA's
+   default dialog margins, so pin it to the viewport center ourselves. */
 .gallery-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
   border: none;
   padding: 0;
   background: transparent;
   max-width: min(94vw, 72rem);
+  max-height: 92vh;
 }
 
 .gallery-dialog::backdrop {
