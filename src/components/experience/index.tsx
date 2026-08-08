@@ -183,6 +183,15 @@ function WaypointMarker() {
   return <span className="waypoint-marker" aria-hidden="true" />;
 }
 
+// Descriptions stay plain strings (llms.txt serializes them as
+// markdown, where *…* already reads as emphasis); on the page, the
+// same markers become real <em>s — used for work titles in prose.
+function emphasize(text: string) {
+  return text
+    .split(/\*([^*]+)\*/g)
+    .map((part, i) => (i % 2 ? <em key={i}>{part}</em> : part));
+}
+
 function Waypoint({
   experience,
   index,
@@ -233,7 +242,9 @@ function Waypoint({
         <div>
           <div className="grid gap-8 pb-4 pt-3 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <p className="max-w-[62ch] text-[1rem] leading-[1.7]">{description}</p>
+              <p className="max-w-[62ch] text-[1rem] leading-[1.7]">
+                {emphasize(description)}
+              </p>
               <ExternalLink
                 href={companyUrl}
                 className="mono-link mt-4 inline-block"

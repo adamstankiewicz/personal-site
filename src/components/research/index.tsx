@@ -24,7 +24,7 @@ export function Research() {
               {String(index + 1).padStart(2, "0")}
             </span>
             <div>
-              <p className="title-md text-[1.0625rem] leading-snug">
+              <p className="title-md text-[1.0625rem] italic leading-snug">
                 {publication.href ? (
                   <ExternalLink
                     href={publication.href}
