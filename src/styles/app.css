@@ -424,27 +424,18 @@ p {
   background: var(--accent);
 }
 
-/* The scrubber handle — rides the line with scroll, draggable. */
+/* The scrubber handle — rides the line with scroll, draggable.
+   The outer box is a generous hit area; ::after is the visible dot. */
 .route-flyer {
   position: absolute;
   left: 11.5px;
   top: 0;
   z-index: 2;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 2.5px solid var(--paper);
-  box-shadow: 0 0 0 1px var(--accent),
-    0 2px 8px color-mix(in srgb, var(--accent) 40%, transparent);
+  width: 28px;
+  height: 28px;
   will-change: transform;
   cursor: grab;
   touch-action: none;
-  /* generous hit area for dragging */
-  padding: 6px;
-  box-sizing: content-box;
-  margin: -6px;
-  background-clip: padding-box;
 }
 
 .route-flyer::after {
@@ -454,10 +445,17 @@ p {
   border-radius: 50%;
   background: var(--accent);
   border: 2.5px solid var(--paper);
+  box-shadow: 0 0 0 1px var(--accent),
+    0 2px 10px color-mix(in srgb, var(--accent) 45%, transparent);
+  transition: transform var(--dur-fast) var(--ease-out);
 }
 
 .route-flyer:active {
   cursor: grabbing;
+}
+
+.route-flyer:active::after {
+  transform: scale(1.15);
 }
 
 @media (prefers-reduced-motion: reduce) {

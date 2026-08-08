@@ -90,7 +90,7 @@ const experiences: ExperienceItemProps[] = [
 ];
 
 function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
-  const flyerRef = useRef<SVGSVGElement>(null);
+  const flyerRef = useRef<HTMLDivElement>(null);
   const onArriveRef = useRef(onArrive);
   onArriveRef.current = onArrive;
 
@@ -194,30 +194,11 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
     };
   }, []);
 
-  return (
-    <svg ref={flyerRef} className="route-flyer" viewBox="0 0 18 18" aria-hidden="true">
-      <path
-        d="M9 16 L13.5 3 L9 6 L4.5 3 Z"
-        fill="currentColor"
-        stroke="var(--paper)"
-        strokeWidth="1"
-      />
-    </svg>
-  );
+  return <div ref={flyerRef} className="route-flyer" aria-hidden="true" />;
 }
 
 function WaypointMarker() {
-  return (
-    <svg viewBox="0 0 22 22" className="waypoint-marker" aria-hidden="true">
-      <path
-        d="M11 3 L19.5 18 L2.5 18 Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+  return <span className="waypoint-marker" aria-hidden="true" />;
 }
 
 function Waypoint({
@@ -249,7 +230,7 @@ function Waypoint({
         <span className="mono-label tabular-nums text-accent">
           {period.split(" ")[0]}
         </span>
-        <span className="condensed-caps text-[1.0625rem] transition-colors group-hover:text-accent sm:text-[1.1875rem]">
+        <span className="title-md text-[1.125rem] transition-colors group-hover:text-accent sm:text-[1.25rem]">
           {company}
         </span>
         <span className="mono-label hidden text-ink-muted sm:block">
