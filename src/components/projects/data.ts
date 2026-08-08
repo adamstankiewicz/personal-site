@@ -56,10 +56,6 @@ export const projects: Project[] = [
         label: 'The choreography',
         text: "View transitions carry the chat between states: homepage hero to standalone chat to empty state and back. The homepage handoff reads the prompt and files at submit time, so arriving in the chat feels instant, and transitions skip themselves under Save-Data and reduced motion.",
       },
-      {
-        label: 'The path to main',
-        text: "Validated end to end as a proof of concept, now landing as reviewable pieces: the Spellbook primitives first, then the view-transition infrastructure, then the shell polish, so each chunk gets a real review.",
-      },
     ],
     images: [
       {
