@@ -1,31 +1,7 @@
-import type { Route } from "./+types/home";
 import { About } from "@/components/about/about";
-import { Experience, loader as experienceLoader } from "@/components/experience";
-import { Projects, loader as projectsLoader } from "@/components/projects";
+import { Experience } from "@/components/experience";
+import { Projects } from "@/components/projects";
 import { Research } from "@/components/research";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Adam Stankiewicz — Senior Design Systems Engineer" },
-    {
-      name: "description",
-      content:
-        "Design systems engineer building the platform around the design system — tokens, tooling, documentation, and accessibility. Senior Design Systems Engineer at MagicSchool AI; previously led Paragon at edX/2U.",
-    },
-  ];
-}
-
-export async function loader() {
-  const [experiences, projects] = await Promise.all([
-    experienceLoader(),
-    projectsLoader(),
-  ]);
-
-  return {
-    experiences: experiences.experiences,
-    projects: projects.projects,
-  };
-}
 
 function Hero() {
   return (
@@ -33,15 +9,28 @@ function Hero() {
       <p className="mono-label rise rise-1 text-accent">
         Senior Design Systems Engineer — MagicSchool AI
       </p>
-      <h1 className="rise rise-2 mt-8 max-w-4xl font-serif text-[clamp(2.375rem,6.5vw,4.75rem)] font-light leading-[1.06] tracking-[-0.015em] [text-wrap:balance]">
-        I work the seam between <em className="font-normal">design</em> and{" "}
-        <em className="font-normal">engineering</em> — and measure what ships.
-      </h1>
-      <p className="rise rise-3 mt-8 max-w-2xl text-[1.0625rem] leading-[1.7] text-ink-muted">
-        Design systems and the platforms around them, frontend architecture,
-        REST APIs, accessibility, and AI tooling that earns its rollout with a
-        controlled evaluation.
-      </p>
+      <div className="inspect-box mt-8 max-w-4xl">
+        <span className="inspect-chip -top-3 left-0" aria-hidden="true">
+          type/display · Newsreader opsz · 300 · lh 1.06 · tracking −0.015em
+        </span>
+        <h1 className="rise rise-2 font-serif text-[clamp(2.375rem,6.5vw,4.75rem)] font-light leading-[1.06] tracking-[-0.015em] [text-wrap:balance]">
+          I work the seam between <em className="font-normal">design</em> and{" "}
+          <em className="font-normal">engineering</em> — and measure what ships.
+        </h1>
+        <span className="inspect-chip -bottom-3 right-0" aria-hidden="true">
+          clamp(2.375rem → 4.75rem) · ital 1 on emphasis
+        </span>
+      </div>
+      <div className="inspect-box mt-8 max-w-2xl">
+        <span className="inspect-chip -top-3 left-0" aria-hidden="true">
+          type/body · 1.0625rem / 1.7 · ink-muted
+        </span>
+        <p className="rise rise-3 text-[1.0625rem] leading-[1.7] text-ink-muted">
+          Design systems and the platforms around them, frontend architecture,
+          REST APIs, accessibility, and AI tooling that earns its rollout with a
+          controlled evaluation.
+        </p>
+      </div>
 
       <dl className="rise rise-3 mt-14 grid gap-x-8 gap-y-6 border-y border-line py-6 sm:grid-cols-2 lg:grid-cols-4">
         <div>

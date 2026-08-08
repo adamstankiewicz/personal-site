@@ -7,3 +7,8 @@
 
 # Netlify
 .netlify
+
+# next.js
+/.next/
+/out/
+*.tsbuildinfo

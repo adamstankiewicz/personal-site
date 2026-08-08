@@ -1,8 +1,7 @@
-import { useRouteLoaderData } from "react-router";
 import { SectionHeader } from "@/components/section-header";
 import { Project } from "./types";
 
-export const projects: Project[] = [
+const projects: Project[] = [
   {
     title: 'Spellbook MCP Server',
     description: "Designed and built the MCP server for Spellbook, MagicSchool's design system, so AI coding agents implement UI against real component APIs instead of inventing them — and designers can verify resolved token values before handoff. Nine tools over 70+ React component specifications, resolved design tokens, icon catalogs, and curated examples, backed by a compiler-backed validator that type-checks agent-generated JSX against the real component APIs. Measured with a controlled evaluation across 25 production UI tasks and three model tiers before rollout.",
@@ -110,10 +109,6 @@ export const projects: Project[] = [
     ],
   },
 ];
-
-export async function loader() {
-  return { projects };
-}
 
 function formatInstalls(installs: number) {
   const millions = installs / 1_000_000;
@@ -244,10 +239,6 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
 }
 
 export function Projects() {
-  const { projects } = useRouteLoaderData("routes/home") as {
-    projects: Project[];
-  };
-
   return (
     <section id="work" className="scroll-mt-16 pb-24 sm:pb-32" data-reveal>
       <SectionHeader number="03" title="Selected Work" annotation="Case files" />

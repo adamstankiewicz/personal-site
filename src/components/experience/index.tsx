@@ -1,10 +1,10 @@
+"use client";
+
 import { useState } from "react";
-import { useRouteLoaderData } from "react-router";
 import { SectionHeader } from "@/components/section-header";
 import { ExperienceItemProps } from "./types";
 
-export async function loader(): Promise<{ experiences: ExperienceItemProps[] }> {
-  const experiences: ExperienceItemProps[] = [
+const experiences: ExperienceItemProps[] = [
     {
       company: "MagicSchool AI",
       companyUrl: "https://magicschool.ai",
@@ -87,10 +87,7 @@ export async function loader(): Promise<{ experiences: ExperienceItemProps[] }> 
       description: "Earlier: internships, co-ops, and part-time web development roles including Carbonite, Diebold, ForeSite Technologies, and Green Bridge Guide, plus a visiting research appointment at Carnegie Mellon.",
       technologies: [],
     }
-  ];
-
-  return { experiences };
-}
+];
 
 function LedgerRow({
   experience,
@@ -186,9 +183,6 @@ function LedgerRow({
 }
 
 export function Experience() {
-  const { experiences } = useRouteLoaderData("routes/home") as {
-    experiences: ExperienceItemProps[];
-  };
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const listed = experiences.filter((experience) => experience.company);

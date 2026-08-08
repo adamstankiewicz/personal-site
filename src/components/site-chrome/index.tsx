@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
-import { Link, Outlet } from "react-router";
+import Link from "next/link";
 import { CommandMenu, type Command } from "@/components/command-menu";
 
 const NAV_ITEMS = [
@@ -27,6 +29,11 @@ function toggleTheme() {
   try {
     localStorage.setItem("theme", dark ? "dark" : "light");
   } catch {}
+}
+
+function toggleInspect() {
+  const root = document.documentElement;
+  root.dataset.inspect = root.dataset.inspect === "true" ? "false" : "true";
 }
 
 function ThemeToggle() {
@@ -58,7 +65,7 @@ function GridOverlay({ visible }: { visible: boolean }) {
   );
 }
 
-export default function Layout() {
+export function SiteChrome({ children }: { children: React.ReactNode }) {
   const [gridVisible, setGridVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -78,6 +85,13 @@ export default function Layout() {
         group: "Actions",
         hint: "light / dark",
         run: toggleTheme,
+      },
+      {
+        id: "inspect",
+        label: "Toggle inspect mode",
+        group: "Actions",
+        hint: "i",
+        run: toggleInspect,
       },
       {
         id: "grid",
@@ -131,7 +145,7 @@ export default function Layout() {
     []
   );
 
-  // Global keyboard: ⌘K / ctrl+K opens the menu, "g" toggles the grid.
+  // Global keyboard: ⌘K command menu, "g" grid, "i" inspect.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -143,6 +157,7 @@ export default function Layout() {
       const target = e.target as HTMLElement | null;
       if (target && /^(input|textarea|select)$/i.test(target.tagName)) return;
       if (e.key === "g") setGridVisible((v) => !v);
+      if (e.key === "i") toggleInspect();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -186,7 +201,7 @@ export default function Layout() {
       <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-baseline justify-between gap-y-3 px-6 py-5">
           <Link
-            to="/"
+            href="/"
             className="mono-label !text-ink no-underline transition-colors hover:!text-accent"
           >
             Adam Stankiewicz
@@ -212,9 +227,7 @@ export default function Layout() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-6">
-        <Outlet />
-      </main>
+      <main className="mx-auto w-full max-w-6xl flex-1 px-6">{children}</main>
 
       <footer className="border-t border-line">
         <div className="mx-auto w-full max-w-6xl px-6 py-12">
@@ -223,9 +236,9 @@ export default function Layout() {
               <p className="mono-label text-ink-muted">Colophon</p>
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">
                 Set in <span className="italic text-ink">Newsreader</span> and{" "}
-                <span className="font-mono text-[0.8125rem] text-ink">Geist Mono</span>.
-                Built with React Router, styled with Tailwind, deployed on
-                Netlify.{" "}
+                <span className="font-mono text-[0.8125rem] text-ink">Geist Mono</span>,
+                self-hosted. Statically rendered with Next.js, styled with
+                Tailwind, served from Netlify's CDN.{" "}
                 <a
                   href="https://github.com/adamstankiewicz/personal-site"
                   target="_blank"
@@ -264,8 +277,9 @@ export default function Layout() {
             <div className="sm:text-right">
               <p className="mono-label text-ink-muted">© {new Date().getFullYear()}</p>
               <p className="mono-label mt-3 text-ink-muted">
-                <kbd className="key-hint">⌘K</kbd> command menu ·{" "}
-                <kbd className="key-hint">G</kbd> grid
+                <kbd className="key-hint">⌘K</kbd> commands ·{" "}
+                <kbd className="key-hint">G</kbd> grid ·{" "}
+                <kbd className="key-hint">I</kbd> inspect
               </p>
             </div>
           </div>

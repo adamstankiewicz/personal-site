@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import Link from "next/link";
 
 export default function NotFound() {
   return (
@@ -7,7 +7,7 @@ export default function NotFound() {
       <h1 className="mt-6 font-serif text-[clamp(2.5rem,7vw,5rem)] font-light leading-none tracking-tight">
         Nothing lives at this address.
       </h1>
-      <Link to="/" className="mono-link mt-10 inline-block">
+      <Link href="/" className="mono-link mt-10 inline-block">
         Return to the index ↗
       </Link>
     </section>
