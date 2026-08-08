@@ -70,7 +70,7 @@ export function Research() {
               {String(index + 1).padStart(2, "0")}
             </span>
             <div>
-              <p className="text-[1.0625rem] font-medium leading-snug tracking-tight">
+              <p className="title-md text-[1.0625rem] leading-snug">
                 {publication.href ? (
                   <a
                     href={publication.href}
