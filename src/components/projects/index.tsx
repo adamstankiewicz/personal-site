@@ -21,7 +21,7 @@ const projects: Project[] = [
     ],
     capabilities: [
       'component specs',
-      'resolved tokens',
+      'resolved design tokens',
       'icon catalog',
       'curated examples',
       'JSX type-checking',

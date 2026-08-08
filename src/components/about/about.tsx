@@ -16,8 +16,8 @@ export function About() {
         <div className="max-w-[65ch] space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
           <p>
             For over a decade my work has run on two tracks: features as an
-            engineer and tech lead, and the design systems, token pipelines,
-            and tooling underneath them. Mostly in edtech, where the products
+            engineer and tech lead, and the design systems, design-token
+            pipelines, and tooling underneath them. Mostly in edtech, where the products
             serve teachers and learners and the systems serve the teams
             behind them.
           </p>

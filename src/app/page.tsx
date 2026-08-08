@@ -16,9 +16,9 @@ function TitleBlock() {
       </p>
       <HeroName />
       <p className="rise rise-3 mt-8 max-w-2xl text-[1.1875rem] leading-[1.6] text-ink-muted sm:text-[1.3125rem]">
-        I build the product, and the system underneath it: the features
-        people use, and the design system, tokens, and tooling that teams
-        build them with.
+        Product engineer on the surface, design systems engineer
+        underneath. I care that everything a team ships feels like one
+        person made it.
       </p>
 
       {/* Facts strip */}

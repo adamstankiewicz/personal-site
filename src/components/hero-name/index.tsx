@@ -77,7 +77,7 @@ export function HeroName() {
             </span>
           ))}
           {lineIndex === NAME_LINES.length - 1 ? (
-            <span className="text-accent">.</span>
+            <span className="hero-period text-accent">.</span>
           ) : null}
         </span>
       ))}

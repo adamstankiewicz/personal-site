@@ -259,8 +259,8 @@ export function Lab() {
         </LabCard>
         <LabCard
           number="02"
-          title="Spring, from the token layer"
-          description="Click anywhere in the field. The dot arrives on the site's spring, a CSS linear() curve that lives in tokens.json with the rest of the design system."
+          title="Spring, as a design token"
+          description="Click anywhere in the field. The dot arrives on the site's spring easing, a CSS linear() curve stored in tokens.json with the rest of the design tokens."
           mechanism="easing.spring · duration.slow · linear()"
         >
           <SpringDot />

@@ -294,7 +294,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           <div className="mt-12 border-t border-line pt-6">
             <div className="flex flex-wrap items-end justify-between gap-6">
               <p className="mono-label text-ink-muted">
-                Tokens · generated from{" "}
+                Design tokens · generated from{" "}
                 <a
                   href="https://github.com/adamstankiewicz/personal-site/blob/master/tokens/tokens.json"
                   target="_blank"

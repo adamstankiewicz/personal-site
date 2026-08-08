@@ -12,7 +12,7 @@ const experiences: ExperienceItemProps[] = [
       positions: [
         { title: "Senior Design Systems Engineer", period: "2025–Present" }
       ],
-      description: "Tech lead on a product squad and steward of Spellbook, the design system behind an AI platform for K-12 educators serving ~8M people across 36,000 schools. Built the Spellbook MCP server so AI agents build with real components, rebuilt the token layer on DTCG, and led the accessibility work behind the company's first VPAT.",
+      description: "Tech lead on a product squad and steward of Spellbook, the design system behind an AI platform for K-12 educators serving ~8M people across 36,000 schools. Built the Spellbook MCP server so AI agents build with real components, rebuilt the design-token layer on DTCG, and led the accessibility work behind the company's first VPAT.",
       technologies: [
         'TypeScript', 'React', 'Next.js', 'Node.js', 'MCP',
         'DTCG Design Tokens', 'Tailwind', 'Playwright', 'axe-core',
@@ -29,7 +29,7 @@ const experiences: ExperienceItemProps[] = [
         { title: "Senior Software Engineer I", period: "2020–2022" },
         { title: "Software Engineer II", period: "2018–2020" }
       ],
-      description: "Led Paragon, the open-source design system behind 40+ Open edX projects (5.9M+ npm downloads, 100M+ learners): token architecture, docs platform, internationalization. In parallel, an early engineer on edX for Business, shipping the React SPAs and Django REST APIs behind its enterprise learning platform.",
+      description: "Led Paragon, the open-source design system behind 40+ Open edX projects (5.9M+ npm downloads, 100M+ learners): design-token architecture, docs platform, internationalization. In parallel, an early engineer on edX for Business, shipping the React SPAs and Django REST APIs behind its enterprise learning platform.",
       technologies: [
         'JavaScript', 'TypeScript', 'React', 'Style Dictionary',
         'React Query', 'React Router', 'Sass', 'Webpack',
