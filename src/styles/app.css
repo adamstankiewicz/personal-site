@@ -375,13 +375,6 @@ p {
   height: auto;
 }
 
-/* Held like a print: subtle 3D tilt toward the cursor, eased in JS
-   through custom properties, settling flat on leave. */
-.print-photo {
-  transform: perspective(56rem) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  will-change: transform;
-}
-
 /* Sheen: a broad, faint pool of light that drifts after the cursor,
    like a glossy print catching a lamp. Soft-light keeps contrast
    honest; the whole layer fades away when the pointer leaves. */

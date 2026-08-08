@@ -45,9 +45,6 @@ export function PrintPhoto({
     if (el) {
       el.style.setProperty("--mx", `${p.x}%`);
       el.style.setProperty("--my", `${p.y}%`);
-      // Tilt toward the cursor, strongest at the edges, ±2.5° max.
-      el.style.setProperty("--rx", `${((50 - p.y) / 50) * 2.5}deg`);
-      el.style.setProperty("--ry", `${((p.x - 50) / 50) * 2.5}deg`);
     }
     const settled = Math.hypot(p.tx - p.x, p.ty - p.y) < 0.15;
     rafRef.current =
