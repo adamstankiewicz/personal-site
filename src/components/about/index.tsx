@@ -1,6 +1,7 @@
 import { SectionHeader } from "@/components/ui/section-header";
 import { PrintPhoto } from "@/components/ui/print-photo";
 import { ExternalLink } from "@/components/ui/external-link";
+import { aboutParagraphs } from "./data";
 
 function ProseLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -10,37 +11,39 @@ function ProseLink({ href, children }: { href: string; children: React.ReactNode
   );
 }
 
+// [label](url) in the source strings is already valid markdown for
+// llms.txt; parsed into real links here, the same split-on-pattern
+// approach Experience's *emphasis* uses.
+const LINK_PATTERN = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+function renderProse(text: string) {
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let key = 0;
+  for (const match of text.matchAll(LINK_PATTERN)) {
+    const [full, label, href] = match;
+    const index = match.index ?? 0;
+    if (index > lastIndex) parts.push(text.slice(lastIndex, index));
+    parts.push(
+      <ProseLink key={key++} href={href}>
+        {label}
+      </ProseLink>
+    );
+    lastIndex = index + full.length;
+  }
+  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+  return parts;
+}
+
 export function About() {
   return (
     <section id="about" className="scroll-mt-28 pb-24 sm:scroll-mt-16 sm:pb-32">
       <SectionHeader number="01" title="About" annotation="The story so far" />
       <div className="mt-10 grid gap-10 lg:grid-cols-12">
         <div className="max-w-[65ch] space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
-          <p>
-            The work has always split two ways — usually both at once. The
-            day job is shipping features on a product team; running
-            alongside it, I’m building the design system, the design
-            tokens, and the accessibility tooling that team builds with.
-          </p>
-          <p>
-            I started out in research. A video learning platform I built as
-            an undergrad turned into published papers and two years of a
-            Ph.D. at Carnegie Mellon before I traded the lab for industry.
-            Seven years at{" "}
-            <ProseLink href="https://edx.org">edX</ProseLink> /{" "}
-            <ProseLink href="https://2u.com">2U</ProseLink> came first,
-            leading{" "}
-            <ProseLink href="https://paragon-openedx-v22.netlify.app">
-              Paragon
-            </ProseLink>{" "}
-            for the <ProseLink href="https://openedx.org">Open edX</ProseLink>{" "}
-            ecosystem while building edX for Business. Now it’s{" "}
-            <ProseLink href="https://magicschool.ai">MagicSchool AI</ProseLink>
-            , where that same split has taken on a new shape: teaching AI
-            coding agents, not just engineers, to respect a design system.
-            The research years still show up: I’d rather run an
-            evaluation than argue from taste.
-          </p>
+          {aboutParagraphs.map((paragraph, index) => (
+            <p key={index}>{renderProse(paragraph)}</p>
+          ))}
         </div>
         <aside className="lg:col-span-4">
           <div className="border-l border-line pl-6">
