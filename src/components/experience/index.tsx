@@ -228,7 +228,7 @@ function Waypoint({
         className="group -mx-3 grid w-full cursor-pointer grid-cols-[4.5rem_1fr] items-baseline gap-x-4 px-3 py-2 text-left sm:grid-cols-[4.5rem_1fr_1fr_8.5rem_1.5rem]"
       >
         <span className="mono-label tabular-nums text-accent">
-          {period.split(" ")[0]}
+          {period.split("–")[0]}
         </span>
         <span className="title-md text-[1.125rem] transition-colors group-hover:text-accent sm:text-[1.25rem]">
           {company}

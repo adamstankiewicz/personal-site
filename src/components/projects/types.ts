@@ -23,6 +23,7 @@ export interface Project {
   details?: ProjectDetail[];
   capabilities?: string[];
   technologies?: string[];
+  replay?: boolean;
   stars?: number;
   installs?: number;
   date?: string | Date;

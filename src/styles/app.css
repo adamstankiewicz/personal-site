@@ -482,11 +482,13 @@ p {
   position: relative;
 }
 
-/* Row markers: small open circles on the track; filled when open. */
+/* Row markers: small open circles on the track; filled when open.
+   Vertically centered on the trigger's first line (button padding
+   plus half the title's line box, minus half the marker). */
 .waypoint-marker {
   position: absolute;
   left: calc(-2.75rem + 6px);
-  top: 8px;
+  top: 13px;
   width: 11px;
   height: 11px;
   border-radius: 50%;
@@ -494,6 +496,12 @@ p {
   background: var(--paper);
   transition: border-color var(--dur-base) var(--ease-out),
     background-color var(--dur-base) var(--ease-out);
+}
+
+@media (min-width: 640px) {
+  .waypoint-marker {
+    top: 14px;
+  }
 }
 
 .ledger-row[data-open="true"] .waypoint-marker {
@@ -638,6 +646,91 @@ p {
   .progress-rail-label:hover {
     color: var(--accent);
   }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Spellbook replay — a scripted MCP run you step through             */
+/* ------------------------------------------------------------------ */
+
+.replay {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.replay-stage {
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  background: var(--paper-raised);
+}
+
+.replay-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1rem;
+  height: 15rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+@keyframes replay-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.replay-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  animation: replay-line-in var(--dur-base) var(--ease-out) both;
+}
+
+.replay-chip {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--ink-muted);
+  background: var(--paper);
+}
+
+.replay-chip[data-kind="call"] {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.replay-chip[data-kind="pass"] {
+  color: var(--paper);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.replay-line[data-kind="task"] .replay-text {
+  font-weight: 550;
+}
+
+.replay-text {
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.replay-line[data-kind="result"] .replay-text {
+  color: var(--ink-muted);
 }
 
 /* ------------------------------------------------------------------ */

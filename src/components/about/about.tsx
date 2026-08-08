@@ -33,10 +33,9 @@ export function About() {
             for the <ProseLink href="https://openedx.org">Open edX</ProseLink>{" "}
             ecosystem. Now at{" "}
             <ProseLink href="https://magicschool.ai">MagicSchool AI</ProseLink>,
-            the threads converge: a product squad, a design system, and AI
-            coding agents taught to respect it. The habit underneath all of it
-            came from the research years: instrument the product, measure real
-            behavior, let evidence set the roadmap.
+            it all runs together: a product squad, a design system, and AI
+            coding agents taught to respect it. Research left one habit that
+            stuck: measure it before you ship it.
           </p>
         </div>
         <aside className="lg:col-span-4">

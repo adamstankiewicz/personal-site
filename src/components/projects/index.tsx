@@ -1,5 +1,6 @@
 import { SectionHeader } from "@/components/section-header";
 import { Gallery } from "./gallery";
+import { SpellbookReplay } from "./spellbook-replay";
 import { Project, ProjectDetail } from "./types";
 
 const projects: Project[] = [
@@ -17,7 +18,7 @@ const projects: Project[] = [
       },
       {
         label: 'The test',
-        text: "A controlled evaluation before rollout: 25 production UI tasks, three model tiers, identical harness. The baseline agent already had full access to the design system source. The treatment added only the MCP tools.",
+        text: "A controlled evaluation before rollout: 40 component-generation prompts across five conditions on an identical harness. The baseline agent already had full filesystem access to the design system source; the treatment added only the nine tools. The gap widens with task complexity: with the MCP the agent holds a flat ~6 steps across difficulty tiers while the baseline thrashes near the step ceiling.",
       },
     ],
     capabilities: [
@@ -29,11 +30,12 @@ const projects: Project[] = [
       'release-synced manifest',
       'generative UI',
     ],
+    replay: true,
     figures: [
-      { label: 'First-attempt correctness', value: '36% → 88%' },
-      { label: 'Inference cost per task', value: '−35–41%' },
-      { label: 'Evaluation', value: '25 tasks · 3 model tiers' },
-      { label: 'Surface area', value: '9 tools · 70+ components' },
+      { label: 'TypeScript pass rate', value: '76% → 100%' },
+      { label: 'Quality score', value: '78% → 97%' },
+      { label: 'Steps per task', value: '12.7 → 5.8' },
+      { label: 'Cost per output', value: '≈ halved' },
     ],
     technologies: [
       'TypeScript',
@@ -234,6 +236,15 @@ function Inset({ project, index }: { project: Project; index: number }) {
         </div>
 
         <div className="lg:col-span-7">
+          {project.replay ? (
+            <div className="mb-6">
+              <SpellbookReplay />
+              <p className="mono-label mt-3 text-ink-muted">
+                A scripted reconstruction of how a run works, not a recorded
+                transcript
+              </p>
+            </div>
+          ) : null}
           {!project.images?.length && project.figures ? (
             <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-line bg-line">
               {project.figures.map((figure) => (

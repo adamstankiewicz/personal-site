@@ -195,7 +195,15 @@ function WipeCard() {
 /*  04 — Grain, seven ways                                             */
 /* ------------------------------------------------------------------ */
 
-const SHAPES = ["wave", "dots", "ripple", "sphere"] as const;
+const SHAPES = [
+  "wave",
+  "dots",
+  "truchet",
+  "corners",
+  "ripple",
+  "blob",
+  "sphere",
+] as const;
 type Shape = (typeof SHAPES)[number];
 
 function GrainField() {
@@ -219,7 +227,7 @@ function GrainField() {
         noise={0.3}
         speed={reduced ? 0 : 0.5}
       />
-      <div className="absolute bottom-3 left-3 flex gap-1.5">
+      <div className="absolute bottom-3 left-3 right-3 flex flex-wrap gap-1.5">
         {SHAPES.map((s) => (
           <button
             key={s}
