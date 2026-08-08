@@ -1,51 +1,36 @@
 import { About } from "@/components/about/about";
-import { CompassRose } from "@/components/compass-rose";
-import { TerrainPlate } from "@/components/terrain-plate";
 import { Experience } from "@/components/experience";
 import { Projects } from "@/components/projects";
 import { Research } from "@/components/research";
 
 function TitleBlock() {
   return (
-    <section className="pt-14 sm:pt-20" aria-label="Introduction">
-      <div className="rise rise-1 border-2 border-line-strong">
-        {/* Edition strip */}
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line px-5 py-2.5 sm:px-8">
-          <p className="mono-label text-ink-muted">
-            Personal site · 2026 edition
-          </p>
-          <p className="mono-label text-ink-muted">
-            Merrimack, New Hampshire
-          </p>
-        </div>
+    <section className="pt-20 sm:pt-28" aria-label="Introduction">
+      <div aria-hidden="true" className="rise rise-1 h-0.5 w-10 bg-accent" />
+      <p className="rise rise-1 mono-label mt-6 text-ink-muted">
+        Product engineering · Design systems · Accessibility
+      </p>
+      <h1 className="rise rise-2 display-title mt-6 text-[clamp(3.25rem,10vw,7.5rem)]">
+        Adam
+        <br />
+        Stankiewicz
+      </h1>
+      <p className="rise rise-3 mt-8 max-w-2xl text-[1.1875rem] leading-[1.6] text-ink-muted sm:text-[1.3125rem]">
+        I build the product, and the system underneath it. Currently at{" "}
+        <a
+          href="https://magicschool.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link"
+        >
+          MagicSchool AI
+        </a>
+        : tech lead on a product squad, steward of the Spellbook design
+        system.
+      </p>
 
-        {/* Name + compass */}
-        <div className="flex flex-wrap items-center justify-between gap-8 px-5 py-8 sm:px-8 sm:py-10">
-          <div className="min-w-0">
-            <h1 className="rise rise-2 display-title text-[clamp(2.5rem,8vw,5.5rem)]">
-              Adam
-              <br />
-              Stankiewicz
-            </h1>
-            <p className="rise rise-3 condensed-caps mt-5 text-[0.9375rem] text-ink-muted">
-              Product engineering & design systems at MagicSchool AI
-            </p>
-            <p className="rise rise-3 mt-4 max-w-xl text-[1rem] leading-[1.65] text-ink-muted">
-              I build the product, and the system underneath it.
-            </p>
-          </div>
-          <div className="rise rise-3 shrink-0">
-            <CompassRose />
-          </div>
-        </div>
-
-      </div>
-
-      {/* A real view from the left seat, treated as part of the chart */}
-      <TerrainPlate />
-
-      {/* Flight-data strip */}
-      <dl className="mt-10 grid gap-x-8 gap-y-6 pb-20 sm:grid-cols-2 sm:pb-24 lg:grid-cols-4">
+      {/* Facts strip */}
+      <dl className="rise rise-4 mt-14 grid gap-x-8 gap-y-6 border-t border-line pb-20 pt-8 sm:grid-cols-2 sm:pb-24 lg:grid-cols-4">
         <div>
           <dt className="mono-label text-ink-muted">Focus</dt>
           <dd className="mt-2 text-[0.9375rem]">

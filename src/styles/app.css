@@ -679,38 +679,6 @@ html.barrel-roll body {
   letter-spacing: -0.01em;
 }
 
-.terrain-plate {
-  position: relative;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.terrain-plate img {
-  display: block;
-  width: 100%;
-  height: clamp(280px, 44vw, 460px);
-  object-fit: cover;
-}
-
-.terrain-plate-course,
-.crosshair-h,
-.crosshair-v,
-.crosshair-chip,
-.panel-stamp {
-  display: none;
-}
-
-.terrain-plate-caption {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 3;
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter: blur(6px);
-  padding: 0.5rem 0.875rem;
-  border-top-right-radius: var(--radius-sm);
-}
-
 .photo-plate {
   border-radius: var(--radius-md);
   overflow: hidden;
