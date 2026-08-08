@@ -1,6 +1,5 @@
 import { About } from "@/components/about/about";
 import { CompassRose } from "@/components/compass-rose";
-import { RouteStrip } from "@/components/route-strip";
 import { TerrainPlate } from "@/components/terrain-plate";
 import { Experience } from "@/components/experience";
 import { Projects } from "@/components/projects";
@@ -40,10 +39,6 @@ function TitleBlock() {
           </div>
         </div>
 
-        {/* The route so far, 2010 to now — each stop jumps to its details */}
-        <div className="rise rise-4 border-t border-line">
-          <RouteStrip />
-        </div>
       </div>
 
       {/* A real view from the left seat, treated as part of the chart */}
