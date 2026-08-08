@@ -63,7 +63,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
-  const [allowMotion, setAllowMotion] = useState(false);
 
   const commands = useMemo<Command[]>(
     () => [
@@ -81,21 +80,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         hint: "light / dark",
         run: toggleTheme,
       },
-      ...(allowMotion
-        ? [
-            {
-              id: "barrel-roll",
-              label: "Do a barrel roll",
-              group: "Actions" as const,
-              hint: "360°",
-              run: () => {
-                const root = document.documentElement;
-                root.classList.add("barrel-roll");
-                setTimeout(() => root.classList.remove("barrel-roll"), 950);
-              },
-            },
-          ]
-        : []),
       {
         id: "resume",
         label: "Download résumé",
@@ -158,10 +142,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    setAllowMotion(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
 
   // Track the section in view: the nav and the progress rail follow it.

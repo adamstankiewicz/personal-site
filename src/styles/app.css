@@ -650,20 +650,3 @@ kbd.key-hint {
   }
 }
 
-/* ------------------------------------------------------------------ */
-/*  Barrel roll — invoked from the command menu, once around           */
-/* ------------------------------------------------------------------ */
-
-@keyframes barrel-roll {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-html.barrel-roll body {
-  animation: barrel-roll 900ms var(--ease-spring);
-}
-
