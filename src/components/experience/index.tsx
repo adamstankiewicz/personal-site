@@ -12,7 +12,7 @@ const experiences: ExperienceItemProps[] = [
       positions: [
         { title: "Senior Design Systems Engineer", period: "2025 — Present" }
       ],
-      description: "I lead design systems and accessibility work on Spellbook, the React design system behind MagicSchool's AI platform for K-12 educators — used by roughly 8 million people across 36,000 schools. I designed and built the Spellbook MCP server so AI coding agents build with real components instead of inventing them, raising first-attempt component correctness from 36% to 88% in a controlled evaluation. I rebuilt the token layer on a DTCG pipeline with CI drift gates, led the accessibility remediation behind the company's first VPAT, and serve as tech lead for a product squad that delivered five projects from ideation through rollout in a single quarter.",
+      description: "Tech lead on a product squad and steward of Spellbook, the design system behind an AI platform for K-12 educators serving ~8M people across 36,000 schools. Built the Spellbook MCP server so AI agents build with real components, rebuilt the token layer on DTCG, and led the accessibility work behind the company's first VPAT.",
       technologies: [
         'TypeScript', 'React', 'Next.js', 'Node.js', 'MCP',
         'DTCG Design Tokens', 'Tailwind', 'Playwright', 'axe-core',
@@ -29,7 +29,7 @@ const experiences: ExperienceItemProps[] = [
         { title: "Senior Software Engineer I", period: "2020 — 2022" },
         { title: "Software Engineer II", period: "2018 — 2020" }
       ],
-      description: "I led Paragon, an open-source design system and React component library adopted across 40+ Open edX projects with 5.9M+ npm downloads — the UI foundation for a platform reaching over 100 million learners. I architected its design-token system on Style Dictionary, directed its documentation platform (500+ monthly actives), and led its internationalization initiative as design authority. As an early engineer on edX for Business, I architected the React SPAs and Django REST APIs underpinning enterprise partnerships worth ~$15M in annual revenue, and served as primary point of contact for Paragon support across 2U and the Open edX community.",
+      description: "Led Paragon, the open-source design system behind 40+ Open edX projects (5.9M+ npm downloads, 100M+ learners): token architecture, docs platform, internationalization. In parallel, early engineer on edX for Business — React SPAs and Django REST APIs underpinning ~$15M in annual revenue.",
       technologies: [
         'JavaScript', 'TypeScript', 'React', 'Style Dictionary',
         'React Query', 'React Router', 'Sass', 'Webpack',

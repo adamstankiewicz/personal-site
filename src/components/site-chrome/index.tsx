@@ -31,11 +31,6 @@ function toggleTheme() {
   } catch {}
 }
 
-function toggleInspect() {
-  const root = document.documentElement;
-  root.dataset.inspect = root.dataset.inspect === "true" ? "false" : "true";
-}
-
 function ThemeToggle() {
   return (
     <button
@@ -85,13 +80,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         group: "Actions",
         hint: "light / dark",
         run: toggleTheme,
-      },
-      {
-        id: "inspect",
-        label: "Toggle inspect mode",
-        group: "Actions",
-        hint: "i",
-        run: toggleInspect,
       },
       {
         id: "grid",
@@ -145,7 +133,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     []
   );
 
-  // Global keyboard: ⌘K command menu, "g" grid, "i" inspect.
+  // Global keyboard: ⌘K command menu, "g" grid.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -157,7 +145,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       const target = e.target as HTMLElement | null;
       if (target && /^(input|textarea|select)$/i.test(target.tagName)) return;
       if (e.key === "g") setGridVisible((v) => !v);
-      if (e.key === "i") toggleInspect();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -263,8 +250,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               <p className="mono-label text-ink-muted">© {new Date().getFullYear()}</p>
               <p className="mono-label mt-3 text-ink-muted">
                 <kbd className="key-hint">⌘K</kbd> commands ·{" "}
-                <kbd className="key-hint">G</kbd> grid ·{" "}
-                <kbd className="key-hint">I</kbd> inspect
+                <kbd className="key-hint">G</kbd> grid
               </p>
               <p className="mono-label mt-3 text-ink-muted">
                 Written in Merrimack, NH · 42.86°N 71.49°W · clear skies

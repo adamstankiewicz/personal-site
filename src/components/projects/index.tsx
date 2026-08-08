@@ -4,7 +4,7 @@ import { Project } from "./types";
 const projects: Project[] = [
   {
     title: 'Spellbook MCP Server',
-    description: "Designed and built the MCP server for Spellbook, MagicSchool's design system, so AI coding agents implement UI against real component APIs instead of inventing them — and designers can verify resolved token values before handoff. Nine tools over 70+ React component specifications, resolved design tokens, icon catalogs, and curated examples, backed by a compiler-backed validator that type-checks agent-generated JSX against the real component APIs. Measured with a controlled evaluation across 25 production UI tasks and three model tiers before rollout.",
+    description: "An MCP server that lets AI coding agents build UI against Spellbook's real component APIs instead of inventing markup, with a compiler-backed validator type-checking every generated line.",
     figures: [
       { label: 'First-attempt correctness', value: '36% → 88%' },
       { label: 'Inference cost per task', value: '−35–41%' },
@@ -22,7 +22,7 @@ const projects: Project[] = [
   },
   {
     title: 'Paragon, Design System & Component Library',
-    description: 'Developed and maintained Paragon, an open-source design system and React component library providing the UI foundation for the Open edX learning platform, empowering product teams to build consistent and accessible user interfaces.',
+    description: 'The open-source design system and React component library underneath the Open edX platform: tokens, components, docs, and the tooling that keeps 40+ consuming projects consistent and accessible.',
     href: 'https://paragon-openedx-v22.netlify.app',
     githubUrl: 'https://github.com/openedx/paragon',
     images: [
@@ -63,7 +63,7 @@ const projects: Project[] = [
   },
   {
     title: 'edX Enterprise',
-    description: 'Led the frontend architecture for the enterprise platform at edX, providing comprehensive solutions for both learners and administrators. The platform supports user onboarding, content discovery, course enrollment, and administrative management for enterprise customers.',
+    description: 'The enterprise learning platform at edX, built 0 → 1: onboarding, discovery, enrollment, and administration for corporate customers — frontend architecture and REST APIs alike.',
     href: 'https://business.edx.org',
     images: [
       {
@@ -184,11 +184,11 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
 
         <div className="lg:col-span-7">
           {!cover && project.figures ? (
-            <dl className="grid grid-cols-2 border-t border-l border-line">
+            <dl className="grid grid-cols-2 gap-px overflow-hidden bg-paper-raised">
               {project.figures.map((figure) => (
                 <div
                   key={figure.label}
-                  className="border-b border-r border-line bg-paper-raised p-6 sm:p-8"
+                  className="bg-paper-raised p-6 sm:p-8"
                 >
                   <dt className="mono-label text-ink-muted">{figure.label}</dt>
                   <dd className="mt-4 font-serif text-2xl font-light tabular-nums tracking-tight text-ink sm:text-3xl">
@@ -204,7 +204,7 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${project.title} (opens live site)`}
-              className="group block overflow-hidden border border-line bg-paper-raised"
+              className="group plate block overflow-hidden bg-paper-raised"
             >
               <img
                 src={cover.src}
@@ -222,7 +222,7 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
               {thumbnails.map((image) => (
                 <div
                   key={image.src}
-                  className="overflow-hidden border border-line bg-paper-raised"
+                  className="plate overflow-hidden bg-paper-raised"
                 >
                   <img
                     src={image.src}

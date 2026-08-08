@@ -57,16 +57,14 @@ export function Research() {
         annotation="HCI · peer-reviewed"
       />
       <p className="mt-8 max-w-2xl text-[1rem] leading-[1.7] text-ink-muted">
-        Before industry, I studied how people learn together at scale —
-        anchored discussion inside video lectures, conversational dynamics and
-        distributed mentorship in massive online classes, and how end-user
-        programmers seek help.
+        Before industry: how people learn together at scale, published in ACM
+        venues.
       </p>
-      <ol className="mt-8 border-t border-line">
+      <ol className="mt-10 space-y-8">
         {publications.map((publication, index) => (
           <li
             key={publication.title}
-            className="grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 border-b border-line py-5 sm:grid-cols-[2.5rem_1fr_10rem]"
+            className="grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 sm:grid-cols-[2.5rem_1fr_10rem]"
           >
             <span className="mono-label text-ink-muted">
               {String(index + 1).padStart(2, "0")}
@@ -100,7 +98,7 @@ export function Research() {
         href="https://scholar.google.com/citations?user=lJSHz8QAAAAJ"
         target="_blank"
         rel="noopener noreferrer"
-        className="mono-link mt-6 inline-block"
+        className="mono-link mt-10 inline-block"
       >
         Full list on Google Scholar ↗
       </a>
