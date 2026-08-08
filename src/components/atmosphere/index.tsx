@@ -60,7 +60,7 @@ export function Atmosphere({ flip = false }: { flip?: boolean }) {
 
     const tick = () => {
       raf = null;
-      energy *= 0.94;
+      energy *= 0.955;
       if (energy < 0.002) energy = 0;
       smoothed += (energy - smoothed) * (energy > smoothed ? 0.16 : 0.08);
       if (energy === 0 && smoothed < 0.004) smoothed = 0;
@@ -77,7 +77,7 @@ export function Atmosphere({ flip = false }: { flip?: boolean }) {
         const dt = Math.max(1, now - last.t);
         const velocity =
           Math.hypot(e.clientX - last.x, e.clientY - last.y) / dt;
-        energy = Math.min(1, energy + velocity * 0.045);
+        energy = Math.min(1, energy + velocity * 0.04);
       }
       last = { x: e.clientX, y: e.clientY, t: now };
       if (raf === null) raf = requestAnimationFrame(tick);
@@ -107,11 +107,11 @@ export function Atmosphere({ flip = false }: { flip?: boolean }) {
       <MeshGradient
         style={{ width: "100%", height: "100%" }}
         colors={dark ? DARK : LIGHT}
-        distortion={0.7 + stir * 0.45}
+        distortion={0.7 + stir * 0.4}
         swirl={0.4 + stir * 0.3}
-        grainMixer={0.12}
+        grainMixer={0.12 + stir * 0.08}
         grainOverlay={0}
-        speed={reducedMotion ? 0 : 0.45 + stir * 0.55}
+        speed={reducedMotion ? 0 : 0.45 + stir * 0.65}
       />
     </div>
   );
