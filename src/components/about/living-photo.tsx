@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { PaperTexture } from "@paper-design/shaders-react";
 
 /**
- * An honest photo with a print-texture spotlight: the paper grain
- * only exists in a soft radius that trails the cursor, easing after
- * it and fading out on leave. The image itself never distorts.
- * Plain image on the server, on touch screens, and under reduced
- * motion.
+ * An honest photo handled like a print: it tilts a few degrees
+ * toward the cursor while a broad, faint pool of light drifts across
+ * it, the way a glossy photo catches a lamp when you tilt it in
+ * hand. Pure CSS driven by eased custom properties — no WebGL, no
+ * distortion. Everything settles flat when the pointer leaves.
+ * Inert on touch screens and under reduced motion.
  */
 export function PrintPhoto({
   src,
@@ -39,12 +39,15 @@ export function PrintPhoto({
 
   const tick = () => {
     const p = pos.current;
-    p.x += (p.tx - p.x) * 0.14;
-    p.y += (p.ty - p.y) * 0.14;
+    p.x += (p.tx - p.x) * 0.1;
+    p.y += (p.ty - p.y) * 0.1;
     const el = wrapRef.current;
     if (el) {
       el.style.setProperty("--mx", `${p.x}%`);
       el.style.setProperty("--my", `${p.y}%`);
+      // Tilt toward the cursor, strongest at the edges, ±2.5° max.
+      el.style.setProperty("--rx", `${((50 - p.y) / 50) * 2.5}deg`);
+      el.style.setProperty("--ry", `${((p.x - 50) / 50) * 2.5}deg`);
     }
     const settled = Math.hypot(p.tx - p.x, p.ty - p.y) < 0.15;
     rafRef.current =
@@ -59,6 +62,14 @@ export function PrintPhoto({
     if (rafRef.current === null) rafRef.current = requestAnimationFrame(tick);
   };
 
+  const onPointerLeave = () => {
+    hovering.current = false;
+    // Ease back to flat; the loop keeps running until settled.
+    pos.current.tx = 50;
+    pos.current.ty = 50;
+    if (rafRef.current === null) rafRef.current = requestAnimationFrame(tick);
+  };
+
   return (
     <div
       ref={wrapRef}
@@ -66,32 +77,10 @@ export function PrintPhoto({
       style={{ aspectRatio: `${width} / ${height}` }}
       onPointerEnter={active ? () => (hovering.current = true) : undefined}
       onPointerMove={active ? onPointerMove : undefined}
-      onPointerLeave={active ? () => (hovering.current = false) : undefined}
+      onPointerLeave={active ? onPointerLeave : undefined}
     >
       <img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
-      {active ? (
-        <div className="print-texture" aria-hidden="true">
-          <PaperTexture
-            style={{ width: "100%", height: "100%" }}
-            image={src}
-            fit="cover"
-            scale={1}
-            colorFront="#ffffff"
-            colorBack="#ffffff"
-            contrast={0.15}
-            roughness={0.5}
-            fiber={0.32}
-            fiberSize={0.25}
-            crumples={0}
-            crumpleSize={0.3}
-            folds={0}
-            foldCount={1}
-            fade={0}
-            drops={0.15}
-            speed={0}
-          />
-        </div>
-      ) : null}
+      {active ? <div className="photo-sheen" aria-hidden="true" /> : null}
     </div>
   );
 }

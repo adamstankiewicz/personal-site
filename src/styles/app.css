@@ -374,28 +374,31 @@ p {
   height: auto;
 }
 
-/* Print-texture spotlight: the grain layer exists only in a soft
-   radius around the cursor (CSS-var-driven mask, eased in JS), and
-   fades away entirely when the pointer leaves. */
-.print-texture {
+/* Held like a print: subtle 3D tilt toward the cursor, eased in JS
+   through custom properties, settling flat on leave. */
+.print-photo {
+  transform: perspective(56rem) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  will-change: transform;
+}
+
+/* Sheen: a broad, faint pool of light that drifts after the cursor,
+   like a glossy print catching a lamp. Soft-light keeps contrast
+   honest; the whole layer fades away when the pointer leaves. */
+.photo-sheen {
   position: absolute;
   inset: 0;
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--dur-open) var(--ease-out);
-  mask-image: radial-gradient(
-    11rem circle at var(--mx, 50%) var(--my, 50%),
-    black 30%,
-    transparent 72%
+  transition: opacity var(--dur-slow) var(--ease-out);
+  background: radial-gradient(
+    130% 130% at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0) 62%
   );
-  -webkit-mask-image: radial-gradient(
-    11rem circle at var(--mx, 50%) var(--my, 50%),
-    black 30%,
-    transparent 72%
-  );
+  mix-blend-mode: soft-light;
 }
 
-.print-photo:hover .print-texture {
+.print-photo:hover .photo-sheen {
   opacity: 1;
 }
 
@@ -424,12 +427,6 @@ p {
   grid-template-rows: 1fr;
 }
 
-/* Scroll-triggered opens swap instantly (scroll-linked changes should
-   track the scroll, not animate on their own); clicks keep the ease. */
-.route[data-instant] .ledger-row-body,
-.route[data-instant] .ledger-row-body > div > div {
-  transition: none;
-}
 
 .ledger-row-body > div {
   overflow: hidden;

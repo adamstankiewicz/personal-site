@@ -295,11 +295,13 @@ function Waypoint({
 export function Experience() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const routeRef = useRef<HTMLDivElement>(null);
-  // Scroll-triggered opens swap instantly and keep the arrived row's
-  // header pinned in the viewport. Without this, collapsing a tall row
-  // above the handle pulls the page up underneath it and the arrival
-  // cascades straight past short rows.
+  // Scroll-triggered opens animate normally, but the arrived row's
+  // header is pinned to its viewport position on every frame of the
+  // transition. Without the pinning, collapsing a tall row above the
+  // handle pulls the page up underneath it and the arrival cascades
+  // straight past short rows.
   const autoOpenRef = useRef<{ index: number; top: number } | null>(null);
+  const anchorRafRef = useRef<number | null>(null);
 
   const listed = experiences.filter((experience) => experience.company);
   const footnote = experiences.find((experience) => !experience.company);
@@ -309,12 +311,15 @@ export function Experience() {
       routeRef.current?.querySelectorAll<HTMLElement>(".ledger-row")[index];
     if (row) {
       autoOpenRef.current = { index, top: row.getBoundingClientRect().top };
-      routeRef.current?.setAttribute("data-instant", "");
     }
     setOpenIndex(index);
   };
 
   useLayoutEffect(() => {
+    if (anchorRafRef.current !== null) {
+      cancelAnimationFrame(anchorRafRef.current);
+      anchorRafRef.current = null;
+    }
     const pending = autoOpenRef.current;
     if (!pending) return;
     autoOpenRef.current = null;
@@ -322,16 +327,29 @@ export function Experience() {
       routeRef.current?.querySelectorAll<HTMLElement>(".ledger-row")[
         pending.index
       ];
-    if (row) {
+    if (!row) return;
+
+    // Pin the header through the open/close animation (~410ms of
+    // grid transition plus content follow-through), then let go.
+    const until = performance.now() + 500;
+    const anchor = () => {
       const delta = row.getBoundingClientRect().top - pending.top;
-      if (delta !== 0) {
+      if (Math.abs(delta) > 0.5) {
         window.scrollBy({ top: delta, behavior: "instant" as ScrollBehavior });
       }
-    }
-    requestAnimationFrame(() => {
-      routeRef.current?.removeAttribute("data-instant");
-    });
+      anchorRafRef.current =
+        performance.now() < until ? requestAnimationFrame(anchor) : null;
+    };
+    anchor();
   }, [openIndex]);
+
+  useEffect(() => {
+    return () => {
+      if (anchorRafRef.current !== null) {
+        cancelAnimationFrame(anchorRafRef.current);
+      }
+    };
+  }, []);
 
   return (
     <section id="route" className="scroll-mt-16 pb-24 sm:pb-32">
