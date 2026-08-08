@@ -61,7 +61,7 @@ export const projects: Project[] = [
     ],
     images: [
       {
-        src: '/images/projects/chat-shell-poster.jpg',
+        src: '/images/projects/chat-shell-poster.webp',
         videoSrc: '/videos/chat-shell.mp4',
         alt: 'The homepage-to-chat handoff, carried by view transitions',
         width: 960,

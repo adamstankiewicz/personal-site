@@ -58,10 +58,10 @@ export function About() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         <figure>
           <PrintPhoto
-            src="/images/flying/winnipesaukee.jpg"
+            src="/images/flying/winnipesaukee.webp"
             alt="Aerial view from a small plane over Lake Winnipesaukee, New Hampshire, in fall, the wing strut in frame, foliage and a runway below"
-            width={2400}
-            height={1800}
+            width={1400}
+            height={1050}
           />
           <figcaption className="mono-label mt-3 text-ink-muted">
             Lake Winnipesaukee, from the left seat
@@ -69,7 +69,7 @@ export function About() {
         </figure>
         <figure>
           <PrintPhoto
-            src="/images/flying/monadnock.jpg"
+            src="/images/flying/monadnock.webp"
             alt="View from a small plane of Mount Monadnock under late-day clouds, the wing strut crossing the frame"
             width={1400}
             height={1050}
