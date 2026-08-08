@@ -54,11 +54,24 @@ async function count(query) {
   return data.total_count;
 }
 
-// Reuse a fresh bake (< 24h) so dev restarts don't hammer the API.
+function readFloor() {
+  try {
+    return JSON.parse(readFileSync(FLOOR, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+// Reuse a fresh bake (< 24h) so dev restarts don't hammer the API —
+// still merged against the floor, in case a pull raised it since.
 try {
   const existing = JSON.parse(readFileSync(OUTPUT, "utf8"));
   const ageMs = Date.now() - statSync(OUTPUT).mtimeMs;
   if (existing.scope === "all" && existing.years?.length && ageMs < 86_400_000) {
+    const remerged = mergeStats(existing, readFloor());
+    if (JSON.stringify(remerged) !== JSON.stringify(existing)) {
+      writeFileSync(OUTPUT, `${JSON.stringify(remerged, null, 2)}\n`);
+    }
     console.log(`Reusing ${OUTPUT} (${Math.round(ageMs / 3_600_000)}h old)`);
     process.exit(0);
   }
@@ -92,10 +105,7 @@ if (token) {
   console.log("gh-stats: no GH_STATS_TOKEN — footer will use client fallback");
 }
 
-let floor = null;
-try {
-  floor = JSON.parse(readFileSync(FLOOR, "utf8"));
-} catch {}
+const floor = readFloor();
 const merged = mergeStats(stats, floor);
 
 mkdirSync(outDir, { recursive: true });

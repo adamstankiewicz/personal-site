@@ -269,6 +269,7 @@ function GrainField() {
             type="button"
             onMedia
             active={shape === s}
+            aria-pressed={shape === s}
             onClick={() => setShape(s)}
           >
             {s}

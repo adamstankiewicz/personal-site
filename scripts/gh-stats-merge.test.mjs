@@ -81,3 +81,23 @@ test("both empty stays empty", () => {
   assert.equal(merged.opened, null);
   assert.equal(merged.scope, null);
 });
+
+test("fresh full-scope bake makes scope sticky over a null floor", () => {
+  const merged = mergeStats(
+    { opened: 10, reviewed: 5, scope: "all", years: [{ y: 2025, opened: 10 }] },
+    { opened: null, reviewed: null, scope: null, years: [] }
+  );
+  assert.equal(merged.scope, "all");
+  assert.equal(merged.opened, 10);
+});
+
+test("a floor year of zero survives as zero, not null", () => {
+  const merged = mergeStats(
+    { opened: 5, reviewed: 2, scope: "all", years: [{ y: 2025, opened: 5 }] },
+    { opened: 3, reviewed: 1, scope: "all", years: [{ y: 2010, opened: 0 }] }
+  );
+  assert.deepEqual(merged.years, [
+    { y: 2010, opened: 0 },
+    { y: 2025, opened: 5 },
+  ]);
+});

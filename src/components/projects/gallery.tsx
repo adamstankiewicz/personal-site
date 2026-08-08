@@ -313,7 +313,16 @@ export function Gallery({
               <span className="flex shrink-0 items-baseline gap-2">
                 {images.length > 1 ? (
                   <>
-                    <span className="mono-label tabular-nums text-ink-muted">
+                    {/* Same split as the strip counter: arrow-key moves
+                        announce the plain string; the morph stays
+                        presentation only. */}
+                    <span className="sr-only" aria-live="polite">
+                      {`Screenshot ${(modalIndex ?? 0) + 1} of ${images.length}`}
+                    </span>
+                    <span
+                      className="mono-label tabular-nums text-ink-muted"
+                      aria-hidden="true"
+                    >
                       <TextMorph as="span">{`${(modalIndex ?? 0) + 1} / ${images.length}`}</TextMorph>
                     </span>
                     <button

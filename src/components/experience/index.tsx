@@ -11,7 +11,10 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
   const flyerRef = useRef<HTMLDivElement>(null);
   const onArriveRef = useRef(onArrive);
 
-  useEffect(() => {
+  // Layout effect, not passive: the flyer's rAF loop can fire between
+  // paint and passive-effect flush, and an arrival dispatched into last
+  // render's closure would compare against a stale openIndex.
+  useLayoutEffect(() => {
     onArriveRef.current = onArrive;
   });
 
@@ -315,8 +318,13 @@ export function Experience() {
     if (!pending) return;
     autoOpenRef.current = null;
     const route = routeRef.current;
+    // A pending entry for anything but the row that actually opened is
+    // stale (a race left it behind); discard it but still lift the
+    // attribute below so collapses don't stay permanently instant.
     const row =
-      route?.querySelectorAll<HTMLElement>(".ledger-row")[pending.index];
+      pending.index === openIndex
+        ? route?.querySelectorAll<HTMLElement>(".ledger-row")[pending.index]
+        : undefined;
     if (row) {
       const delta = row.getBoundingClientRect().top - pending.top;
       if (delta !== 0) {

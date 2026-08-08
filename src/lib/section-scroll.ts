@@ -8,6 +8,11 @@
 // listeners so a stale timeout can't drop the flag mid-flight.
 let cancelPending: (() => void) | null = null;
 
+// Gestures that mean the visitor has taken over mid-journey; their
+// takeover cancels the journey outright, so no late nav-scroll-end
+// fires for a destination they abandoned.
+const INTERRUPTS = ["wheel", "touchstart", "keydown"] as const;
+
 export function scrollToSection(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -18,11 +23,12 @@ export function scrollToSection(id: string) {
   const finish = (cancelled: boolean) => {
     delete root.dataset.navScrolling;
     window.removeEventListener("scrollend", onScrollEnd);
+    INTERRUPTS.forEach((type) => window.removeEventListener(type, cancel));
     if (timer) clearTimeout(timer);
     if (cancelPending === cancel) cancelPending = null;
     // Scroll-driven behaviors can react to where the journey ended —
-    // but a journey superseded by a newer one never "ended" anywhere,
-    // so it stays silent.
+    // but a journey superseded by a newer one, or taken over by the
+    // visitor's own gesture, never "ended" anywhere, so it stays silent.
     if (!cancelled) {
       window.dispatchEvent(new CustomEvent("nav-scroll-end", { detail: id }));
     }
@@ -32,6 +38,9 @@ export function scrollToSection(id: string) {
   cancelPending = cancel;
   // scrollend covers browsers that ship it; the timeout covers the rest.
   window.addEventListener("scrollend", onScrollEnd, { once: true });
+  INTERRUPTS.forEach((type) =>
+    window.addEventListener(type, cancel, { passive: true })
+  );
   timer = setTimeout(onScrollEnd, 1600);
   el.scrollIntoView({ behavior: "smooth" });
 }

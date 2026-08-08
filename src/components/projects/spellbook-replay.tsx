@@ -279,7 +279,15 @@ export function SpellbookReplay() {
 
       <div className="flex items-baseline justify-between gap-4 border-t border-line px-4 py-2.5">
         <span className="flex items-baseline gap-4">
-          <span className="mono-label tabular-nums text-ink-muted">
+          {/* Not live (autoplay would announce every second); the plain
+              string keeps manual reading clean of mid-morph characters. */}
+          <span className="sr-only">
+            {`Step ${Math.min(shown, TOTAL)} of ${TOTAL}`}
+          </span>
+          <span
+            className="mono-label tabular-nums text-ink-muted"
+            aria-hidden="true"
+          >
             <TextMorph as="span">{`step ${Math.min(shown, TOTAL)} / ${TOTAL}`}</TextMorph>
           </span>
           {shown > 1 && !done ? (
