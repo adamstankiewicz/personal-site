@@ -404,6 +404,13 @@ p {
   grid-template-rows: 1fr;
 }
 
+/* Scroll-triggered opens swap instantly (scroll-linked changes should
+   track the scroll, not animate on their own); clicks keep the ease. */
+.route[data-instant] .ledger-row-body,
+.route[data-instant] .ledger-row-body > div > div {
+  transition: none;
+}
+
 .ledger-row-body > div {
   overflow: hidden;
 }

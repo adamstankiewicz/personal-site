@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SectionHeader } from "@/components/section-header";
 import { ExperienceItemProps } from "./types";
 
@@ -294,16 +294,51 @@ function Waypoint({
 
 export function Experience() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const routeRef = useRef<HTMLDivElement>(null);
+  // Scroll-triggered opens swap instantly and keep the arrived row's
+  // header pinned in the viewport. Without this, collapsing a tall row
+  // above the handle pulls the page up underneath it and the arrival
+  // cascades straight past short rows.
+  const autoOpenRef = useRef<{ index: number; top: number } | null>(null);
 
   const listed = experiences.filter((experience) => experience.company);
   const footnote = experiences.find((experience) => !experience.company);
 
+  const handleArrive = (index: number) => {
+    const row =
+      routeRef.current?.querySelectorAll<HTMLElement>(".ledger-row")[index];
+    if (row) {
+      autoOpenRef.current = { index, top: row.getBoundingClientRect().top };
+      routeRef.current?.setAttribute("data-instant", "");
+    }
+    setOpenIndex(index);
+  };
+
+  useLayoutEffect(() => {
+    const pending = autoOpenRef.current;
+    if (!pending) return;
+    autoOpenRef.current = null;
+    const row =
+      routeRef.current?.querySelectorAll<HTMLElement>(".ledger-row")[
+        pending.index
+      ];
+    if (row) {
+      const delta = row.getBoundingClientRect().top - pending.top;
+      if (delta !== 0) {
+        window.scrollBy({ top: delta, behavior: "instant" as ScrollBehavior });
+      }
+    }
+    requestAnimationFrame(() => {
+      routeRef.current?.removeAttribute("data-instant");
+    });
+  }, [openIndex]);
+
   return (
     <section id="route" className="scroll-mt-16 pb-24 sm:pb-32">
       <SectionHeader number="02" title="Experience" annotation="2010–Present" />
-      <div className="route mt-10">
+      <div ref={routeRef} className="route mt-10">
         <div className="route-line" aria-hidden="true" />
-        <RouteFlyer onArrive={setOpenIndex} />
+        <RouteFlyer onArrive={handleArrive} />
         <ol className="space-y-8">
           {listed.map((experience, index) => (
             <Waypoint

@@ -43,9 +43,9 @@ export function About() {
           <div className="border-l border-line pl-6">
             <p className="mono-label text-ink-muted">Off hours</p>
             <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">
-              Usually hiking with my Australian Cattle Dog (Duke), flying my
-              Cessna 172 around New England, or reminiscing about my days on
-              the U.S. Boomerang Team.
+              Hiking with my Australian Cattle Dog, Duke, or flying my
+              Cessna 172 around New England. Formerly of the U.S. Boomerang
+              Team.
             </p>
             <figure className="mt-6">
               <div className="photo">
