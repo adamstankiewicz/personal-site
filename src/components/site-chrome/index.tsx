@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CommandMenu, type Command } from "@/components/command-menu";
 import { ProgressRail } from "@/components/progress-rail";
 import { prefersReducedMotion, useHighContrast } from "@/lib/hooks";
+import { cycleTheme, useThemeMode } from "@/lib/theme";
 import { scrollToSection } from "@/lib/section-scroll";
 import { GitHubStats, LocalTime } from "./footer-meta";
 import buildInfo from "@/generated/build-info.json";
@@ -28,13 +29,6 @@ const TOKENS = [
   { name: "accent", varName: "--accent" },
 ];
 
-function applyTheme() {
-  const dark = document.documentElement.classList.toggle("dark");
-  try {
-    localStorage.setItem("theme", dark ? "dark" : "light");
-  } catch {}
-}
-
 function applyContrast() {
   const hc = document.documentElement.classList.toggle("hc");
   try {
@@ -52,21 +46,42 @@ function withWipe(apply: () => void) {
   document.startViewTransition(apply);
 }
 
-const toggleTheme = () => withWipe(applyTheme);
+const toggleTheme = () => withWipe(cycleTheme);
 const toggleContrast = () => withWipe(applyContrast);
 
+const MODE_LABEL = { system: "Auto", light: "Light", dark: "Dark" } as const;
+
+/* Font glyphs (◐, ◉) carry different metrics per face; the toggles
+   draw matched SVGs on one viewBox instead, so the pair aligns. */
+function ThemeIcon() {
+  return (
+    <svg viewBox="0 0 12 12" className="mode-icon theme-glyph" aria-hidden="true">
+      <circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" strokeWidth="1.2" />
+      <path d="M6 1 A5 5 0 0 1 6 11 Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function ContrastIcon() {
+  return (
+    <svg viewBox="0 0 12 12" className="mode-icon" aria-hidden="true">
+      <circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" strokeWidth="1.2" />
+      <circle cx="6" cy="6" r="2.4" fill="currentColor" />
+    </svg>
+  );
+}
+
 function ThemeToggle() {
+  const mode = useThemeMode();
   return (
     <button
       type="button"
       onClick={toggleTheme}
       className="mono-link nav-link -my-2 cursor-pointer py-2"
-      aria-label="Toggle color theme"
+      aria-label={`Color theme: ${MODE_LABEL[mode].toLowerCase()}. Cycle theme`}
     >
-      <span className="theme-glyph" aria-hidden="true">
-        ◐
-      </span>
-      <span className="ml-1.5 hidden md:inline">Theme</span>
+      <ThemeIcon />
+      <span className="ml-1.5 hidden md:inline">{MODE_LABEL[mode]}</span>
     </button>
   );
 }
@@ -83,9 +98,7 @@ function ContrastToggle() {
       aria-pressed={hc}
       aria-label="Toggle high contrast"
     >
-      <span className="theme-glyph" aria-hidden="true">
-        ◉
-      </span>
+      <ContrastIcon />
       <span className="ml-1.5 hidden md:inline">Contrast</span>
     </button>
   );
@@ -109,7 +122,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         id: "theme",
         label: "Toggle theme",
         group: "Actions",
-        hint: "light / dark",
+        hint: "auto / light / dark",
         run: toggleTheme,
       },
       {

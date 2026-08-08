@@ -156,6 +156,13 @@ p {
   transform-origin: left;
 }
 
+.mode-icon {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  vertical-align: -0.05em;
+}
+
 .theme-glyph {
   display: inline-block;
   transition: transform var(--dur-open) var(--ease-spring);

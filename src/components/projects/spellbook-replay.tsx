@@ -271,8 +271,22 @@ export function SpellbookReplay() {
       </div>
 
       <div className="flex items-baseline justify-between gap-4 border-t border-line px-4 py-2.5">
-        <span className="mono-label tabular-nums text-ink-muted">
-          <TextMorph as="span">{`step ${Math.min(shown, TOTAL)} / ${TOTAL}`}</TextMorph>
+        <span className="flex items-baseline gap-4">
+          <span className="mono-label tabular-nums text-ink-muted">
+            <TextMorph as="span">{`step ${Math.min(shown, TOTAL)} / ${TOTAL}`}</TextMorph>
+          </span>
+          {shown > 1 && !done ? (
+            <button
+              type="button"
+              className="mono-label cursor-pointer text-ink-muted transition-colors hover:text-accent"
+              onClick={() => {
+                userTookOverRef.current = true;
+                setShown(1);
+              }}
+            >
+              ↺ reset
+            </button>
+          ) : null}
         </span>
         <button
           type="button"
