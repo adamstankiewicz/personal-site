@@ -265,7 +265,7 @@ export function SpellbookReplay() {
             title="With Spellbook MCP"
             steps={MCP_STEPS}
             shown={shown}
-            summary="1 attempt · ~6 steps · pass"
+            summary="1 attempt · ~6 steps · −35–41% cost"
           />
         </div>
       </div>
