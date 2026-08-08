@@ -9,7 +9,7 @@
  */
 
 import { execSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -49,14 +49,37 @@ async function count(query) {
   return data.total_count;
 }
 
-let stats = { opened: null, reviewed: null, scope: null };
+// Reuse a fresh bake (< 24h) so dev restarts don't hammer the API.
+try {
+  const existing = JSON.parse(readFileSync(OUTPUT, "utf8"));
+  const ageMs = Date.now() - statSync(OUTPUT).mtimeMs;
+  if (existing.scope === "all" && existing.years?.length && ageMs < 86_400_000) {
+    console.log(`Reusing ${OUTPUT} (${Math.round(ageMs / 3_600_000)}h old)`);
+    process.exit(0);
+  }
+} catch {}
+
+const FIRST_YEAR = 2010;
+let stats = { opened: null, reviewed: null, scope: null, years: [] };
 if (token) {
   try {
     const [opened, reviewed] = await Promise.all([
       count(`type:pr author:${USER}`),
       count(`type:pr reviewed-by:${USER} -author:${USER}`),
     ]);
-    stats = { opened, reviewed, scope: "all" };
+    // Yearly series, sequential to stay friendly to the search limit.
+    const years = [];
+    const now = new Date().getFullYear();
+    for (let y = FIRST_YEAR; y <= now; y++) {
+      years.push({
+        y,
+        opened: await count(
+          `type:pr author:${USER} created:${y}-01-01..${y}-12-31`
+        ),
+      });
+      await new Promise((r) => setTimeout(r, 150));
+    }
+    stats = { opened, reviewed, scope: "all", years };
   } catch (error) {
     console.warn(`gh-stats: ${error.message} — footer will use client fallback`);
   }

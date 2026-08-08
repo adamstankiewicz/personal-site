@@ -64,11 +64,44 @@ function GitHubStats() {
       : null;
 
   if (!display) return null;
+
+  // Yearly shape, leading empty years trimmed (pre-GitHub-flow work).
+  const allYears = baked ? (bakedGhStats.years ?? []) : [];
+  const firstActive = allYears.findIndex((y) => y.opened > 0);
+  const years = firstActive >= 0 ? allYears.slice(firstActive) : [];
+  const max = Math.max(1, ...years.map((y) => y.opened));
+
   return (
-    <p className="mono-label mt-3 text-ink-muted">
-      {display.opened.toLocaleString()} PRs opened ·{" "}
-      {display.reviewed.toLocaleString()} reviewed · {display.label}
-    </p>
+    <>
+      <p className="mono-label mt-3 text-ink-muted">
+        {display.opened.toLocaleString()} PRs opened ·{" "}
+        {display.reviewed.toLocaleString()} reviewed · {display.label}
+      </p>
+      {years.length > 1 ? (
+        <svg
+          width={years.length * 8 - 3}
+          height={16}
+          className="mt-2 inline-block"
+          role="img"
+          aria-label={`Pull requests opened per year, ${years[0].y} through ${years[years.length - 1].y}`}
+        >
+          {years.map((d, i) => {
+            const h = Math.max(1.5, (d.opened / max) * 16);
+            return (
+              <rect
+                key={d.y}
+                x={i * 8}
+                y={16 - h}
+                width={5}
+                height={h}
+                rx={1}
+                className="fill-accent"
+              />
+            );
+          })}
+        </svg>
+      ) : null}
+    </>
   );
 }
 
