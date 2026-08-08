@@ -12,7 +12,7 @@ function ProseLink({ href, children }: { href: string; children: React.ReactNode
 
 export function About() {
   return (
-    <section id="about" className="scroll-mt-16 pb-24 sm:pb-32">
+    <section id="about" className="scroll-mt-28 pb-24 sm:scroll-mt-16 sm:pb-32">
       <SectionHeader number="01" title="About" annotation="The story so far" />
       <div className="mt-10 grid gap-10 lg:grid-cols-12">
         <div className="max-w-[65ch] space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">

@@ -332,7 +332,7 @@ export function Experience() {
   }, [openIndex]);
 
   return (
-    <section id="route" className="scroll-mt-16 pb-24 sm:pb-32">
+    <section id="route" className="scroll-mt-28 pb-24 sm:scroll-mt-16 sm:pb-32">
       <SectionHeader number="02" title="Experience" annotation="2010–Present" />
       <div ref={routeRef} className="route mt-10">
         <div className="route-line" aria-hidden="true" />

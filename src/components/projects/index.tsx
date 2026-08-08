@@ -136,7 +136,7 @@ function Inset({ project }: { project: Project }) {
 
 export function Projects() {
   return (
-    <section id="work" className="scroll-mt-16 pb-24 sm:pb-32">
+    <section id="work" className="scroll-mt-28 pb-24 sm:scroll-mt-16 sm:pb-32">
       <SectionHeader number="03" title="Selected Work" annotation="Five things, up close" />
       <div className="divide-y divide-line">
         {projects.map((project) => (

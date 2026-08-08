@@ -4,7 +4,7 @@ import { publications } from "./data";
 
 export function Research() {
   return (
-    <section id="research" className="scroll-mt-16 pb-24 sm:pb-32">
+    <section id="research" className="scroll-mt-28 pb-24 sm:scroll-mt-16 sm:pb-32">
       <SectionHeader
         number="04"
         title="Publications"

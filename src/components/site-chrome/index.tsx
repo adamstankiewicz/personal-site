@@ -237,7 +237,10 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       <ProgressRail sections={NAV_ITEMS} activeSection={activeSection} />
 
       <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
-        <div className="mx-auto flex w-full max-w-6xl flex-wrap items-baseline justify-between gap-y-3 px-6 py-5">
+        {/* Narrow screens get two deliberate rows — wordmark + toggles,
+            then the nav spread across its own line — instead of an
+            accidental three-row wrap. Desktop keeps one row via order. */}
+        <div className="mx-auto flex w-full max-w-6xl flex-wrap items-baseline justify-between gap-y-2.5 px-6 py-4 sm:flex-nowrap sm:justify-start sm:py-5">
           <Link
             href="/"
             className="mono-label !text-ink no-underline transition-colors hover:!text-accent"
@@ -251,25 +254,31 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               AS<span className="text-accent">.</span>
             </span>
           </Link>
-          <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2 sm:gap-x-6">
-            <nav aria-label="Main navigation" className="flex flex-wrap items-baseline gap-x-5 gap-y-2 sm:gap-x-6">
-              {NAV_ITEMS.map((item) => (
-                <a
-                  key={item.id}
-                  href={`/#${item.id}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    history.replaceState(null, "", `#${item.id}`);
-                    scrollToSection(item.id);
-                  }}
-                  className="mono-link nav-link -my-2 inline-block py-2"
-                  data-active={activeSection === item.id}
-                  aria-current={activeSection === item.id ? "true" : undefined}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
+          {/* DOM order (wordmark, nav, toggles) matches desktop visual
+              and tab order; on mobile only the nav is reordered onto
+              its own second row. */}
+          <nav
+            aria-label="Main navigation"
+            className="order-2 flex w-full items-baseline justify-between sm:order-none sm:ml-auto sm:mr-6 sm:w-auto sm:justify-start sm:gap-x-6"
+          >
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.id}
+                href={`/#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  history.replaceState(null, "", `#${item.id}`);
+                  scrollToSection(item.id);
+                }}
+                className="mono-link nav-link -my-2 inline-block py-2"
+                data-active={activeSection === item.id}
+                aria-current={activeSection === item.id ? "true" : undefined}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+          <div className="flex items-baseline gap-x-5 sm:gap-x-6">
             <ThemeToggle />
             <ContrastToggle />
             <button

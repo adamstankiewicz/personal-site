@@ -285,7 +285,7 @@ function GrainField() {
 
 export function Lab() {
   return (
-    <section id="lab" className="scroll-mt-16 pb-24 sm:pb-32">
+    <section id="lab" className="scroll-mt-28 pb-24 sm:scroll-mt-16 sm:pb-32">
       <SectionHeader number="05" title="Lab" annotation="Small experiments, live" />
       <p className="mt-8 max-w-2xl text-[1rem] leading-[1.7] text-ink-muted">
         Interaction sketches built for this site, running live on this page.
