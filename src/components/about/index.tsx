@@ -25,8 +25,8 @@ export function About() {
           <p>
             I started out in research. A video learning platform I built as
             an undergrad turned into published papers and two years of a
-            Ph.D. at Carnegie Mellon before I traded the lab for industry —
-            edtech, both times. Seven years at{" "}
+            Ph.D. at Carnegie Mellon before I traded the lab for industry.
+            Seven years at{" "}
             <ProseLink href="https://edx.org">edX</ProseLink> /{" "}
             <ProseLink href="https://2u.com">2U</ProseLink> came first,
             leading{" "}
