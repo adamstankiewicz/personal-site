@@ -9,7 +9,7 @@ export const experiences: ExperienceItemProps[] = [
       { title: "Senior Design Systems Engineer", period: "2025–Present" },
     ],
     description:
-      "Tech lead on a product squad and steward of Spellbook, the design system behind an AI platform for K-12 educators serving ~8M people across 36,000 schools. Built the Spellbook MCP server so AI agents build with real components, rebuilt the design-token layer on DTCG, and automated the axe-core accessibility checks that run on every pull request. Led the accessibility remediation behind the company's first VPAT, which unlocked enterprise deals.",
+      "Tech lead on a product squad and steward of Spellbook, the design system behind an AI platform for K-12 educators serving ~8M people across 36,000 schools. Built the Spellbook MCP server, giving AI agents semantic component discovery and a compiler-backed validator so they build against real APIs instead of inventing markup, and rebuilt the design-token layer on DTCG. Working with the accessibility guild, a designer and a handful of engineers, automated the axe-core checks that run on every pull request and led the remediation behind the company's first VPAT, which unlocked enterprise deals.",
     technologies: [
       "TypeScript",
       "React",
@@ -34,7 +34,7 @@ export const experiences: ExperienceItemProps[] = [
       { title: "Software Engineer II", period: "2018–2020" },
     ],
     description:
-      "Led Paragon, the open-source design system behind 40+ Open edX projects (5.9M+ npm downloads, 100M+ learners): design-token architecture on Style Dictionary, a documentation platform with 500+ monthly actives, and the internationalization initiative that shipped its first language pack. In parallel, an early engineer on edX for Business, a 0-to-1 enterprise platform serving 1.2M+ learners, architecting its React SPAs and Django REST APIs and establishing React Query as its server-state architecture.",
+      "Led Paragon, the open-source design system behind 40+ Open edX projects (5.9M+ npm downloads, 100M+ learners): design-token architecture on Style Dictionary, a documentation platform with 500+ monthly actives, and the internationalization initiative that shipped its first language pack, consumed by other product teams, edX/2U's own eng org, and the wider Open edX open-source contributor community. In parallel, an early engineer on edX for Business, a 0-to-1 enterprise platform serving 1.2M+ learners: shaped scope and timeline together with product and design while architecting its React SPAs and Django REST APIs and establishing React Query as its server-state architecture.",
     technologies: [
       "JavaScript",
       "TypeScript",
