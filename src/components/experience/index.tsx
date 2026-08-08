@@ -89,8 +89,10 @@ const experiences: ExperienceItemProps[] = [
     }
 ];
 
-function RouteFlyer() {
+function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
   const flyerRef = useRef<SVGSVGElement>(null);
+  const onArriveRef = useRef(onArrive);
+  onArriveRef.current = onArrive;
 
   useEffect(() => {
     const flyer = flyerRef.current;
@@ -101,6 +103,9 @@ function RouteFlyer() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let raf: number | null = null;
+    let lastArrived = -1;
+    let dragging = false;
+
     const update = () => {
       raf = null;
       const rect = container.getBoundingClientRect();
@@ -112,14 +117,66 @@ function RouteFlyer() {
       const lineHeight = line.offsetHeight;
       const tip = Math.min(1, Math.max(0, (y + 2) / lineHeight));
       line.style.transform = `scaleY(${tip})`;
+
+      // The flyer opens each waypoint as it arrives (suspended mid-drag).
+      if (!dragging) {
+        const rows = container.querySelectorAll<HTMLElement>(".ledger-row");
+        let arrived = 0;
+        rows.forEach((row, index) => {
+          const rowTop = row.getBoundingClientRect().top - rect.top;
+          if (y >= rowTop - 8) arrived = index;
+        });
+        if (arrived !== lastArrived) {
+          lastArrived = arrived;
+          onArriveRef.current(arrived);
+        }
+      }
     };
     const onScroll = () => {
       if (raf === null) raf = requestAnimationFrame(update);
     };
 
+    // Dragging the flyer scrubs the page: pointer position maps back to a
+    // scroll position, so scroll remains the single source of truth.
+    // Geometry is snapshotted at drag start and auto-open is suspended
+    // until release, so rows expanding mid-drag can't destabilize the math.
+    let dragDocTop = 0;
+    let dragHeight = 1;
+    const onPointerDown = (e: PointerEvent) => {
+      const rect = container.getBoundingClientRect();
+      dragging = true;
+      dragDocTop = rect.top + window.scrollY;
+      dragHeight = rect.height;
+      flyer.setPointerCapture(e.pointerId);
+      document.documentElement.style.userSelect = "none";
+    };
+    const onPointerMove = (e: PointerEvent) => {
+      if (!dragging) return;
+      const anchor = window.innerHeight * 0.45;
+      const pointerDocY = e.clientY + window.scrollY;
+      const progress = Math.min(
+        1,
+        Math.max(0, (pointerDocY - dragDocTop) / dragHeight)
+      );
+      window.scrollTo({
+        top: progress * dragHeight + dragDocTop - anchor,
+        behavior: "instant" as ScrollBehavior,
+      });
+    };
+    const onPointerUp = (e: PointerEvent) => {
+      dragging = false;
+      flyer.releasePointerCapture(e.pointerId);
+      document.documentElement.style.userSelect = "";
+      onScroll();
+    };
+
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
+    flyer.addEventListener("pointerdown", onPointerDown);
+    flyer.addEventListener("pointermove", onPointerMove);
+    flyer.addEventListener("pointerup", onPointerUp);
+    flyer.addEventListener("pointercancel", onPointerUp);
     // Rows expanding and collapsing change the container's height without
     // a scroll event; the observer keeps the course in sync through the
     // whole transition.
@@ -128,6 +185,10 @@ function RouteFlyer() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      flyer.removeEventListener("pointerdown", onPointerDown);
+      flyer.removeEventListener("pointermove", onPointerMove);
+      flyer.removeEventListener("pointerup", onPointerUp);
+      flyer.removeEventListener("pointercancel", onPointerUp);
       resizeObserver.disconnect();
       if (raf !== null) cancelAnimationFrame(raf);
     };
@@ -261,7 +322,7 @@ export function Experience() {
       <SectionHeader number="02" title="Experience" annotation="2010 — Present" />
       <div className="route mt-10">
         <div className="route-line" aria-hidden="true" />
-        <RouteFlyer />
+        <RouteFlyer onArrive={setOpenIndex} />
         <ol className="space-y-8">
           {listed.map((experience, index) => (
             <Waypoint
