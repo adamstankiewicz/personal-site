@@ -77,7 +77,8 @@ function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="mono-link nav-link -my-2 cursor-pointer py-2"
+      className="mono-link -my-2 cursor-pointer py-2"
+      title={MODE_LABEL[mode]}
       aria-label={`Color theme: ${MODE_LABEL[mode].toLowerCase()}. Cycle theme`}
     >
       <ThemeIcon />
@@ -104,7 +105,8 @@ function ContrastToggle() {
     <button
       type="button"
       onClick={toggleContrast}
-      className="mono-link nav-link -my-2 cursor-pointer py-2"
+      className="mono-link -my-2 cursor-pointer py-2"
+      title="Contrast"
       aria-pressed={hc}
       aria-label="Toggle high contrast"
     >

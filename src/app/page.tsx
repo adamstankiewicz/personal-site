@@ -13,7 +13,11 @@ function TitleBlock() {
       <Atmosphere />
       <div aria-hidden="true" className="rise rise-1 h-0.5 w-10 bg-accent" />
       <p className="rise rise-1 mono-label mt-6 text-ink-muted">
-        Product engineering · Design systems · Accessibility
+        {/* A non-breaking space before each separator keeps "·" glued
+            to the word before it, so a wrap can only land after a
+            separator — a new line always opens on a word, never a
+            dangling bullet. */}
+        Product engineering{" "}· Design systems{" "}· Accessibility
       </p>
       <HeroName />
       <p className="rise rise-3 mt-8 max-w-2xl text-[1.1875rem] leading-[1.6] text-ink-muted sm:text-[1.3125rem]">
