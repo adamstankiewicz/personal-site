@@ -5,11 +5,11 @@ import { Projects, loader as projectsLoader } from "@/components/projects";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Adam Stankiewicz — Principal Software Engineer" },
+    { title: "Adam Stankiewicz — Senior Design Systems Engineer" },
     {
       name: "description",
       content:
-        "Principal Software Engineer specializing in design systems, frontend architecture, and accessible product engineering in the edtech space.",
+        "Design systems engineer building the platform around the design system — tokens, tooling, documentation, and accessibility. Senior Design Systems Engineer at MagicSchool AI; previously led Paragon at edX/2U.",
     },
   ];
 }
@@ -30,36 +30,36 @@ function Hero() {
   return (
     <section className="pt-20 pb-16 sm:pt-28 sm:pb-20" aria-label="Introduction">
       <p className="mono-label rise rise-1 text-accent">
-        Principal Software Engineer — edX / 2U
+        Senior Design Systems Engineer — MagicSchool AI
       </p>
       <h1 className="rise rise-2 mt-8 max-w-4xl font-serif text-[clamp(2.375rem,6.5vw,4.75rem)] font-light leading-[1.06] tracking-[-0.015em]">
-        I build <em className="font-normal">intuitive</em> web solutions that
-        transform complex ideas into user&#8209;friendly,{" "}
-        <em className="font-normal">accessible</em> products.
+        I build the <em className="font-normal">platform</em> around the design
+        system, not only its <em className="font-normal">components</em>.
       </h1>
 
       <dl className="rise rise-3 mt-14 grid gap-x-8 gap-y-6 border-y border-line py-6 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <dt className="mono-label text-ink-muted">Focus</dt>
           <dd className="mt-2 text-[0.9375rem]">
-            Design Systems · Frontend · Backend
+            Design Systems · Accessibility · AI Tooling
           </dd>
         </div>
         <div>
           <dt className="mono-label text-ink-muted">Currently</dt>
           <dd className="mt-2 text-[0.9375rem]">
-            <a href="https://edx.org" target="_blank" rel="noopener noreferrer" className="link">
-              edX
-            </a>{" "}
-            /{" "}
-            <a href="https://2u.com" target="_blank" rel="noopener noreferrer" className="link">
-              2U
+            <a
+              href="https://magicschool.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link"
+            >
+              MagicSchool AI
             </a>
-            , since 2018
+            , since 2025
           </dd>
         </div>
         <div>
-          <dt className="mono-label text-ink-muted">Maintains</dt>
+          <dt className="mono-label text-ink-muted">Previously</dt>
           <dd className="mt-2 text-[0.9375rem]">
             <a
               href="https://paragon-openedx-v22.netlify.app"
@@ -68,8 +68,8 @@ function Hero() {
               className="link"
             >
               Paragon
-            </a>
-            , Open edX design system
+            </a>{" "}
+            at edX / 2U, 2018 — 2025
           </dd>
         </div>
         <div>

@@ -4,6 +4,24 @@ import { Project } from "./types";
 
 export const projects: Project[] = [
   {
+    title: 'Spellbook MCP Server',
+    description: "Designed and built the MCP server for Spellbook, MagicSchool's design system, so AI coding agents implement UI against real component APIs instead of inventing them — and designers can verify resolved token values before handoff. Nine tools over 70+ React component specifications, resolved design tokens, icon catalogs, and curated examples, backed by a compiler-backed validator that type-checks agent-generated JSX against the real component APIs. Measured with a controlled evaluation across 25 production UI tasks and three model tiers before rollout.",
+    figures: [
+      { label: 'First-attempt correctness', value: '36% → 88%' },
+      { label: 'Inference cost per task', value: '−35–41%' },
+      { label: 'Evaluation', value: '25 tasks · 3 model tiers' },
+      { label: 'Surface area', value: '9 tools · 70+ components' },
+    ],
+    technologies: [
+      'TypeScript',
+      'Node.js',
+      'MCP',
+      'React',
+      'DTCG Design Tokens',
+      'LLM Evaluation',
+    ],
+  },
+  {
     title: 'Paragon, Design System & Component Library',
     description: 'Developed and maintained Paragon, an open-source design system and React component library providing the UI foundation for the Open edX learning platform, empowering product teams to build consistent and accessible user interfaces.',
     href: 'https://paragon-openedx-v22.netlify.app',
@@ -42,7 +60,7 @@ export const projects: Project[] = [
       'Figma',
     ],
     stars: 130,
-    installs: 4000000,
+    installs: 5900000,
   },
   {
     title: 'edX Enterprise',
@@ -98,7 +116,11 @@ export async function loader() {
 }
 
 function formatInstalls(installs: number) {
-  return `${new Intl.NumberFormat("en-US").format(installs)}+ installs`;
+  const millions = installs / 1_000_000;
+  const compact = Number.isInteger(millions)
+    ? String(millions)
+    : millions.toFixed(1);
+  return `${compact}M+ npm downloads`;
 }
 
 function CaseFile({ project, index }: { project: Project; index: number }) {
@@ -112,14 +134,18 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
         <div className="lg:col-span-5">
           <p className="mono-label text-ink-muted">No. {number}</p>
           <h3 className="mt-4 font-serif text-3xl font-light leading-tight tracking-tight sm:text-4xl">
-            <a
-              href={project.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-accent"
-            >
-              {project.title}
-            </a>
+            {project.href ? (
+              <a
+                href={project.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-accent"
+              >
+                {project.title}
+              </a>
+            ) : (
+              project.title
+            )}
           </h3>
           <p className="mt-6 text-[1rem] leading-[1.75]">{project.description}</p>
 
@@ -130,16 +156,18 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
             {typeof project.installs === "number" ? (
               <li>{formatInstalls(project.installs)}</li>
             ) : null}
-            <li>
-              <a
-                href={project.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mono-link !text-inherit hover:!text-accent"
-              >
-                Live ↗
-              </a>
-            </li>
+            {project.href ? (
+              <li>
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mono-link !text-inherit hover:!text-accent"
+                >
+                  Live ↗
+                </a>
+              </li>
+            ) : null}
             {project.githubUrl ? (
               <li>
                 <a
@@ -160,6 +188,21 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
         </div>
 
         <div className="lg:col-span-7">
+          {!cover && project.figures ? (
+            <dl className="grid grid-cols-2 border-t border-l border-line">
+              {project.figures.map((figure) => (
+                <div
+                  key={figure.label}
+                  className="border-b border-r border-line bg-paper-raised p-6 sm:p-8"
+                >
+                  <dt className="mono-label text-ink-muted">{figure.label}</dt>
+                  <dd className="mt-4 font-serif text-2xl font-light tracking-tight text-ink sm:text-3xl">
+                    {figure.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
           {cover ? (
             <a
               href={project.href}

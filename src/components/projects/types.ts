@@ -3,12 +3,18 @@ export interface ProjectImage {
   alt: string;
 }
 
+export interface ProjectFigure {
+  label: string;
+  value: string;
+}
+
 export interface Project {
   title: string;
   description: string;
-  href: string;
+  href?: string;
   githubUrl?: string;
   images?: ProjectImage[];
+  figures?: ProjectFigure[];
   technologies?: string[];
   stars?: number;
   installs?: number;

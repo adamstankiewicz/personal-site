@@ -6,21 +6,35 @@ import { ExperienceItemProps } from "./types";
 export async function loader(): Promise<{ experiences: ExperienceItemProps[] }> {
   const experiences: ExperienceItemProps[] = [
     {
+      company: "MagicSchool AI",
+      companyUrl: "https://magicschool.ai",
+      period: "2025 — Present",
+      positions: [
+        { title: "Senior Design Systems Engineer", period: "2025 — Present" }
+      ],
+      description: "I lead design systems and accessibility work on Spellbook, the React design system behind MagicSchool's AI platform for K-12 educators — used by roughly 8 million people across 36,000 schools. I designed and built the Spellbook MCP server so AI coding agents build with real components instead of inventing them, raising first-attempt component correctness from 36% to 88% in a controlled evaluation. I rebuilt the token layer on a DTCG pipeline with CI drift gates, led the accessibility remediation behind the company's first VPAT, and serve as tech lead for a product squad that delivered five projects from ideation through rollout in a single quarter.",
+      technologies: [
+        'TypeScript', 'React', 'Next.js', 'Node.js', 'MCP',
+        'DTCG Design Tokens', 'Tailwind', 'Playwright', 'axe-core',
+        'LLM Evaluation'
+      ],
+    },
+    {
       company: "edX / 2U",
       companyUrl: "https://edx.org",
-      period: "2018 — Present",
+      period: "2018 — 2025",
       positions: [
-        { title: "Principal Software Engineer", period: "2023 — Present" },
+        { title: "Principal Software Engineer", period: "2023 — 2025" },
         { title: "Senior Software Engineer II", period: "2022 — 2023" },
         { title: "Senior Software Engineer I", period: "2020 — 2022" },
         { title: "Software Engineer II", period: "2018 — 2020" }
       ],
-      description: "At edX Enterprise, I led the development of the frontend architecture, designed and implemented REST APIs, and worked cross-functionally to craft key features to enhance the user experience for enterprise learners and administrators from the ground up. In my work with Open edX, I built and maintained Paragon, an open-source design system and React component library that empowers product teams to create cohesive and accessible learning experiences for over 100 million learners worldwide.",
+      description: "I led Paragon, an open-source design system and React component library adopted across 40+ Open edX projects with 5.9M+ npm downloads — the UI foundation for a platform reaching over 100 million learners. I architected its design-token system on Style Dictionary, directed its documentation platform (500+ monthly actives), and led its internationalization initiative as design authority. As an early engineer on edX for Business, I architected the React SPAs and Django REST APIs underpinning enterprise partnerships worth ~$15M in annual revenue, and served as primary point of contact for Paragon support across 2U and the Open edX community.",
       technologies: [
-        'JavaScript', 'TypeScript', 'React', 'State Management',
-        'React Query', 'React Router', 'CSS', 'SASS', 'Webpack',
+        'JavaScript', 'TypeScript', 'React', 'Style Dictionary',
+        'React Query', 'React Router', 'Sass', 'Webpack',
         'Python', 'Django', 'Node.js', 'MySQL', 'GitHub Actions',
-        'Docker', 'Celery', 'Redis'
+        'Docker', 'Datadog RUM'
       ],
     },
     {
@@ -30,7 +44,7 @@ export async function loader(): Promise<{ experiences: ExperienceItemProps[] }> 
       positions: [
         { title: "Software Engineer", period: "2017 — 2018" }
       ],
-      description: "I developed reusable Ractive.js components for a B2B SaaS web application, working closely with a UX designer and product manager to revamp the dashboard. This update included features like fuzzy search, venue filtering, and CSV export functionality for improved usability. Additionally, I implemented scripts for real-time social media data ingestion, which enhanced the product’s analytics capabilities and provided timely insights for users.",
+      description: "I shipped reusable Ractive.js components for a B2B web application, partnering with a designer and product manager to revamp the dashboard with fuzzy search, venue filtering, and CSV export, plus real-time social data ingestion.",
       technologies: [
         'JavaScript', 'Ractive.js', 'Ruby on Rails', 'Python',
       ],
@@ -45,7 +59,7 @@ export async function loader(): Promise<{ experiences: ExperienceItemProps[] }> 
           period: "2015 — 2017"
         },
       ],
-      description: "I developed a browser-based model for detecting conversational turns in video communication platforms like Google Hangouts. By analyzing data from 392 Coursera discussion groups with over 1,000 users, I gained insights into how people interact in multi-party video conversations. I also created a JavaScript library for peer-to-peer advice exchange, using findings from Amazon Mechanical Turk studies to better understand how users approach advice-giving and mentorship.",
+      description: "I prototyped a browser-based conversational turn-detection model for video communication in Python and JavaScript, analyzing 392 Coursera discussion groups (1,027 users, 800K+ conversational turns) to assess dominant behavior in multi-party conversation.",
       technologies: [
         'JavaScript', 'R', 'Python',
       ],
@@ -53,14 +67,14 @@ export async function loader(): Promise<{ experiences: ExperienceItemProps[] }> 
     {
       company: "University of Hartford",
       companyUrl: "https://hartford.edu/",
-      period: "2011 — 2015",
+      period: "2012 — 2015",
       positions: [
         {
           title: "Undergraduate Research Assistant",
-          period: "2011 — 2015"
+          period: "2012 — 2015"
         }
       ],
-      description: "I spearheaded the design and development of a collaborative video-based learning platform, enabling threaded discussions directly within video lectures. This platform was adopted by approximately 5,000 learners across three universities. To guide iterative product development and prioritize features, I conducted user interviews, mixed-methods evaluations, and implemented analytics instrumentation. Additionally, I co-authored peer-reviewed publications and contributed to securing a $448k National Science Foundation grant (IIS-1318345) to support this work.",
+      description: "I developed a collaborative video-based learning platform enabling threaded discussion anchored inside video lectures, used by ~5,000 learners across three universities. I ran the user interviews and mixed-methods evaluations that drove prioritization, and co-authored the peer-reviewed publications behind a $448k National Science Foundation grant (IIS-1318345).",
       technologies: [
         'JavaScript', 'jQuery', 'PHP', 'MySQL', 'Python', 'SPSS',
       ],
@@ -70,7 +84,7 @@ export async function loader(): Promise<{ experiences: ExperienceItemProps[] }> 
       companyUrl: "https://hartford.edu/",
       period: "2010 — 2015",
       positions: [],
-      description: "Several internships, co-ops, and part-time work as a web designer and developer unlisted.",
+      description: "Earlier: internships, co-ops, and part-time web development roles including Carbonite, Diebold, ForeSite Technologies, and Green Bridge Guide, plus a visiting research appointment at Carnegie Mellon.",
       technologies: [],
     }
   ];
