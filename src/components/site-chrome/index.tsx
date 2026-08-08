@@ -330,7 +330,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                     Google Scholar
                   </ExternalLink>
                 </li>
-                <li>
+                {/* A link to a PDF of this same content is pointless
+                    on a page that's already printed. */}
+                <li className="print:hidden">
                   <ExternalLink href="/pdfs/Adam_Stankiewicz_Resume.pdf" className="mono-link inline-block py-1.5">
                     Résumé ↓
                   </ExternalLink>
@@ -376,8 +378,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          {/* The site's own design tokens, resolved live from CSS variables. */}
-          <div className="mt-12 border-t border-line pt-6">
+          {/* The site's own design tokens, resolved live from CSS
+              variables — a developer easter egg, not resume content. */}
+          <div className="mt-12 border-t border-line pt-6 print:hidden">
             <div className="flex flex-wrap items-end justify-between gap-6">
               <p className="mono-label text-ink-muted">
                 Design tokens · generated from{" "}
