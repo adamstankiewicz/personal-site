@@ -1,3 +1,6 @@
+# Optional build env var (set in the Netlify UI, never committed):
+#   GH_STATS_TOKEN — GitHub token so footer PR counts include
+#   private-org work. Absent → public-only client fallback.
 [build]
 command = "npm run build"
 publish = "out"

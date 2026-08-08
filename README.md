@@ -1,87 +1,49 @@
-# Welcome to React Router!
+# adamstankiewicz.dev
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Personal site of Adam Stankiewicz. Fully static Next.js 15 (App Router,
+`output: "export"`), React 19, Tailwind v4, self-hosted fonts via
+`next/font`, served from Netlify.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
-
-## Features
-
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
-
-## Getting Started
-
-### Installation
-
-Install the dependencies:
+## Commands
 
 ```bash
-npm install
+npm run dev        # design tokens + build info + GitHub stats, then next dev
+npm run build      # token drift gate + build info + GitHub stats, then export to out/
+npm run typecheck  # tsc --noEmit
 ```
 
-### Development
+## Build pipeline
 
-Start the development server with HMR:
+Three zero-dependency scripts run before Next:
 
-```bash
-npm run dev
-```
+- `scripts/build-tokens.mjs` — generates `src/styles/tokens.css` from the
+  DTCG source `tokens/tokens.json`. `npm run tokens:check` is a drift
+  gate: the build fails if the generated CSS diverges from source.
+- `scripts/build-info.mjs` — bakes version (`2.0.<commit count>`), short
+  SHA, and last-commit date into `src/generated/build-info.json` for the
+  living-document footer.
+- `scripts/build-gh-stats.mjs` — bakes aggregate GitHub PR counts (and a
+  per-year series) into `src/generated/gh-stats.json`. See below.
 
-Your application will be available at `http://localhost:5173`.
+`src/generated/` is gitignored; everything in it is derived at build time.
 
-## Building for Production
+## Environment
 
-Create a production build:
+| Variable | Where | Purpose |
+| --- | --- | --- |
+| `GH_STATS_TOKEN` | Netlify build environment | GitHub token used by `build-gh-stats.mjs` so the footer's PR counts include private-org work ("across GitHub"). Without it the script falls back to the local `gh` CLI's auth (dev machines), then to a client-side public-only fetch ("public GitHub"). Never commit a token; this is a public repository. |
 
-```bash
-npm run build
-```
+Token guidance: a fine-grained PAT with **Pull requests: read** +
+**Metadata: read** across the org's repositories (requires org approval),
+or a classic PAT with `repo` scope authorized for the org via SSO. The
+script only ever emits aggregate integers.
 
-## Deployment
+## Structure
 
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+- `src/app` — layout, page, theme-aware SVG favicon
+- `src/components` — site chrome, hero, about, experience timeline,
+  case studies + galleries + Spellbook replay, publications, lab
+- `src/lib/section-scroll.ts` — nav scrolling that scroll-driven
+  behaviors respect
+- `tokens/` — DTCG design-token source of truth
+- `public/` — images (with pre-sized `slides/` variants), video, PDFs
