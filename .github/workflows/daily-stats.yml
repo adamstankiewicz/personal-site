@@ -1,0 +1,69 @@
+name: Daily stats refresh
+
+# One daily job keeps the footer's GitHub PR counts fully current:
+#
+#   1. Bake fresh counts. If data/gh-stats-floor.json ratcheted (the
+#      committed high-water mark — insurance against a token losing
+#      private-org visibility later), land it via a self-merging bot
+#      PR. The merge to master triggers Netlify's own deploy, which
+#      re-bakes the site.
+#   2. If nothing ratcheted, POST the Netlify build hook instead so
+#      the displayed counts still refresh.
+#
+# Either path produces exactly one deploy per day. Requires two
+# repository secrets: GH_STATS_TOKEN (same PAT as Netlify's build env)
+# and NETLIFY_BUILD_HOOK_URL, plus the repo setting "Allow GitHub
+# Actions to create and approve pull requests".
+
+on:
+  schedule:
+    - cron: "0 9 * * *" # daily 09:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Bake fresh stats
+        env:
+          GH_STATS_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
+        run: |
+          if [ -z "$GH_STATS_TOKEN" ]; then
+            echo "::error::GH_STATS_TOKEN secret is not set"
+            exit 1
+          fi
+          node scripts/build-gh-stats.mjs
+      - name: Land the ratchet, or trigger a rebuild
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
+        run: |
+          if git diff --quiet -- data/gh-stats-floor.json; then
+            echo "Floor unchanged; triggering Netlify rebuild directly."
+            if [ -z "$HOOK_URL" ]; then
+              echo "::error::NETLIFY_BUILD_HOOK_URL secret is not set"
+              exit 1
+            fi
+            curl -fsS -X POST -d '{}' "$HOOK_URL"
+            exit 0
+          fi
+          branch="chore/floor-ratchet-$(date +%Y-%m-%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add data/gh-stats-floor.json
+          git commit -m "chore: ratchet gh-stats floor"
+          git push -u origin "$branch"
+          gh pr create \
+            --title "Ratchet gh-stats floor ($(date +%Y-%m-%d))" \
+            --body "Automated daily high-water-mark bump for the footer's baked GitHub PR counts. Touches only data/gh-stats-floor.json; the merge itself triggers the Netlify redeploy."
+          gh pr merge --squash --delete-branch
