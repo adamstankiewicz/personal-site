@@ -94,8 +94,14 @@ export function GitHubStats() {
   return (
     <>
       <p className="mono-label mt-3 text-ink-muted">
-        {display.opened.toLocaleString()} PRs opened ·{" "}
-        {display.reviewed.toLocaleString()} reviewed · {display.label}
+        <span className="whitespace-nowrap">
+          {display.opened.toLocaleString()} PRs opened
+        </span>{" "}
+        ·{" "}
+        <span className="whitespace-nowrap">
+          {display.reviewed.toLocaleString()} reviewed
+        </span>{" "}
+        · <span className="whitespace-nowrap">{display.label}</span>
       </p>
       {years.length > 1 ? (
         <svg
@@ -146,7 +152,10 @@ export function LocalTime() {
   if (!time) return <>Merrimack, New Hampshire</>;
   return (
     <>
-      <TextMorph as="span">{time}</TextMorph> in Merrimack, New Hampshire
+      <span className="whitespace-nowrap">
+        <TextMorph as="span">{time}</TextMorph> in
+      </span>{" "}
+      <span className="whitespace-nowrap">Merrimack, New Hampshire</span>
     </>
   );
 }

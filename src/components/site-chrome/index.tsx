@@ -265,24 +265,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 
       <footer className="border-t border-line">
         <div className="mx-auto w-full max-w-6xl px-6 py-12">
-          <div className="grid gap-10 sm:grid-cols-3">
-            <div>
-              <p className="mono-label text-ink-muted">Colophon</p>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">
-                Set in <span className="font-display text-ink">Bricolage Grotesque</span>,{" "}
-                <span className="text-ink">Archivo</span>, and{" "}
-                <span className="font-mono text-[0.8125rem] text-ink">IBM Plex Mono</span>,
-                self-hosted. Statically rendered with Next.js, styled with
-                Tailwind, served from Netlify’s CDN.{" "}
-                <ExternalLink
-                  href="https://github.com/adamstankiewicz/personal-site"
-                  className="link"
-                  icon
-                >
-                  View source
-                </ExternalLink>
-              </p>
-            </div>
+          <div className="grid gap-10 sm:grid-cols-2">
             <div>
               <p className="mono-label text-ink-muted">Elsewhere</p>
               <ul className="mt-2">
@@ -304,6 +287,15 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 <li>
                   <ExternalLink href="/pdfs/Adam_Stankiewicz_Resume.pdf" className="mono-link inline-block py-1.5">
                     Résumé ↓
+                  </ExternalLink>
+                </li>
+                <li>
+                  <ExternalLink
+                    href="https://github.com/adamstankiewicz/personal-site"
+                    className="mono-link inline-block py-1.5"
+                    icon
+                  >
+                    View source
                   </ExternalLink>
                 </li>
               </ul>
