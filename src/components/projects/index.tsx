@@ -19,6 +19,15 @@ const projects: Project[] = [
         text: "A controlled evaluation before rollout: 25 production UI tasks, three model tiers, identical harness. The baseline agent already had full access to the design system source. The treatment added only the MCP tools.",
       },
     ],
+    capabilities: [
+      'component specs',
+      'resolved tokens',
+      'icon catalog',
+      'curated examples',
+      'JSX type-checking',
+      'release-synced manifest',
+      'generative UI',
+    ],
     figures: [
       { label: 'First-attempt correctness', value: '36% → 88%' },
       { label: 'Inference cost per task', value: '−35–41%' },
@@ -169,6 +178,22 @@ function Inset({ project, index }: { project: Project; index: number }) {
                 </div>
               ))}
             </dl>
+          ) : null}
+
+          {project.capabilities ? (
+            <div className="mt-6">
+              <p className="mono-label text-ink-muted">What the tools cover</p>
+              <ul className="mt-2.5 flex flex-wrap gap-1.5">
+                {project.capabilities.map((capability) => (
+                  <li
+                    key={capability}
+                    className="border border-line px-2 py-0.5 font-mono text-[0.6875rem] tracking-wide text-ink"
+                  >
+                    {capability}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ) : null}
 
           <ul className="mono-label mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-2 text-ink-muted">

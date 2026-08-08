@@ -21,6 +21,7 @@ export interface Project {
   images?: ProjectImage[];
   figures?: ProjectFigure[];
   details?: ProjectDetail[];
+  capabilities?: string[];
   technologies?: string[];
   stars?: number;
   installs?: number;
