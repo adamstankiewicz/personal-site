@@ -36,12 +36,6 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
     let dragging = false;
     let smoothedY: number | null = null;
     let navArrival = false;
-    // Arrival-driven row opens are a hover-device behavior. On touch,
-    // momentum scrolling fires arrivals mid-flick and the scroll
-    // compensation fights the native scroll — rows appear to open
-    // themselves and the page jumps. Phones get tap-to-open only; the
-    // flyer stays a visual progress handle and scrubber.
-    const autoOpen = hoverCapable();
 
     const step = () => {
       raf = null;
@@ -68,15 +62,22 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
           const rowTop = row.getBoundingClientRect().top - rect.top;
           if (targetY >= rowTop - 8) arrived = index;
         });
-        if (navArrival || !autoOpen) {
+        if (navArrival) {
           // Jumping here via the nav lands the anchor partway down the
           // course; the first row is where reading starts, so it opens
           // instead, and arrivals hold (tracking geometry silently)
           // until the visitor scrolls on their own.
           lastArrived = arrived;
         } else if (arrived !== lastArrived) {
+          // A fast flick can cross several waypoints in one frame;
+          // every crossed row arrives, not just the one the frame
+          // lands on (batched, so hover devices still settle on the
+          // last one).
+          for (let i = lastArrived + 1; i <= arrived; i++) {
+            onArriveRef.current(i);
+          }
+          if (arrived < lastArrived) onArriveRef.current(arrived);
           lastArrived = arrived;
-          onArriveRef.current(arrived);
         }
       }
       if (running) raf = requestAnimationFrame(step);
@@ -288,29 +289,42 @@ function Waypoint({
 }
 
 export function Experience() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  // Hover devices read as a single-open ledger; touch devices as an
+  // additive reveal. On touch, rows open as the handle reaches them and
+  // never auto-close — every height change lands below the reading
+  // anchor, so nothing fights momentum scrolling and nothing above the
+  // eye ever shifts. A tap toggles only its own row, so the tapped
+  // header (and the handle riding the scroll position) holds still.
+  const [openRows, setOpenRows] = useState<ReadonlySet<number>>(
+    () => new Set([0])
+  );
   const routeRef = useRef<HTMLDivElement>(null);
-  // On scroll-arrival, the newly arrived row opens with its normal
-  // animation (growth happens below the handle, which is harmless),
-  // while the previously open row collapses in a single frame with a
-  // synchronous scroll compensation. Nothing animates against the
-  // user's wheel, and the collapse above can't cascade the trigger
-  // past short rows.
+  // Hover devices only — on scroll-arrival, the newly arrived row opens
+  // with its normal animation (growth happens below the handle, which
+  // is harmless), while the previously open row collapses in a single
+  // frame with a synchronous scroll compensation. Nothing animates
+  // against the user's wheel, and the collapse above can't cascade the
+  // trigger past short rows.
   const autoOpenRef = useRef<{ index: number; top: number } | null>(null);
 
 
   const handleArrive = (index: number) => {
-    // Arriving on the already-open row changes nothing — and a same-value
-    // set bails out of re-rendering, so the layout effect below would
-    // never consume the pending entry. Skip it entirely.
-    if (index === openIndex) return;
+    if (!hoverCapable()) {
+      setOpenRows((prev) =>
+        prev.has(index) ? prev : new Set(prev).add(index)
+      );
+      return;
+    }
+    // Arriving on the already-open row changes nothing; skip it so the
+    // layout effect below never sees a pending entry it won't consume.
+    if (openRows.has(index) && openRows.size === 1) return;
     const row =
       routeRef.current?.querySelectorAll<HTMLElement>(".ledger-row")[index];
     if (row) {
       autoOpenRef.current = { index, top: row.getBoundingClientRect().top };
       routeRef.current?.setAttribute("data-instant-close", "");
     }
-    setOpenIndex(index);
+    setOpenRows(new Set([index]));
   };
 
   useLayoutEffect(() => {
@@ -321,10 +335,9 @@ export function Experience() {
     // A pending entry for anything but the row that actually opened is
     // stale (a race left it behind); discard it but still lift the
     // attribute below so collapses don't stay permanently instant.
-    const row =
-      pending.index === openIndex
-        ? route?.querySelectorAll<HTMLElement>(".ledger-row")[pending.index]
-        : undefined;
+    const row = openRows.has(pending.index)
+      ? route?.querySelectorAll<HTMLElement>(".ledger-row")[pending.index]
+      : undefined;
     if (row) {
       const delta = row.getBoundingClientRect().top - pending.top;
       if (delta !== 0) {
@@ -337,7 +350,7 @@ export function Experience() {
     requestAnimationFrame(() => {
       route?.removeAttribute("data-instant-close");
     });
-  }, [openIndex]);
+  }, [openRows]);
 
   return (
     <section id="route" className="scroll-mt-28 pb-24 sm:scroll-mt-16 sm:pb-32">
@@ -351,13 +364,21 @@ export function Experience() {
               key={experience.company}
               experience={experience}
               index={index}
-              open={openIndex === index}
+              open={openRows.has(index)}
               // Closing collapses below its own header (nothing above
-              // shifts); opening routes through the same compensation as
-              // scroll arrivals, so the tapped header holds still even
-              // where scroll anchoring is missing (iOS Safari).
+              // shifts). Opening routes through handleArrive: on hover
+              // devices that's the same compensation as scroll arrivals,
+              // so the tapped header holds still even where scroll
+              // anchoring is missing (iOS Safari); on touch it's a plain
+              // additive open — no other row moves at all.
               onToggle={() =>
-                openIndex === index ? setOpenIndex(null) : handleArrive(index)
+                openRows.has(index)
+                  ? setOpenRows((prev) => {
+                      const next = new Set(prev);
+                      next.delete(index);
+                      return next;
+                    })
+                  : handleArrive(index)
               }
             />
           ))}
