@@ -1,0 +1,32 @@
+/* GENERATED FILE — do not edit by hand.
+ * Source of truth: tokens/tokens.json (DTCG format)
+ * Regenerate: npm run tokens · Drift gate: npm run tokens:check
+ */
+
+:root {
+  --paper: #f5f2ea;
+  --paper-raised: #efebe0;
+  --line: #d8d2c2;
+  --line-strong: #211d16;
+  --ink: #211d16;
+  --ink-muted: #6e6759;
+  --accent: #b4441f;
+  --font-serif: var(--font-newsreader), "Iowan Old Style", Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-open: 320ms;
+  --dur-slow: 560ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: linear(0, 0.317 5.6%, 0.604 11.2%, 0.83 16.9%, 0.985 22.7%, 1.062 28.6%, 1.078 33%, 1.056 39.4%, 1.007 50.4%, 0.988 59.7%, 0.996 74.4%, 1);
+}
+
+.dark {
+  --paper: #171512;
+  --paper-raised: #1e1b17;
+  --line: #353028;
+  --line-strong: #e9e4d8;
+  --ink: #e9e4d8;
+  --ink-muted: #948d7e;
+  --accent: #e0693c;
+}

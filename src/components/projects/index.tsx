@@ -124,7 +124,7 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
   const thumbnails = rest.slice(0, 3);
 
   return (
-    <article className="border-b border-line py-14 first:pt-10 last:border-b-0" data-reveal>
+    <article className="border-b border-line py-14 first:pt-10 last:border-b-0">
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <p className="mono-label text-ink-muted">No. {number}</p>
@@ -185,13 +185,10 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
         <div className="lg:col-span-7">
           {!cover && project.figures ? (
             <dl className="grid grid-cols-2 border-t border-l border-line">
-              {project.figures.map((figure, figureIndex) => (
+              {project.figures.map((figure) => (
                 <div
                   key={figure.label}
-                  className="stagger border-b border-r border-line bg-paper-raised p-6 sm:p-8"
-                  style={
-                    { "--stagger-delay": `${figureIndex * 90}ms` } as React.CSSProperties
-                  }
+                  className="border-b border-r border-line bg-paper-raised p-6 sm:p-8"
                 >
                   <dt className="mono-label text-ink-muted">{figure.label}</dt>
                   <dd className="mt-4 font-serif text-2xl font-light tabular-nums tracking-tight text-ink sm:text-3xl">
@@ -216,7 +213,7 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
                 decoding="async"
                 width={3024}
                 height={1550}
-                className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.015]"
+                className="plate-img h-auto w-full"
               />
             </a>
           ) : null}
@@ -251,7 +248,7 @@ function CaseFile({ project, index }: { project: Project; index: number }) {
 
 export function Projects() {
   return (
-    <section id="work" className="scroll-mt-16 pb-24 sm:pb-32" data-reveal>
+    <section id="work" className="scroll-mt-16 pb-24 sm:pb-32">
       <SectionHeader number="03" title="Selected Work" annotation="Case files" />
       <div>
         {projects.map((project, index) => (

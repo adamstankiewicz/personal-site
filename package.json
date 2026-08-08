@@ -3,8 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "tokens": "node scripts/build-tokens.mjs",
+    "tokens:check": "node scripts/build-tokens.mjs --check",
+    "dev": "npm run tokens && next dev",
+    "build": "npm run tokens:check && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },

@@ -50,13 +50,13 @@ const publications: Publication[] = [
 
 export function Research() {
   return (
-    <section id="research" className="scroll-mt-16 pb-24 sm:pb-32" data-reveal>
+    <section id="research" className="scroll-mt-16 pb-24 sm:pb-32">
       <SectionHeader
         number="04"
         title="Research"
         annotation="HCI · peer-reviewed"
       />
-      <p className="stagger mt-8 max-w-2xl text-[1rem] leading-[1.7] text-ink-muted">
+      <p className="mt-8 max-w-2xl text-[1rem] leading-[1.7] text-ink-muted">
         Before industry, I studied how people learn together at scale —
         anchored discussion inside video lectures, conversational dynamics and
         distributed mentorship in massive online classes, and how end-user
@@ -66,8 +66,7 @@ export function Research() {
         {publications.map((publication, index) => (
           <li
             key={publication.title}
-            className="stagger grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 border-b border-line py-5 sm:grid-cols-[2.5rem_1fr_10rem]"
-            style={{ "--stagger-delay": `${index * 70}ms` } as React.CSSProperties}
+            className="grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 border-b border-line py-5 sm:grid-cols-[2.5rem_1fr_10rem]"
           >
             <span className="mono-label text-ink-muted">
               {String(index + 1).padStart(2, "0")}
@@ -101,8 +100,7 @@ export function Research() {
         href="https://scholar.google.com/citations?user=lJSHz8QAAAAJ"
         target="_blank"
         rel="noopener noreferrer"
-        className="mono-link stagger mt-6 inline-block"
-        style={{ "--stagger-delay": "300ms" } as React.CSSProperties}
+        className="mono-link mt-6 inline-block"
       >
         Full list on Google Scholar ↗
       </a>

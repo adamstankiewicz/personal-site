@@ -107,11 +107,7 @@ function LedgerRow({
   const bodyId = `experience-${index}-body`;
 
   return (
-    <li
-      className="ledger-row stagger border-b border-line"
-      data-open={open}
-      style={{ "--stagger-delay": `${index * 70}ms` } as React.CSSProperties}
-    >
+    <li className="ledger-row border-b border-line" data-open={open}>
       <button
         type="button"
         onClick={onToggle}
@@ -189,8 +185,8 @@ export function Experience() {
   const footnote = experiences.find((experience) => !experience.company);
 
   return (
-    <section id="index" className="scroll-mt-16 pb-20 sm:pb-28" data-reveal>
-      <SectionHeader number="02" title="Index of Experience" annotation="2010 — Present" />
+    <section id="index" className="scroll-mt-16 pb-20 sm:pb-28">
+      <SectionHeader number="02" title="Index of Experience" annotation="Logged 2010 — Present" />
       <ol className="mt-6 border-t border-line">
         {listed.map((experience, index) => (
           <LedgerRow

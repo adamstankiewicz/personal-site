@@ -170,25 +170,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Reveal-on-scroll for anything marked data-reveal.
-  useEffect(() => {
-    const els = Array.from(document.querySelectorAll("[data-reveal]"));
-    if (!els.length) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-revealed");
-            observer.unobserve(entry.target);
-          }
-        }
-      },
-      { rootMargin: "0px 0px -8% 0px" }
-    );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div className="flex min-h-screen flex-col">
       <GridOverlay visible={gridVisible} />
@@ -285,13 +266,28 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 <kbd className="key-hint">G</kbd> grid ·{" "}
                 <kbd className="key-hint">I</kbd> inspect
               </p>
+              <p className="mono-label mt-3 text-ink-muted">
+                Written in Merrimack, NH · 42.86°N 71.49°W · clear skies
+                permitting
+              </p>
             </div>
           </div>
 
           {/* The site's own design tokens, resolved live from CSS variables. */}
           <div className="mt-12 border-t border-line pt-6">
             <div className="flex flex-wrap items-end justify-between gap-6">
-              <p className="mono-label text-ink-muted">Tokens</p>
+              <p className="mono-label text-ink-muted">
+                Tokens · generated from{" "}
+                <a
+                  href="https://github.com/adamstankiewicz/personal-site/blob/master/tokens/tokens.json"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mono-link !text-inherit hover:!text-accent"
+                >
+                  tokens.json ↗
+                </a>{" "}
+                (DTCG)
+              </p>
               <ul className="flex flex-wrap gap-x-6 gap-y-3">
                 {TOKENS.map((token) => (
                   <li key={token.name} className="flex items-center gap-2">

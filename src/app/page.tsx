@@ -10,25 +10,37 @@ function Hero() {
         Senior Design Systems Engineer — MagicSchool AI
       </p>
       <div className="inspect-box mt-8 max-w-4xl">
-        <span className="inspect-chip -top-3 left-0" aria-hidden="true">
+        <span
+          className="inspect-chip -top-3 left-0"
+          style={{ "--chip-delay": "0ms" } as React.CSSProperties}
+          aria-hidden="true"
+        >
           type/display · Newsreader opsz · 300 · lh 1.06 · tracking −0.015em
         </span>
         <h1 className="rise rise-2 font-serif text-[clamp(2.375rem,6.5vw,4.75rem)] font-light leading-[1.06] tracking-[-0.015em] [text-wrap:balance]">
-          I work the seam between <em className="font-normal">design</em> and{" "}
-          <em className="font-normal">engineering</em> — and measure what ships.
+          I build the <em className="font-normal">product</em> — and the{" "}
+          <em className="font-normal">system</em> underneath it.
         </h1>
-        <span className="inspect-chip -bottom-3 right-0" aria-hidden="true">
+        <span
+          className="inspect-chip -bottom-3 right-0"
+          style={{ "--chip-delay": "80ms" } as React.CSSProperties}
+          aria-hidden="true"
+        >
           clamp(2.375rem → 4.75rem) · ital 1 on emphasis
         </span>
       </div>
       <div className="inspect-box mt-8 max-w-2xl">
-        <span className="inspect-chip -top-3 left-0" aria-hidden="true">
+        <span
+          className="inspect-chip -top-3 left-0"
+          style={{ "--chip-delay": "160ms" } as React.CSSProperties}
+          aria-hidden="true"
+        >
           type/body · 1.0625rem / 1.7 · ink-muted
         </span>
         <p className="rise rise-3 text-[1.0625rem] leading-[1.7] text-ink-muted">
-          Design systems and the platforms around them, frontend architecture,
-          REST APIs, accessibility, and AI tooling that earns its rollout with a
-          controlled evaluation.
+          A decade across product engineering and design systems — 0→1
+          enterprise platforms, frontend architecture, REST APIs,
+          accessibility, and AI tooling that earns its rollout.
         </p>
       </div>
 
@@ -36,7 +48,7 @@ function Hero() {
         <div>
           <dt className="mono-label text-ink-muted">Focus</dt>
           <dd className="mt-2 text-[0.9375rem]">
-            Design Systems · Frontend & APIs · AI Tooling · Accessibility
+            Product Engineering · Design Systems · AI Tooling · Accessibility
           </dd>
         </div>
         <div>
