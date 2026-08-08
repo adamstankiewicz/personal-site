@@ -32,10 +32,8 @@ function TitleBlock() {
       {/* Facts strip */}
       <dl className="rise rise-4 mt-14 grid gap-x-8 gap-y-6 border-t border-line pb-20 pt-8 sm:grid-cols-2 sm:pb-24 lg:grid-cols-4">
         <div>
-          <dt className="mono-label text-ink-muted">Focus</dt>
-          <dd className="mt-2 text-[0.9375rem]">
-            Product Engineering · Design Systems · AI Tooling · Accessibility
-          </dd>
+          <dt className="mono-label text-ink-muted">Location</dt>
+          <dd className="mt-2 text-[0.9375rem]">Merrimack, New Hampshire</dd>
         </div>
         <div>
           <dt className="mono-label text-ink-muted">Currently</dt>
