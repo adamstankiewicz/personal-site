@@ -12,6 +12,13 @@ const dims = (image: ProjectImage) => ({
   height: image.height ?? 1550,
 });
 
+// The strip displays a downsized jpg variant of each png (see srcSet
+// below), so that file is already in cache when the lightbox opens.
+const thumbSrc = (src: string) =>
+  src.endsWith(".png")
+    ? src.replace("/projects/", "/projects/slides/").replace(/\.png$/, ".jpg")
+    : src;
+
 /**
  * A horizontal, scroll-snapped strip of same-size screenshots. Every
  * slide opens a native <dialog> lightbox (Escape closes, backdrop
@@ -83,18 +90,28 @@ export function Gallery({
       if (raf !== null) return;
       raf = requestAnimationFrame(() => {
         raf = null;
-        const center = track.scrollLeft + track.clientWidth / 2;
+        // Center-nearest breaks at the ends of the strip: when several
+        // slides fit at once, the first slide's center can never reach
+        // the track's center, so scroll position 0 would read as
+        // "slide 2" and ← would have nowhere to go. The ends clamp to
+        // the first and last slide instead.
+        const maxScroll = track.scrollWidth - track.clientWidth;
         let best = 0;
-        let bestDistance = Infinity;
-        Array.from(track.children).forEach((child, index) => {
-          const slide = child as HTMLElement;
-          const mid = slide.offsetLeft + slide.offsetWidth / 2;
-          const distance = Math.abs(mid - center);
-          if (distance < bestDistance) {
-            bestDistance = distance;
-            best = index;
-          }
-        });
+        if (maxScroll > 4 && track.scrollLeft >= maxScroll - 4) {
+          best = track.children.length - 1;
+        } else if (track.scrollLeft > 4) {
+          const center = track.scrollLeft + track.clientWidth / 2;
+          let bestDistance = Infinity;
+          Array.from(track.children).forEach((child, index) => {
+            const slide = child as HTMLElement;
+            const mid = slide.offsetLeft + slide.offsetWidth / 2;
+            const distance = Math.abs(mid - center);
+            if (distance < bestDistance) {
+              bestDistance = distance;
+              best = index;
+            }
+          });
+        }
         setCurrent(best);
       });
     };
@@ -176,7 +193,14 @@ export function Gallery({
               <button
                 type="button"
                 className="gallery-slide"
-                style={{ aspectRatio: `${width} / ${height}` }}
+                // Width is written out rather than derived via
+                // aspect-ratio: WebKit 26.0 resolves aspect-ratio-derived
+                // widths to zero inside the strip's intrinsic flex sizing
+                // (fixed upstream by 26.5), collapsing every slide to its
+                // borders on affected iOS versions.
+                style={{
+                  width: `calc(var(--slide-h) * ${(width / height).toFixed(4)})`,
+                }}
                 aria-label={`View larger: ${image.alt}`}
                 aria-current={index === current || undefined}
                 onClick={(e) => openModal(index, e.currentTarget)}
@@ -304,6 +328,22 @@ export function Gallery({
                 alt={active.alt}
                 width={dims(active).width}
                 height={dims(active).height}
+                // Before the file arrives an <img> has no intrinsic
+                // size (the attributes only supply a ratio), so the
+                // fit-content dialog would open collapsed and pop to
+                // full size on load. A definite width — the viewport
+                // caps resolved explicitly, height transferred through
+                // the ratio — makes the box identical before and after.
+                // The strip's already-cached thumbnail paints behind
+                // the streaming full-res file so the box is never blank.
+                style={{
+                  aspectRatio: `${dims(active).width} / ${dims(active).height}`,
+                  width: `min(94vw, 72rem, calc(78vh * ${(
+                    dims(active).width / dims(active).height
+                  ).toFixed(4)}))`,
+                  backgroundImage: `url("${thumbSrc(active.src)}")`,
+                  backgroundSize: "100% 100%",
+                }}
               />
             )}
             <figcaption className="flex items-baseline justify-between gap-4 border-t border-line px-4 py-3">

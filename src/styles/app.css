@@ -861,6 +861,7 @@ svg.contact-arrow {
 /* ------------------------------------------------------------------ */
 
 .gallery-track {
+  --slide-h: 13rem;
   display: flex;
   gap: 1rem;
   overflow-x: auto;
@@ -893,7 +894,7 @@ svg.contact-arrow {
 
 .gallery-slide {
   display: block;
-  height: 13rem;
+  height: var(--slide-h);
   max-width: 100%;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
