@@ -212,13 +212,13 @@ const SHAPE_PRESETS: Record<
   Shape,
   { softness: number; intensity: number; noise: number }
 > = {
-  wave: { softness: 0.9, intensity: 0.32, noise: 0.25 },
-  dots: { softness: 0.8, intensity: 0.38, noise: 0.28 },
-  truchet: { softness: 0.75, intensity: 0.24, noise: 0.18 },
-  corners: { softness: 0.85, intensity: 0.28, noise: 0.2 },
-  ripple: { softness: 0.85, intensity: 0.32, noise: 0.22 },
-  blob: { softness: 0.9, intensity: 0.34, noise: 0.2 },
-  sphere: { softness: 0.85, intensity: 0.38, noise: 0.24 },
+  wave: { softness: 0.9, intensity: 0.35, noise: 0.25 },
+  dots: { softness: 0.7, intensity: 0.55, noise: 0.3 },
+  truchet: { softness: 0.7, intensity: 0.4, noise: 0.2 },
+  corners: { softness: 0.8, intensity: 0.42, noise: 0.22 },
+  ripple: { softness: 0.85, intensity: 0.38, noise: 0.22 },
+  blob: { softness: 0.9, intensity: 0.4, noise: 0.2 },
+  sphere: { softness: 0.8, intensity: 0.45, noise: 0.24 },
 };
 
 function GrainField() {
@@ -230,8 +230,8 @@ function GrainField() {
   const preset = SHAPE_PRESETS[shape];
 
   const palette = dark
-    ? { colorBack: "#0d0e11", colors: ["#1a2150", "#131840", "#11141c"] }
-    : { colorBack: "#ffffff", colors: ["#dfe6ff", "#c9d5ff", "#eef1fe"] };
+    ? { colorBack: "#0d0e11", colors: ["#1f2861", "#161d4d", "#11141c"] }
+    : { colorBack: "#ffffff", colors: ["#c8d5ff", "#aabfff", "#e2e9ff"] };
 
   return (
     <div className="relative h-full">

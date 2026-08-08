@@ -72,6 +72,24 @@ const projects: Project[] = [
         width: 960,
         height: 492,
       },
+      {
+        src: '/images/projects/chatinput-kitchen-sink.png',
+        alt: "ChatInput's Kitchen Sink story: avatar, animated placeholder, attachments, menu, chips, and send controls composed from slots",
+        width: 1600,
+        height: 468,
+      },
+      {
+        src: '/images/projects/chatinput-a11y.png',
+        alt: "The accessibility contract and slot-composition API from ChatInput's docs: focus behavior, reduced-motion fallback, aria-live drop announcements",
+        width: 1600,
+        height: 455,
+      },
+      {
+        src: '/images/projects/chatinput-docs.png',
+        alt: "ChatInput's documentation: the card-chrome organism, with its Do's and Don'ts",
+        width: 1600,
+        height: 524,
+      },
     ],
     technologies: [
       'TypeScript',
