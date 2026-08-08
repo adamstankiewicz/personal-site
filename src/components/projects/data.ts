@@ -117,6 +117,18 @@ export const projects: Project[] = [
         height: 3150,
       },
       {
+        src: '/images/projects/a11y-dashboard-overview.png',
+        alt: 'The guild dashboard: coverage-normalized signals — violations per screen, regressions versus new coverage, introduced-versus-resolved momentum (demonstration data)',
+        width: 3456,
+        height: 3748,
+      },
+      {
+        src: '/images/projects/a11y-dashboard-violations.png',
+        alt: 'Every violation with its lifecycle — first seen, regressed, resolved — sortable by rule, impact, and screen (demonstration data)',
+        width: 3456,
+        height: 2056,
+      },
+      {
         src: '/images/projects/chatinput-a11y.png',
         alt: "The other half of the story: the per-component accessibility contract from ChatInput's Storybook docs that these scans check in aggregate",
         width: 1600,
