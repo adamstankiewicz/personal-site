@@ -17,28 +17,29 @@ export function About() {
       <div className="mt-10 grid gap-10 lg:grid-cols-12">
         <div className="max-w-[65ch] space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
           <p>
-            Most of my career has happened in edtech, and the work has
-            always split two ways — usually both at once. The day job is
-            shipping features on a product team; running alongside it, I’m
-            building the design system, the design tokens, and the
-            accessibility tooling that team builds with.
+            The work has always split two ways — usually both at once. The
+            day job is shipping features on a product team; running
+            alongside it, I’m building the design system, the design
+            tokens, and the accessibility tooling that team builds with.
           </p>
           <p>
             I started out in research. A video learning platform I built as
             an undergrad turned into published papers and two years of a
             Ph.D. at Carnegie Mellon before I traded the lab for industry.
-            From there, seven years at{" "}
+            Seven years at{" "}
             <ProseLink href="https://edx.org">edX</ProseLink> /{" "}
-            <ProseLink href="https://2u.com">2U</ProseLink>, leading{" "}
+            <ProseLink href="https://2u.com">2U</ProseLink> came first,
+            leading{" "}
             <ProseLink href="https://paragon-openedx-v22.netlify.app">
               Paragon
             </ProseLink>{" "}
             for the <ProseLink href="https://openedx.org">Open edX</ProseLink>{" "}
-            ecosystem while building edX for Business, and now{" "}
-            <ProseLink href="https://magicschool.ai">MagicSchool AI</ProseLink>,
-            where I’ve been teaching AI coding agents to respect a design
-            system. The research years still show up: I’d rather run an
-            evaluation than argue from taste.
+            ecosystem while building edX for Business. Now it’s{" "}
+            <ProseLink href="https://magicschool.ai">MagicSchool AI</ProseLink>
+            , where that same split has taken on a new shape: teaching AI
+            coding agents, not just engineers, to respect a design system.
+            The research years still show up: on the agent work especially,
+            I’d rather run an evaluation than argue from taste.
           </p>
         </div>
         <aside className="lg:col-span-4">
