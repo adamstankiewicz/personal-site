@@ -28,15 +28,16 @@ const projects: Project[] = [
       'curated examples',
       'JSX type-checking',
       'release-synced manifest',
-      'generative UI',
     ],
     replay: true,
     figures: [
-      { label: 'Attempts per task', value: '2.35 → 1.0' },
+      { label: 'TypeScript pass rate', value: '76% → 100%' },
       { label: 'Quality score', value: '78% → 97%' },
       { label: 'Steps per task', value: '12.7 → 5.8' },
-      { label: 'Cost per output', value: '≈ halved' },
+      { label: 'Cost per output', value: '$0.29 → $0.13' },
     ],
+    figuresNote:
+      '40 component-generation prompts × 5 conditions on one harness. The pass-rate gain is +24pp, significant at p = 0.004 (McNemar).',
     technologies: [
       'TypeScript',
       'Node.js',
@@ -246,16 +247,23 @@ function Inset({ project, index }: { project: Project; index: number }) {
             </div>
           ) : null}
           {!project.images?.length && project.figures ? (
-            <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-line bg-line">
-              {project.figures.map((figure) => (
-                <div key={figure.label} className="bg-paper p-6 sm:p-8">
-                  <dt className="mono-label text-ink-muted">{figure.label}</dt>
-                  <dd className="stat-value mt-4 text-ink">
-                    {figure.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <>
+              <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-line bg-line">
+                {project.figures.map((figure) => (
+                  <div key={figure.label} className="bg-paper p-6 sm:p-8">
+                    <dt className="mono-label text-ink-muted">{figure.label}</dt>
+                    <dd className="stat-value mt-4 text-ink">
+                      {figure.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              {project.figuresNote ? (
+                <p className="mono-label mt-3 text-ink-muted">
+                  {project.figuresNote}
+                </p>
+              ) : null}
+            </>
           ) : null}
           {project.images?.length ? (
             <Gallery images={project.images} title={project.title} />

@@ -20,6 +20,7 @@ export interface Project {
   githubUrl?: string;
   images?: ProjectImage[];
   figures?: ProjectFigure[];
+  figuresNote?: string;
   details?: ProjectDetail[];
   capabilities?: string[];
   technologies?: string[];
