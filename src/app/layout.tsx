@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Bricolage_Grotesque, IBM_Plex_Mono } from "next/font/google";
 import { SiteChrome } from "@/components/site-chrome";
+import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 
 import "@/styles/index.css";
 
@@ -31,11 +32,10 @@ export const viewport: Viewport = {
   ],
 };
 
-const description =
-  "Product engineer on the surface, design systems engineer underneath: features, components, design tokens, and tooling. Currently at MagicSchool AI.";
+const description = SITE_DESCRIPTION;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://adamstankiewicz.dev"),
+  metadataBase: new URL(SITE_URL),
   title: "Adam Stankiewicz · Product Engineering & Design Systems",
   description,
   openGraph: {
