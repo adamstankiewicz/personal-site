@@ -21,54 +21,26 @@ function TitleBlock() {
         tokens, and tooling they're built from.
       </p>
 
-      {/* Facts strip */}
-      <dl className="rise rise-4 mt-14 grid gap-x-8 gap-y-6 border-t border-line pb-20 pt-8 sm:grid-cols-2 sm:pb-24 lg:grid-cols-4">
-        <div>
-          <dt className="mono-label text-ink-muted">Location</dt>
-          <dd className="mt-2 text-[0.9375rem]">Merrimack, New Hampshire</dd>
-        </div>
-        <div>
-          <dt className="mono-label text-ink-muted">Currently</dt>
-          <dd className="mt-2 text-[0.9375rem]">
-            <a
-              href="https://magicschool.ai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
-              MagicSchool AI
-            </a>
-            , since 2025
-          </dd>
-        </div>
-        <div>
-          <dt className="mono-label text-ink-muted">Previously</dt>
-          <dd className="mt-2 text-[0.9375rem]">
-            <a
-              href="https://paragon-openedx-v22.netlify.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
-              Paragon
-            </a>{" "}
-            at edX / 2U, 2018–2025
-          </dd>
-        </div>
-        <div>
-          <dt className="mono-label text-ink-muted">Résumé</dt>
-          <dd className="mt-2 text-[0.9375rem]">
-            <a
-              href="/pdfs/Adam_Stankiewicz_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
-              Download PDF ↓
-            </a>
-          </dd>
-        </div>
-      </dl>
+      {/* One quiet line instead of a spec sheet. */}
+      <p className="rise rise-4 mono-label mt-14 border-t border-line pb-20 pt-6 text-ink-muted sm:pb-24">
+        <a
+          href="https://magicschool.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mono-link !text-ink hover:!text-accent"
+        >
+          MagicSchool AI
+        </a>
+        , since 2025 · previously edX / 2U ·{" "}
+        <a
+          href="/pdfs/Adam_Stankiewicz_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mono-link !text-ink hover:!text-accent"
+        >
+          Résumé ↓
+        </a>
+      </p>
     </section>
   );
 }
