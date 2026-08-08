@@ -34,11 +34,11 @@ export function About() {
               Paragon
             </ProseLink>{" "}
             for the <ProseLink href="https://openedx.org">Open edX</ProseLink>{" "}
-            ecosystem while building edX for Business, and now{" "}
+            ecosystem while building edX for Business. Now it’s{" "}
             <ProseLink href="https://magicschool.ai">MagicSchool AI</ProseLink>,
-            where I’ve been teaching AI coding agents to respect a design
-            system. The research years still show up: I’d rather run an
-            evaluation than argue from taste.
+            teaching AI coding agents to respect a design system. The
+            research years still show up: I’d rather run an evaluation than
+            argue from taste.
           </p>
         </div>
         <aside className="lg:col-span-4">
