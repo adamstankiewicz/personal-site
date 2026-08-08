@@ -1,4 +1,5 @@
 import { SectionHeader } from "@/components/section-header";
+import { Gallery } from "./gallery";
 import { Project, ProjectDetail } from "./types";
 
 const projects: Project[] = [
@@ -45,7 +46,7 @@ const projects: Project[] = [
   },
   {
     title: 'Paragon, Design System & Component Library',
-    description: 'The open-source design system and React component library underneath the Open edX platform: tokens, components, docs, and the tooling that keeps 40+ consuming projects consistent and accessible.',
+    description: 'The open-source design system and React component library underneath the Open edX platform: design tokens, components, docs, and the tooling that keeps 40+ consuming projects consistent and accessible.',
     href: 'https://paragon-openedx-v22.netlify.app',
     githubUrl: 'https://github.com/openedx/paragon',
     images: [
@@ -143,8 +144,6 @@ function formatInstalls(installs: number) {
 
 function Inset({ project, index }: { project: Project; index: number }) {
   const number = String(index + 1).padStart(2, "0");
-  const [cover, ...rest] = project.images ?? [];
-  const thumbnails = rest.slice(0, 3);
 
   return (
     <article className="py-12 first:pt-10 last:pb-0 sm:py-14">
@@ -235,7 +234,7 @@ function Inset({ project, index }: { project: Project; index: number }) {
         </div>
 
         <div className="lg:col-span-7">
-          {!cover && project.figures ? (
+          {!project.images?.length && project.figures ? (
             <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-line bg-line">
               {project.figures.map((figure) => (
                 <div key={figure.label} className="bg-paper p-6 sm:p-8">
@@ -247,47 +246,8 @@ function Inset({ project, index }: { project: Project; index: number }) {
               ))}
             </dl>
           ) : null}
-          {cover ? (
-            <a
-              href={project.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${project.title} (opens live site)`}
-              className="group plate block overflow-hidden bg-paper-raised"
-            >
-              <img
-                src={cover.src}
-                alt={cover.alt}
-                loading="lazy"
-                decoding="async"
-                width={3024}
-                height={1550}
-                className="plate-img h-auto w-full"
-              />
-            </a>
-          ) : null}
-          {thumbnails.length ? (
-            <div className="mt-4 grid grid-cols-3 gap-4">
-              {thumbnails.map((image) => (
-                <div
-                  key={image.src}
-                  className="plate overflow-hidden bg-paper-raised"
-                >
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    loading="lazy"
-                    decoding="async"
-                    width={3024}
-                    height={1550}
-                    className="h-auto w-full"
-                  />
-                </div>
-              ))}
-            </div>
-          ) : null}
-          {cover ? (
-            <p className="mono-label mt-3 text-ink-muted">{cover.alt}</p>
+          {project.images?.length ? (
+            <Gallery images={project.images} title={project.title} />
           ) : null}
         </div>
       </div>
