@@ -19,6 +19,10 @@ export default defineConfig({
   use: {
     baseURL: "http://localhost:3000",
     trace: "on-first-retry",
+    // The experience section's scroll-arrival machinery bails under
+    // reduced motion; pin the emulated preference so CI runners can't
+    // flip it out from under the tests.
+    reducedMotion: "no-preference",
   },
   // Port 3000 on purpose: locally a running `npm run dev` is reused
   // as-is (never run `next build` while the dev server is up — the
