@@ -2,6 +2,7 @@ import { About } from "@/components/about/about";
 import { Atmosphere } from "@/components/atmosphere";
 import { Experience } from "@/components/experience";
 import { HeroName } from "@/components/hero-name";
+import { Lab } from "@/components/lab";
 import { Projects } from "@/components/projects";
 import { Research } from "@/components/research";
 
@@ -106,6 +107,7 @@ export default function Home() {
       <Experience />
       <Projects />
       <Research />
+      <Lab />
       <Contact />
     </>
   );
