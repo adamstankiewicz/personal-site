@@ -13,7 +13,7 @@ export function About() {
     <section id="about" className="scroll-mt-16 pb-20 sm:pb-28">
       <SectionHeader number="01" title="About" annotation="The story so far" />
       <div className="mt-10 grid gap-10 lg:grid-cols-12">
-        <div className="space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
+        <div className="max-w-[65ch] space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
           <p>
             For over a decade I've worked both sides of one line: the product,
             and the system underneath it. Features as an engineer and tech
