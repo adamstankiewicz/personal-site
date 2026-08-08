@@ -3,6 +3,7 @@ import { Gallery } from "./gallery";
 import { SpellbookReplay } from "./spellbook-replay";
 import { projects } from "./data";
 import { Project, ProjectDetail } from "./types";
+import { ExternalLink } from "@/components/ui/external-link";
 
 function formatInstalls(installs: number) {
   const millions = installs / 1_000_000;
@@ -22,14 +23,12 @@ function Inset({ project, index }: { project: Project; index: number }) {
           <p className="mono-label text-accent">Case {number}</p>
           <h3 className="title-md mt-4 text-[1.5rem] sm:text-[1.75rem]">
             {project.href ? (
-              <a
+              <ExternalLink
                 href={project.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="transition-colors hover:text-accent"
               >
                 {project.title}
-              </a>
+              </ExternalLink>
             ) : (
               project.title
             )}
@@ -74,26 +73,22 @@ function Inset({ project, index }: { project: Project; index: number }) {
             ) : null}
             {project.href ? (
               <li>
-                <a
+                <ExternalLink
                   href={project.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="mono-link !text-inherit hover:!text-accent"
                 >
                   Live ↗
-                </a>
+                </ExternalLink>
               </li>
             ) : null}
             {project.githubUrl ? (
               <li>
-                <a
+                <ExternalLink
                   href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="mono-link !text-inherit hover:!text-accent"
                 >
                   Source ↗
-                </a>
+                </ExternalLink>
               </li>
             ) : null}
           </ul>

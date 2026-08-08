@@ -247,6 +247,16 @@ p {
   -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 96%);
 }
 
+/* High contrast trades atmosphere for legibility: the decorative
+   gradient wash and photo sheen sit out; the token layer handles the
+   palette (see the prefers-contrast block in tokens.css). */
+@media (prefers-contrast: more) {
+  .atmosphere,
+  .photo-sheen {
+    display: none;
+  }
+}
+
 /* The contact bookend rises from the page's end and stops clean at
    the footer divider. */
 .atmosphere[data-flip] {

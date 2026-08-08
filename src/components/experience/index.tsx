@@ -5,6 +5,7 @@ import { SectionHeader } from "@/components/section-header";
 import { prefersReducedMotion } from "@/lib/hooks";
 import { earlierWork, experiences } from "./data";
 import { ExperienceItemProps } from "./types";
+import { ExternalLink } from "@/components/ui/external-link";
 
 function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
   const flyerRef = useRef<HTMLDivElement>(null);
@@ -198,14 +199,12 @@ function Waypoint({
           <div className="grid gap-8 pb-4 pt-3 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <p className="max-w-[62ch] text-[1rem] leading-[1.7]">{description}</p>
-              <a
+              <ExternalLink
                 href={companyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="mono-link mt-4 inline-block"
               >
                 Visit {company} ↗
-              </a>
+              </ExternalLink>
             </div>
             <div className="space-y-6 lg:col-span-5">
               {positions.length > 1 ? (

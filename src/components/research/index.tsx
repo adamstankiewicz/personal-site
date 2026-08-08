@@ -1,4 +1,5 @@
 import { SectionHeader } from "@/components/section-header";
+import { ExternalLink } from "@/components/ui/external-link";
 
 interface Publication {
   title: string;
@@ -72,14 +73,12 @@ export function Research() {
             <div>
               <p className="title-md text-[1.0625rem] leading-snug">
                 {publication.href ? (
-                  <a
+                  <ExternalLink
                     href={publication.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="transition-colors hover:text-accent"
                   >
                     {publication.title}
-                  </a>
+                  </ExternalLink>
                 ) : (
                   publication.title
                 )}
@@ -94,14 +93,12 @@ export function Research() {
           </li>
         ))}
       </ol>
-      <a
+      <ExternalLink
         href="https://scholar.google.com/citations?user=lJSHz8QAAAAJ"
-        target="_blank"
-        rel="noopener noreferrer"
         className="mono-link mt-10 inline-block"
       >
         Full list on Google Scholar ↗
-      </a>
+      </ExternalLink>
     </section>
   );
 }

@@ -5,6 +5,7 @@ import { HeroName } from "@/components/hero-name";
 import { Lab } from "@/components/lab";
 import { Projects } from "@/components/projects";
 import { Research } from "@/components/research";
+import { ExternalLink } from "@/components/ui/external-link";
 
 function TitleBlock() {
   return (
@@ -23,23 +24,19 @@ function TitleBlock() {
 
       {/* One quiet line instead of a spec sheet. */}
       <p className="rise rise-4 mono-label mt-14 border-t border-line pb-20 pt-6 text-ink-muted sm:pb-24">
-        <a
+        <ExternalLink
           href="https://magicschool.ai"
-          target="_blank"
-          rel="noopener noreferrer"
           className="mono-link !text-ink hover:!text-accent"
         >
           MagicSchool AI
-        </a>
+        </ExternalLink>
         , since 2025 · previously edX / 2U ·{" "}
-        <a
+        <ExternalLink
           href="/pdfs/Adam_Stankiewicz_Resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
           className="mono-link !text-ink hover:!text-accent"
         >
           Résumé ↓
-        </a>
+        </ExternalLink>
       </p>
     </section>
   );

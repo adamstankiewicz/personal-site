@@ -6,8 +6,10 @@
  *   node scripts/build-tokens.mjs --check   fail if generated output drifts
  *                                           from source (used as a build gate)
  *
- * Semantic color tokens may carry a dark-mode value under
- * $extensions["dev.adamstankiewicz.dark"]; those emit into a `.dark` block.
+ * Semantic color tokens may carry mode variants under $extensions:
+ *   dev.adamstankiewicz.dark     → the `.dark` block
+ *   dev.adamstankiewicz.hc       → :root inside @media (prefers-contrast: more)
+ *   dev.adamstankiewicz.dark-hc  → .dark inside the same media block
  *
  * The generation logic is exported for tests (build-tokens.test.mjs);
  * only direct invocation touches the filesystem.
@@ -22,6 +24,8 @@ const SOURCE = join(root, "tokens", "tokens.json");
 const OUTPUT = join(root, "src", "styles", "tokens.css");
 
 const DARK_EXTENSION = "dev.adamstankiewicz.dark";
+const HC_EXTENSION = "dev.adamstankiewicz.hc";
+const DARK_HC_EXTENSION = "dev.adamstankiewicz.dark-hc";
 
 // CSS custom property names, grouped by DTCG path prefix.
 const VAR_NAME = {
@@ -68,13 +72,22 @@ export function generateCss(tokens) {
 
   const light = [];
   const dark = [];
+  const hcLight = [];
+  const hcDark = [];
   for (const [group, namer] of Object.entries(VAR_NAME)) {
     for (const [key, token] of Object.entries(tokens[group] ?? {})) {
       if (!isToken(token)) continue;
       light.push(`  ${namer(key)}: ${resolve(token.$value)};`);
-      const darkValue = token.$extensions?.[DARK_EXTENSION];
-      if (darkValue !== undefined) {
-        dark.push(`  ${namer(key)}: ${resolve(darkValue)};`);
+      const variants = [
+        [DARK_EXTENSION, dark, "  "],
+        [HC_EXTENSION, hcLight, "    "],
+        [DARK_HC_EXTENSION, hcDark, "    "],
+      ];
+      for (const [extension, bucket, indent] of variants) {
+        const value = token.$extensions?.[extension];
+        if (value !== undefined) {
+          bucket.push(`${indent}${namer(key)}: ${resolve(value)};`);
+        }
       }
     }
   }
@@ -90,6 +103,18 @@ ${light.join("\n")}
 
 .dark {
 ${dark.join("\n")}
+}
+
+/* High contrast is a token variant, not a special case: values under
+ * the hc / dark-hc extensions land here. */
+@media (prefers-contrast: more) {
+  :root {
+${hcLight.join("\n")}
+  }
+
+  .dark {
+${hcDark.join("\n")}
+  }
 }
 `;
 }

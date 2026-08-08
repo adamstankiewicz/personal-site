@@ -1,11 +1,12 @@
 import { SectionHeader } from "@/components/section-header";
 import { PrintPhoto } from "./print-photo";
+import { ExternalLink } from "@/components/ui/external-link";
 
 function ProseLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className="link">
+    <ExternalLink href={href} className="link">
       {children}
-    </a>
+    </ExternalLink>
   );
 }
 

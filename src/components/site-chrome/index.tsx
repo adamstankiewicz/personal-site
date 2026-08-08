@@ -8,6 +8,7 @@ import { prefersReducedMotion } from "@/lib/hooks";
 import { scrollToSection } from "@/lib/section-scroll";
 import { GitHubStats, LocalTime } from "./footer-meta";
 import buildInfo from "@/generated/build-info.json";
+import { ExternalLink } from "@/components/ui/external-link";
 
 const NAV_ITEMS = [
   { id: "about", label: "About" },
@@ -234,63 +235,57 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 <span className="font-mono text-[0.8125rem] text-ink">IBM Plex Mono</span>,
                 self-hosted. Statically rendered with Next.js, styled with
                 Tailwind, served from Netlify’s CDN.{" "}
-                <a
+                <ExternalLink
                   href="https://github.com/adamstankiewicz/personal-site"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="link"
                 >
                   View source ↗
-                </a>
+                </ExternalLink>
               </p>
             </div>
             <div>
               <p className="mono-label text-ink-muted">Elsewhere</p>
               <ul className="mt-2">
                 <li>
-                  <a href="https://github.com/adamstankiewicz" target="_blank" rel="noopener noreferrer" className="mono-link inline-block py-1.5">
+                  <ExternalLink href="https://github.com/adamstankiewicz" className="mono-link inline-block py-1.5">
                     GitHub ↗
-                  </a>
+                  </ExternalLink>
                 </li>
                 <li>
-                  <a href="https://linkedin.com/in/stankiewiczadam" target="_blank" rel="noopener noreferrer" className="mono-link inline-block py-1.5">
+                  <ExternalLink href="https://linkedin.com/in/stankiewiczadam" className="mono-link inline-block py-1.5">
                     LinkedIn ↗
-                  </a>
+                  </ExternalLink>
                 </li>
                 <li>
-                  <a href="https://scholar.google.com/citations?user=lJSHz8QAAAAJ" target="_blank" rel="noopener noreferrer" className="mono-link inline-block py-1.5">
+                  <ExternalLink href="https://scholar.google.com/citations?user=lJSHz8QAAAAJ" className="mono-link inline-block py-1.5">
                     Google Scholar ↗
-                  </a>
+                  </ExternalLink>
                 </li>
                 <li>
-                  <a href="/pdfs/Adam_Stankiewicz_Resume.pdf" target="_blank" rel="noopener noreferrer" className="mono-link inline-block py-1.5">
+                  <ExternalLink href="/pdfs/Adam_Stankiewicz_Resume.pdf" className="mono-link inline-block py-1.5">
                     Résumé ↓
-                  </a>
+                  </ExternalLink>
                 </li>
               </ul>
             </div>
             <div className="sm:text-right">
               <p className="mono-label text-ink-muted">
                 v{buildInfo.version} ·{" "}
-                <a
+                <ExternalLink
                   href={`https://github.com/adamstankiewicz/personal-site/commit/${buildInfo.commit}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="mono-link !text-inherit hover:!text-accent"
                 >
                   {buildInfo.commit}
-                </a>
+                </ExternalLink>
               </p>
               <p className="mono-label mt-3 text-ink-muted">
                 Updated {buildInfo.updated} ·{" "}
-                <a
+                <ExternalLink
                   href="https://github.com/adamstankiewicz/personal-site/commits/master"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="mono-link !text-inherit hover:!text-accent"
                 >
                   History ↗
-                </a>
+                </ExternalLink>
               </p>
               <p className="mono-label mt-3 text-ink-muted">
                 <kbd className="key-hint">⌘K</kbd> for commands
@@ -307,14 +302,12 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             <div className="flex flex-wrap items-end justify-between gap-6">
               <p className="mono-label text-ink-muted">
                 Design tokens · generated from{" "}
-                <a
+                <ExternalLink
                   href="https://github.com/adamstankiewicz/personal-site/blob/master/tokens/tokens.json"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="mono-link !text-inherit hover:!text-accent"
                 >
                   tokens.json ↗
-                </a>{" "}
+                </ExternalLink>{" "}
                 (DTCG)
               </p>
               <ul className="flex flex-wrap gap-x-6 gap-y-3">

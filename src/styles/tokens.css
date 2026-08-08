@@ -36,3 +36,28 @@
   --accent: #8b9dff;
   --accent-strong: #8b9dff;
 }
+
+/* High contrast is a token variant, not a special case: values under
+ * the hc / dark-hc extensions land here. */
+@media (prefers-contrast: more) {
+  :root {
+    --paper-raised: #ffffff;
+    --line: #5f5f67;
+    --line-strong: #000000;
+    --ink: #000000;
+    --ink-muted: #434349;
+    --accent: #0f28b3;
+    --accent-strong: #0f28b3;
+  }
+
+  .dark {
+    --paper: #000000;
+    --paper-raised: #0d0e11;
+    --line: #a0a2ac;
+    --line-strong: #ffffff;
+    --ink: #ffffff;
+    --ink-muted: #f1f1f3;
+    --accent: #b1c0ff;
+    --accent-strong: #b1c0ff;
+  }
+}

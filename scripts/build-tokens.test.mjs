@@ -57,6 +57,27 @@ test("unresolvable aliases throw", () => {
   );
 });
 
+test("hc extensions emit into the prefers-contrast media block", () => {
+  const css = generateCss({
+    semantic: {
+      ink: {
+        $type: "color",
+        $value: "#131316",
+        $extensions: {
+          "dev.adamstankiewicz.dark": "#f1f1f3",
+          "dev.adamstankiewicz.hc": "#000000",
+          "dev.adamstankiewicz.dark-hc": "#ffffff",
+        },
+      },
+    },
+  });
+  const [base, contrastBlock] = css.split("@media (prefers-contrast: more)");
+  assert.doesNotMatch(base, /--ink: #000000;/);
+  const [hcLight, hcDark] = contrastBlock.split(".dark {");
+  assert.match(hcLight, /--ink: #000000;/);
+  assert.match(hcDark, /--ink: #ffffff;/);
+});
+
 test("shared bases and repeated aliases are not misread as cycles", () => {
   const css = generateCss({
     color: { base: { $type: "color", $value: "#1435e5" } },

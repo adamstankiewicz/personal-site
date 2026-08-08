@@ -1,6 +1,6 @@
 # adamstankiewicz.dev
 
-Personal site of Adam Stankiewicz. Fully static Next.js 15 (App Router,
+Personal site of Adam Stankiewicz. Fully static Next.js 16 (App Router,
 `output: "export"`), React 19, Tailwind v4, self-hosted fonts via
 `next/font`, served from Netlify.
 
@@ -40,11 +40,40 @@ Token guidance: a fine-grained PAT with **Pull requests: read** +
 or a classic PAT with `repo` scope authorized for the org via SSO. The
 script only ever emits aggregate integers.
 
+## Design system
+
+The site is its own small design system, layered the way the big ones
+are — each layer only speaks to the one below it:
+
+1. **Tokens** — `tokens/tokens.json` (DTCG). Semantic colors carry
+   mode variants as `$extensions`: `dark`, and `hc` / `dark-hc` for
+   high contrast. `scripts/build-tokens.mjs` generates
+   `src/styles/tokens.css` — `:root`, `.dark`, and a
+   `@media (prefers-contrast: more)` block — and a drift gate keeps
+   source and output in lockstep.
+2. **Theme** — Tailwind v4's `@theme` (in `src/styles/app.css`) maps
+   the generated custom properties into utilities, so every utility
+   class composes token values, never raw hex.
+3. **Recipes** — recurring typographic and interactive patterns are
+   named classes in `app.css` (`mono-label`, `title-md`, `mono-link`,
+   `key-hint`, …) rather than repeated utility strings.
+4. **Primitives** — `src/components/ui/` holds behavior-carrying
+   primitives; `ExternalLink` encodes the `rel="noopener noreferrer"`
+   invariant once for every new-tab link on the site.
+5. **Sections** — each page section is a folder under
+   `src/components`, with prose and data split into `data.ts` so the
+   component files stay purely structural.
+
+There's deliberately no component-library dependency: the point of
+this site is to show the system thinking, not to import it.
+
 ## Structure
 
 - `src/app` — layout, page, theme-aware SVG favicon
 - `src/components` — site chrome, hero, about, experience timeline,
   case studies + galleries + Spellbook replay, publications, lab
+- `src/components/ui` — shared primitives
+- `src/lib/hooks.ts` — media-query, theme, and idle-mount hooks
 - `src/lib/section-scroll.ts` — nav scrolling that scroll-driven
   behaviors respect
 - `tokens/` — DTCG design-token source of truth
