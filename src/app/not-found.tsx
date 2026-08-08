@@ -3,15 +3,16 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <section className="py-32 sm:py-44">
-      <p className="mono-label text-accent">Err 404 — Off course</p>
-      <h1 className="mt-6 font-serif text-[clamp(2.5rem,7vw,5rem)] font-light leading-none tracking-tight">
-        You've drifted off the flight plan.
+      <p className="mono-label text-accent">Error 404</p>
+      <h1 className="display-title mt-6 text-[clamp(2.25rem,6vw,4rem)]">
+        This page isn't on the map.
       </h1>
       <p className="mt-6 max-w-xl text-[1.0625rem] leading-[1.7] text-ink-muted">
-        This address doesn't exist on the chart. Turn back toward the field.
+        The address may have moved or never existed. Everything worth seeing is
+        on the home page.
       </p>
       <Link href="/" className="mono-link mt-10 inline-block">
-        Return to the field ↗
+        Back to home ↗
       </Link>
     </section>
   );

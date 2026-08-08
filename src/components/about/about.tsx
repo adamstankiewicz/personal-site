@@ -11,7 +11,7 @@ function ProseLink({ href, children }: { href: string; children: React.ReactNode
 export function About() {
   return (
     <section id="about" className="scroll-mt-16 pb-20 sm:pb-28">
-      <SectionHeader number="01" title="Briefing" annotation="The story so far" />
+      <SectionHeader number="01" title="About" annotation="The story so far" />
       <div className="mt-10 grid gap-10 lg:grid-cols-12">
         <div className="space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
           <p>
@@ -57,10 +57,23 @@ export function About() {
           <div className="border-l border-line pl-6">
             <p className="mono-label text-ink-muted">Off hours</p>
             <p className="mt-3 text-[0.9375rem] italic leading-relaxed text-ink-muted">
-              Usually hiking with my Australian Cattle Dog (Duke), flying as a
-              Private Pilot and aircraft owner (Cessna 172), or reminiscing
-              about my days on the U.S. Boomerang Team.
+              Usually hiking with my Australian Cattle Dog (Duke), flying my
+              Cessna 172 around New England, or reminiscing about my days on
+              the U.S. Boomerang Team.
             </p>
+            <figure className="photo-plate mt-5">
+              <img
+                src="/images/flying/monadnock.jpg"
+                alt="View from a small plane of Mount Monadnock under late-day clouds, the wing strut crossing the frame"
+                width={1400}
+                height={1050}
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption className="mono-label mt-2 px-1 pb-1 text-ink-muted">
+                Mount Monadnock, from 4,500 ft
+              </figcaption>
+            </figure>
           </div>
         </aside>
       </div>

@@ -4,7 +4,6 @@ export interface Position {
 }
 
 export interface ExperienceItemProps {
-  fix?: string;
   company: string;
   companyUrl: string;
   period: string;

@@ -6,7 +6,6 @@ import { ExperienceItemProps } from "./types";
 
 const experiences: ExperienceItemProps[] = [
     {
-      fix: "MAGIC",
       company: "MagicSchool AI",
       companyUrl: "https://magicschool.ai",
       period: "2025 — Present",
@@ -21,7 +20,6 @@ const experiences: ExperienceItemProps[] = [
       ],
     },
     {
-      fix: "EDEXX",
       company: "edX / 2U",
       companyUrl: "https://edx.org",
       period: "2018 — 2025",
@@ -40,7 +38,6 @@ const experiences: ExperienceItemProps[] = [
       ],
     },
     {
-      fix: "GRSIG",
       company: "Ground Signal",
       companyUrl: "https://groundsignal.ai/",
       period: "2017 — 2018",
@@ -53,7 +50,6 @@ const experiences: ExperienceItemProps[] = [
       ],
     },
     {
-      fix: "CARNE",
       company: "Carnegie Mellon University",
       companyUrl: "https://www.cmu.edu/",
       period: "2015 — 2017",
@@ -69,7 +65,6 @@ const experiences: ExperienceItemProps[] = [
       ],
     },
     {
-      fix: "HRTFD",
       company: "University of Hartford",
       companyUrl: "https://hartford.edu/",
       period: "2012 — 2015",
@@ -119,7 +114,7 @@ function Waypoint({
   open: boolean;
   onToggle: () => void;
 }) {
-  const { fix, company, companyUrl, period, positions, description, technologies } =
+  const { company, companyUrl, period, positions, description, technologies } =
     experience;
   const currentRole = positions[0]?.title ?? "";
   const bodyId = `waypoint-${index}-body`;
@@ -134,7 +129,9 @@ function Waypoint({
         aria-controls={bodyId}
         className="group -mx-3 grid w-full cursor-pointer grid-cols-[4.5rem_1fr_auto] items-baseline gap-x-4 px-3 py-2 text-left sm:grid-cols-[4.5rem_1fr_1fr_8.5rem_1.5rem]"
       >
-        <span className="mono-label text-accent">{fix}</span>
+        <span className="mono-label tabular-nums text-accent">
+          {period.split(" ")[0]}
+        </span>
         <span className="condensed-caps text-[1.0625rem] transition-colors group-hover:text-accent sm:text-[1.1875rem]">
           {company}
         </span>
@@ -205,7 +202,7 @@ export function Experience() {
 
   return (
     <section id="route" className="scroll-mt-16 pb-20 sm:pb-28">
-      <SectionHeader number="02" title="The Route" annotation="Logged 2010 — Present" />
+      <SectionHeader number="02" title="Experience" annotation="2010 — Present" />
       <div className="route mt-10">
         <div className="route-line" aria-hidden="true" />
         <ol className="space-y-8">

@@ -5,9 +5,9 @@ import Link from "next/link";
 import { CommandMenu, type Command } from "@/components/command-menu";
 
 const NAV_ITEMS = [
-  { id: "about", label: "Briefing" },
-  { id: "route", label: "Route" },
-  { id: "work", label: "Insets" },
+  { id: "about", label: "About" },
+  { id: "route", label: "Experience" },
+  { id: "work", label: "Work" },
   { id: "research", label: "Publications" },
 ];
 
@@ -42,26 +42,12 @@ function ThemeToggle() {
       <span className="theme-glyph" aria-hidden="true">
         ◐
       </span>
-      <span className="ml-1.5 hidden md:inline">Night VFR</span>
+      <span className="ml-1.5 hidden md:inline">Theme</span>
     </button>
   );
 }
 
-function GridOverlay({ visible }: { visible: boolean }) {
-  if (!visible) return null;
-  return (
-    <div className="grid-overlay" aria-hidden="true">
-      <div className="grid-overlay-columns">
-        {Array.from({ length: 12 }).map((_, i) => (
-          <span key={i} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export function SiteChrome({ children }: { children: React.ReactNode }) {
-  const [gridVisible, setGridVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -80,13 +66,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         group: "Actions",
         hint: "light / dark",
         run: toggleTheme,
-      },
-      {
-        id: "grid",
-        label: "Toggle baseline grid",
-        group: "Actions",
-        hint: "g",
-        run: () => setGridVisible((v) => !v),
       },
       {
         id: "resume",
@@ -133,22 +112,17 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     []
   );
 
-  // Global keyboard: ⌘K command menu, "g" grid.
+  // Global keyboard: ⌘K opens the command menu.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setMenuOpen((v) => !v);
-        return;
       }
-      if (menuOpen || e.metaKey || e.ctrlKey || e.altKey) return;
-      const target = e.target as HTMLElement | null;
-      if (target && /^(input|textarea|select)$/i.test(target.tagName)) return;
-      if (e.key === "g") setGridVisible((v) => !v);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [menuOpen]);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -159,7 +133,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="chart-frame flex min-h-screen flex-col">
-      <GridOverlay visible={gridVisible} />
       <CommandMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
@@ -249,12 +222,10 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             <div className="sm:text-right">
               <p className="mono-label text-ink-muted">© {new Date().getFullYear()}</p>
               <p className="mono-label mt-3 text-ink-muted">
-                <kbd className="key-hint">⌘K</kbd> commands ·{" "}
-                <kbd className="key-hint">G</kbd> grid
+                <kbd className="key-hint">⌘K</kbd> for commands
               </p>
               <p className="mono-label mt-3 text-ink-muted">
-                Written in Merrimack, NH · 42.86°N 71.49°W · clear skies
-                permitting
+                Made in Merrimack, New Hampshire · 42.86° N, 71.49° W
               </p>
             </div>
           </div>

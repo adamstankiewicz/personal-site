@@ -127,7 +127,7 @@ function Inset({ project, index }: { project: Project; index: number }) {
     <article className="inset mt-10 p-5 sm:p-8">
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <p className="inset-tab -ml-1">Inset {number}</p>
+          <p className="inset-tab -ml-1">No. {number}</p>
           <h3 className="condensed-caps mt-5 text-2xl sm:text-[1.75rem]">
             {project.href ? (
               <a
@@ -249,7 +249,7 @@ function Inset({ project, index }: { project: Project; index: number }) {
 export function Projects() {
   return (
     <section id="work" className="scroll-mt-16 pb-24 sm:pb-32">
-      <SectionHeader number="03" title="Insets" annotation="Selected work, enlarged" />
+      <SectionHeader number="03" title="Selected Work" annotation="Three things, up close" />
       <div>
         {projects.map((project, index) => (
           <Inset key={project.title} project={project} index={index} />
