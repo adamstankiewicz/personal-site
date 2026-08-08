@@ -57,8 +57,8 @@ export function Research() {
         annotation="HCI · peer-reviewed"
       />
       <p className="mt-8 max-w-2xl text-[1rem] leading-[1.7] text-ink-muted">
-        Before industry: how people learn together at scale, published in ACM
-        venues.
+        Before industry, I studied how people learn together at scale. Five
+        peer-reviewed papers in ACM venues.
       </p>
       <ol className="mt-10 space-y-8">
         {publications.map((publication, index) => (

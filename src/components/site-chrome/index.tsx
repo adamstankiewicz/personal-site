@@ -62,6 +62,8 @@ function ThemeToggle() {
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [allowMotion, setAllowMotion] = useState(false);
 
   const commands = useMemo<Command[]>(
     () => [
@@ -79,6 +81,21 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         hint: "light / dark",
         run: toggleTheme,
       },
+      ...(allowMotion
+        ? [
+            {
+              id: "barrel-roll",
+              label: "Do a barrel roll",
+              group: "Actions" as const,
+              hint: "360°",
+              run: () => {
+                const root = document.documentElement;
+                root.classList.add("barrel-roll");
+                setTimeout(() => root.classList.remove("barrel-roll"), 950);
+              },
+            },
+          ]
+        : []),
       {
         id: "resume",
         label: "Download résumé",
@@ -121,7 +138,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           ),
       },
     ],
-    []
+    [allowMotion]
   );
 
   // Global keyboard: ⌘K opens the command menu.
@@ -141,6 +158,32 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    setAllowMotion(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  // Track the section in view: the nav underlines it, and each section
+  // gets its stamp the first time it appears.
+  useEffect(() => {
+    const sections = NAV_ITEMS.map((item) =>
+      document.getElementById(item.id)
+    ).filter((el): el is HTMLElement => el !== null);
+    if (!sections.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+            entry.target.setAttribute("data-stamped", "");
+          }
+        }
+      },
+      { rootMargin: "-35% 0px -55% 0px" }
+    );
+    sections.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -167,6 +210,8 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                   key={item.id}
                   href={`/#${item.id}`}
                   className="mono-link nav-link -my-2 inline-block py-2"
+                  data-active={activeSection === item.id}
+                  aria-current={activeSection === item.id ? "true" : undefined}
                 >
                   {item.label}
                 </a>

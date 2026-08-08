@@ -675,7 +675,6 @@ kbd.key-hint {
   z-index: 2;
   width: 18px;
   height: 18px;
-  margin-left: -8px;
   color: var(--accent);
   will-change: transform;
 }
@@ -763,4 +762,79 @@ kbd.key-hint {
   ::view-transition-new(root) {
     animation: none;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section stamps — panels get marked as you pass through             */
+/* ------------------------------------------------------------------ */
+
+.panel-stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 0.75rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  vertical-align: middle;
+  transform: rotate(-10deg) scale(0);
+  opacity: 0;
+  transition: transform var(--dur-open) var(--ease-spring),
+    opacity var(--dur-fast) var(--ease-out);
+}
+
+section[data-stamped] .panel-stamp {
+  transform: rotate(-10deg) scale(1);
+  opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel-stamp {
+    transform: rotate(-10deg) scale(1);
+  }
+  section[data-stamped] .panel-stamp {
+    transform: rotate(-10deg) scale(1);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Scroll-spy — the active section keeps its underline                */
+/* ------------------------------------------------------------------ */
+
+.nav-link[data-active="true"]::after {
+  transform: scaleX(1);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Barrel roll — invoked from the command menu, once around           */
+/* ------------------------------------------------------------------ */
+
+@keyframes barrel-roll {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html.barrel-roll body {
+  animation: barrel-roll 900ms var(--ease-spring);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Instruments — the landed state offers the climb back up            */
+/* ------------------------------------------------------------------ */
+
+.instruments button {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
 }

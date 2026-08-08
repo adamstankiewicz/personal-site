@@ -104,7 +104,7 @@ function RouteFlyer() {
       const anchor = window.innerHeight * 0.45;
       const progress = Math.min(1, Math.max(0, (anchor - rect.top) / rect.height));
       const y = 14 + progress * (rect.height - 46);
-      flyer.style.transform = `translateY(${y}px)`;
+      flyer.style.transform = `translate(-50%, ${y}px)`;
     };
     const onScroll = () => {
       if (raf === null) raf = requestAnimationFrame(update);

@@ -93,7 +93,7 @@ export function TerrainPlate() {
       ) : null}
 
       <figcaption className="terrain-plate-caption mono-label text-ink-muted">
-        Over Lake Winnipesaukee, NH — from the left seat of my Cessna 172
+        Over Lake Winnipesaukee, NH, from the left seat of my Cessna 172
       </figcaption>
     </figure>
   );

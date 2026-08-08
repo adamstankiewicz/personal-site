@@ -1,51 +1,16 @@
 import { About } from "@/components/about/about";
+import { CompassRose } from "@/components/compass-rose";
 import { TerrainPlate } from "@/components/terrain-plate";
 import { Experience } from "@/components/experience";
 import { Projects } from "@/components/projects";
 import { Research } from "@/components/research";
 
 const STATS = [
-  { value: "8M+", label: "Users served today" },
+  { value: "8M+", label: "Daily users" },
   { value: "5.9M+", label: "npm downloads" },
   { value: "100M+", label: "Learners reached" },
   { value: "5", label: "ACM publications" },
 ];
-
-function CompassRose() {
-  return (
-    <svg
-      viewBox="0 0 96 96"
-      className="h-20 w-20 text-accent sm:h-24 sm:w-24"
-      aria-hidden="true"
-    >
-      <g fill="none" stroke="currentColor" strokeWidth="1">
-        <circle cx="48" cy="48" r="34" />
-        <circle cx="48" cy="48" r="26" strokeDasharray="2 4" />
-        {Array.from({ length: 36 }).map((_, i) => {
-          const angle = (i * 10 * Math.PI) / 180;
-          const isCardinal = i % 9 === 0;
-          const r1 = isCardinal ? 28 : 31;
-          const x1 = 48 + r1 * Math.sin(angle);
-          const y1 = 48 - r1 * Math.cos(angle);
-          const x2 = 48 + 34 * Math.sin(angle);
-          const y2 = 48 - 34 * Math.cos(angle);
-          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />;
-        })}
-      </g>
-      {/* North needle */}
-      <path d="M48 10 L52 24 L48 21 L44 24 Z" fill="currentColor" />
-      <text
-        x="48"
-        y="52"
-        textAnchor="middle"
-        fill="currentColor"
-        style={{ font: "700 11px var(--font-mono)" }}
-      >
-        N
-      </text>
-    </svg>
-  );
-}
 
 function TitleBlock() {
   return (
@@ -70,7 +35,7 @@ function TitleBlock() {
               Stankiewicz
             </h1>
             <p className="rise rise-3 condensed-caps mt-5 text-[0.9375rem] text-ink-muted">
-              Product engineer & design systems — MagicSchool AI
+              Product engineering & design systems at MagicSchool AI
             </p>
             <p className="rise rise-3 mt-4 max-w-xl text-[1rem] leading-[1.65] text-ink-muted">
               I build the product, and the system underneath it.

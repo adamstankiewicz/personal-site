@@ -67,7 +67,7 @@ export function Instruments() {
   const landed = reading.alt <= 0;
 
   return (
-    <div className="instruments" aria-hidden="true">
+    <div className="instruments">
       <span>
         Alt <b>{formatAltitude(reading.alt)} ft</b>
       </span>
@@ -76,7 +76,12 @@ export function Instruments() {
       </span>
       <span>
         {landed ? (
-          <b>Landed</b>
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          >
+            Landed · back to top ↑
+          </button>
         ) : (
           <>
             GS <b>{String(reading.gs).padStart(3, "0")} kt</b>

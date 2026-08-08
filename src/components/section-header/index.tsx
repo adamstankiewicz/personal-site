@@ -13,6 +13,9 @@ export function SectionHeader({ number, title, annotation }: SectionHeaderProps)
       <h2 className="flex items-baseline gap-3">
         <span className="mono-label text-accent">Panel {number}</span>
         <span className="condensed-caps text-[0.8125rem]">{title}</span>
+        <span className="panel-stamp" aria-hidden="true">
+          ✓
+        </span>
       </h2>
       {annotation ? (
         <p className="mono-label hidden text-ink-muted sm:block">{annotation}</p>

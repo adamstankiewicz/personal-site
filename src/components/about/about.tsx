@@ -39,21 +39,7 @@ export function About() {
             behavior, let evidence set the roadmap.
           </p>
         </div>
-        <aside className="space-y-10 lg:col-span-4">
-          <div className="border-l border-line pl-6">
-            <p className="mono-label text-ink-muted">Operating principles</p>
-            <ul className="mt-3 space-y-3">
-              <li className="text-[1rem] font-medium italic leading-snug">
-                Measure before rollout.
-              </li>
-              <li className="text-[1rem] font-medium italic leading-snug">
-                Fix it in the system, not the call site.
-              </li>
-              <li className="text-[1rem] font-medium italic leading-snug">
-                Own it end to end, API to interface.
-              </li>
-            </ul>
-          </div>
+        <aside className="lg:col-span-4">
           <div className="border-l border-line pl-6">
             <p className="mono-label text-ink-muted">Off hours</p>
             <p className="mt-3 text-[0.9375rem] italic leading-relaxed text-ink-muted">
