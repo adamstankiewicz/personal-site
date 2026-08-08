@@ -245,6 +245,18 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-baseline justify-between gap-y-2.5 px-6 py-4 sm:flex-nowrap sm:justify-start sm:py-5">
           <Link
             href="/"
+            onClick={(e) => {
+              // Next only scrolls on an actual route change; clicking
+              // "/" while already on "/" (the whole site is one page)
+              // is a no-op to the router, so the viewport never moves
+              // on its own — drive the scroll here instead.
+              e.preventDefault();
+              history.replaceState(null, "", "/");
+              window.scrollTo({
+                top: 0,
+                behavior: prefersReducedMotion() ? "instant" : "smooth",
+              });
+            }}
             className="mono-label !text-ink no-underline transition-colors hover:!text-accent"
             aria-label="Adam Stankiewicz, home"
           >
