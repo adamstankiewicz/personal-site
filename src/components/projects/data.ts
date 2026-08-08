@@ -88,6 +88,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Diff-Aware Accessibility CI',
+    dashboard: true,
     description: "Automated axe scans wired into CI with two review surfaces: a sticky pull-request comment that separates the violations a PR introduced from what already existed, and a lifecycle dashboard for the accessibility guild. Non-blocking by design: it informs review instead of failing merges.",
     details: [
       {
