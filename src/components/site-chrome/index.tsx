@@ -4,12 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CommandMenu, type Command } from "@/components/command-menu";
 import { ProgressRail } from "@/components/progress-rail";
+import buildInfo from "@/generated/build-info.json";
 
 const NAV_ITEMS = [
   { id: "about", label: "About" },
   { id: "route", label: "Experience" },
   { id: "work", label: "Work" },
   { id: "research", label: "Publications" },
+  { id: "lab", label: "Lab" },
 ];
 
 const TOKENS = [
@@ -257,7 +259,28 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               </ul>
             </div>
             <div className="sm:text-right">
-              <p className="mono-label text-ink-muted">© {new Date().getFullYear()}</p>
+              <p className="mono-label text-ink-muted">
+                v{buildInfo.version} ·{" "}
+                <a
+                  href={`https://github.com/adamstankiewicz/personal-site/commit/${buildInfo.commit}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mono-link !text-inherit hover:!text-accent"
+                >
+                  {buildInfo.commit}
+                </a>
+              </p>
+              <p className="mono-label mt-3 text-ink-muted">
+                Updated {buildInfo.updated} ·{" "}
+                <a
+                  href="https://github.com/adamstankiewicz/personal-site/commits/master"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mono-link !text-inherit hover:!text-accent"
+                >
+                  History ↗
+                </a>
+              </p>
               <p className="mono-label mt-3 text-ink-muted">
                 <kbd className="key-hint">⌘K</kbd> for commands
               </p>

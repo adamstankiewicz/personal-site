@@ -13,3 +13,6 @@
 /out/
 *.tsbuildinfo
 .gstack/
+
+# generated at build time
+/src/generated/
