@@ -1,4 +1,5 @@
-import { SectionHeader } from "@/components/section-header";
+import { SectionHeader } from "@/components/ui/section-header";
+import { Chip } from "@/components/ui/chip";
 import { Gallery } from "./gallery";
 import { SpellbookReplay } from "./spellbook-replay";
 import { projects } from "./data";
@@ -53,12 +54,9 @@ function Inset({ project, index }: { project: Project; index: number }) {
               <p className="mono-label text-ink-muted">What the tools cover</p>
               <ul className="mt-2.5 flex flex-wrap gap-1.5">
                 {project.capabilities.map((capability) => (
-                  <li
-                    key={capability}
-                    className="rounded-full border border-line px-2.5 py-0.5 font-mono text-[0.6875rem] tracking-wide text-ink"
-                  >
+                  <Chip key={capability} as="li">
                     {capability}
-                  </li>
+                  </Chip>
                 ))}
               </ul>
             </div>

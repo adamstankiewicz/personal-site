@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { TextMorph } from "torph/react";
+import { Card } from "@/components/ui/card";
 
 interface ReplayLine {
   kind: "call" | "read" | "write" | "error" | "result" | "pass" | "fail";
@@ -176,7 +177,7 @@ export function SpellbookReplay() {
   const advance = () => setShown((n) => (n >= TOTAL ? 1 : n + 1));
 
   return (
-    <div className="replay">
+    <Card className="replay">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line px-4 py-2.5">
         <p className="mono-label text-ink-muted">
           Spellbook MCP · <span className="text-accent">before / after</span>
@@ -221,6 +222,6 @@ export function SpellbookReplay() {
           {done ? "replay ↺" : "click to step both →"}
         </button>
       </div>
-    </div>
+    </Card>
   );
 }

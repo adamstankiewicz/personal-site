@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { SectionHeader } from "@/components/section-header";
+import { SectionHeader } from "@/components/ui/section-header";
 import { prefersReducedMotion } from "@/lib/hooks";
 import { earlierWork, experiences } from "./data";
 import { ExperienceItemProps } from "./types";

@@ -8,8 +8,10 @@
  *
  * Semantic color tokens may carry mode variants under $extensions:
  *   dev.adamstankiewicz.dark     → the `.dark` block
- *   dev.adamstankiewicz.hc       → :root inside @media (prefers-contrast: more)
- *   dev.adamstankiewicz.dark-hc  → .dark inside the same media block
+ *   dev.adamstankiewicz.hc       → `.hc` and :root inside @media (prefers-contrast: more)
+ *   dev.adamstankiewicz.dark-hc  → `.dark.hc` and .dark inside the same media block
+ * High contrast is therefore reachable two ways: the OS preference,
+ * and the site's own toggle (which sets `.hc` on <html>).
  *
  * The generation logic is exported for tests (build-tokens.test.mjs);
  * only direct invocation touches the filesystem.
@@ -106,7 +108,8 @@ ${dark.join("\n")}
 }
 
 /* High contrast is a token variant, not a special case: values under
- * the hc / dark-hc extensions land here. */
+ * the hc / dark-hc extensions land here, once for the OS preference
+ * and once for the site's own toggle. */
 @media (prefers-contrast: more) {
   :root {
 ${hcLight.join("\n")}
@@ -115,6 +118,14 @@ ${hcLight.join("\n")}
   .dark {
 ${hcDark.join("\n")}
   }
+}
+
+.hc {
+${hcLight.map((line) => line.slice(2)).join("\n")}
+}
+
+.dark.hc {
+${hcDark.map((line) => line.slice(2)).join("\n")}
 }
 `;
 }

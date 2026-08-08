@@ -76,6 +76,9 @@ test("hc extensions emit into the prefers-contrast media block", () => {
   const [hcLight, hcDark] = contrastBlock.split(".dark {");
   assert.match(hcLight, /--ink: #000000;/);
   assert.match(hcDark, /--ink: #ffffff;/);
+  // The same variants back the manual toggle classes.
+  assert.match(css, /\n\.hc \{\n  --ink: #000000;\n\}/);
+  assert.match(css, /\n\.dark\.hc \{\n  --ink: #ffffff;\n\}/);
 });
 
 test("shared bases and repeated aliases are not misread as cycles", () => {

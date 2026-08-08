@@ -38,8 +38,8 @@ export function useHoverCapable() {
   return useMediaQuery(HOVER_QUERY);
 }
 
-/** Tracks the `.dark` class on <html>, kept in sync by the theme toggle. */
-export function useDarkTheme() {
+/** Tracks a mode class on <html>, kept in sync by the header toggles. */
+function useRootClass(name: string) {
   const subscribe = useCallback((onChange: () => void) => {
     const observer = new MutationObserver(onChange);
     observer.observe(document.documentElement, {
@@ -50,9 +50,17 @@ export function useDarkTheme() {
   }, []);
   return useSyncExternalStore(
     subscribe,
-    () => document.documentElement.classList.contains("dark"),
+    () => document.documentElement.classList.contains(name),
     () => false
   );
+}
+
+export function useDarkTheme() {
+  return useRootClass("dark");
+}
+
+export function useHighContrast() {
+  return useRootClass("hc");
 }
 
 /**

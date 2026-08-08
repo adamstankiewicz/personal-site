@@ -257,6 +257,11 @@ p {
   }
 }
 
+.hc .atmosphere,
+.hc .photo-sheen {
+  display: none;
+}
+
 /* The contact bookend rises from the page's end and stops clean at
    the footer divider. */
 .atmosphere[data-flip] {
@@ -697,13 +702,6 @@ p {
 /*  Spellbook replay — a scripted MCP run you step through             */
 /* ------------------------------------------------------------------ */
 
-.replay {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  background: var(--paper);
-}
-
 .replay-stage {
   display: block;
   width: 100%;
@@ -945,17 +943,22 @@ p {
 /*  Lab — live interaction specimens                                   */
 /* ------------------------------------------------------------------ */
 
-.lab-card {
+/* The design system's one surface: hairline border, one radius,
+   clipped corners. `data-lift` opts a card into the hover rise. */
+.card {
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--paper);
+}
+
+.card[data-lift] {
   transition: transform var(--dur-base) var(--ease-out),
     box-shadow var(--dur-base) var(--ease-out);
 }
 
 @media (hover: hover) {
-  .lab-card:hover {
+  .card[data-lift]:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 32px -18px color-mix(in srgb, var(--ink) 22%, transparent);
   }
@@ -1028,24 +1031,32 @@ p {
   clip-path: inset(0 0 0 0);
 }
 
-/* 04 — grain shape chips */
-.lab-chip {
+/* The design system's pill: capability tags, the lab's shape
+   switches. `data-on-media` frosts the chip for overlays on imagery;
+   `data-active` is the selected state. */
+.chip {
   font-family: var(--font-mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.25rem 0.625rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  padding: 0.125rem 0.625rem;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--paper) 82%, transparent);
-  backdrop-filter: blur(4px);
-  color: var(--ink-muted);
-  cursor: pointer;
+  color: var(--ink);
   transition: color var(--dur-fast) var(--ease-out),
     border-color var(--dur-fast) var(--ease-out);
 }
 
-.lab-chip[data-active="true"] {
+button.chip {
+  cursor: pointer;
+}
+
+.chip[data-on-media] {
+  color: var(--ink-muted);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.chip[data-active="true"] {
   color: var(--accent);
   border-color: var(--accent);
 }

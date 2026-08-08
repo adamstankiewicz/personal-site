@@ -1,4 +1,4 @@
-import { SectionHeader } from "@/components/section-header";
+import { SectionHeader } from "@/components/ui/section-header";
 import { ExternalLink } from "@/components/ui/external-link";
 
 interface Publication {

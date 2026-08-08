@@ -48,24 +48,37 @@ are — each layer only speaks to the one below it:
 1. **Tokens** — `tokens/tokens.json` (DTCG). Semantic colors carry
    mode variants as `$extensions`: `dark`, and `hc` / `dark-hc` for
    high contrast. `scripts/build-tokens.mjs` generates
-   `src/styles/tokens.css` — `:root`, `.dark`, and a
-   `@media (prefers-contrast: more)` block — and a drift gate keeps
-   source and output in lockstep.
+   `src/styles/tokens.css` — `:root`, `.dark`, a
+   `@media (prefers-contrast: more)` block, and matching `.hc` /
+   `.dark.hc` classes for the header's contrast toggle — and a drift
+   gate keeps source and output in lockstep. Four modes, one source
+   file.
 2. **Theme** — Tailwind v4's `@theme` (in `src/styles/app.css`) maps
    the generated custom properties into utilities, so every utility
    class composes token values, never raw hex.
 3. **Recipes** — recurring typographic and interactive patterns are
    named classes in `app.css` (`mono-label`, `title-md`, `mono-link`,
    `key-hint`, …) rather than repeated utility strings.
-4. **Primitives** — `src/components/ui/` holds behavior-carrying
-   primitives; `ExternalLink` encodes the `rel="noopener noreferrer"`
-   invariant once for every new-tab link on the site.
+4. **Primitives** — `src/components/ui/` holds the components that
+   earn their place through behavior or structure: `ExternalLink`
+   (the `noopener` invariant, encoded once), `Card` (the one bordered
+   surface), `Chip` (tags and switches), `Kbd`, `SectionHeader`, and
+   `PrintPhoto` (the cursor-tracked sheen). Pure typography stays in
+   the recipe layer on purpose — a component that only applies a class
+   would take semantic freedom away from the markup without adding
+   anything.
 5. **Sections** — each page section is a folder under
    `src/components`, with prose and data split into `data.ts` so the
    component files stay purely structural.
 
-There's deliberately no component-library dependency: the point of
-this site is to show the system thinking, not to import it.
+There's deliberately no component-library dependency (no shadcn, no
+Radix). For a design systems engineer's personal site, assembling
+prebuilt components would demonstrate assembly; this repo is meant to
+demonstrate authorship. Every component here is inspectable to the
+bottom of its stack, the native platform (`<dialog>`, View
+Transitions, `scroll-snap`) covers what a library would otherwise
+abstract, and the dependency count stays honest: React, Next, and two
+tiny animation/shader libraries.
 
 ## Structure
 

@@ -52,13 +52,15 @@ export const metadata: Metadata = {
   },
 };
 
-// Applies the persisted (or system) theme before first paint to avoid a flash.
+// Applies the persisted (or system) theme and contrast before first
+// paint to avoid a flash.
 const themeScript = `
 (function () {
   try {
     var stored = localStorage.getItem("theme");
     var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
     if (dark) document.documentElement.classList.add("dark");
+    if (localStorage.getItem("contrast") === "high") document.documentElement.classList.add("hc");
   } catch (e) {}
 })();
 `;

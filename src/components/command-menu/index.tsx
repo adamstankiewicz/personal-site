@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { hoverCapable } from "@/lib/hooks";
+import { Kbd } from "@/components/ui/kbd";
 
 export interface Command {
   id: string;
@@ -142,7 +143,7 @@ function CommandPanel({
             autoCorrect="off"
             autoCapitalize="off"
           />
-          <kbd className="key-hint">esc</kbd>
+          <Kbd>esc</Kbd>
         </div>
 
         <ul ref={listRef} className="max-h-[19rem] overflow-y-auto py-2" role="listbox">
@@ -191,10 +192,10 @@ function CommandPanel({
 
         <div className="flex items-center gap-4 border-t border-line px-5 py-3">
           <span className="mono-label text-ink-muted">
-            <kbd className="key-hint">↑↓</kbd> navigate
+            <Kbd>↑↓</Kbd> navigate
           </span>
           <span className="mono-label text-ink-muted">
-            <kbd className="key-hint">↵</kbd> select
+            <Kbd>↵</Kbd> select
           </span>
         </div>
       </div>

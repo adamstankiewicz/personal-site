@@ -4,11 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CommandMenu, type Command } from "@/components/command-menu";
 import { ProgressRail } from "@/components/progress-rail";
-import { prefersReducedMotion } from "@/lib/hooks";
+import { prefersReducedMotion, useHighContrast } from "@/lib/hooks";
 import { scrollToSection } from "@/lib/section-scroll";
 import { GitHubStats, LocalTime } from "./footer-meta";
 import buildInfo from "@/generated/build-info.json";
 import { ExternalLink } from "@/components/ui/external-link";
+import { Kbd } from "@/components/ui/kbd";
 
 const NAV_ITEMS = [
   { id: "about", label: "About" },
@@ -34,15 +35,25 @@ function applyTheme() {
   } catch {}
 }
 
-// Theme changes sweep across the page like a day/night terminator,
+function applyContrast() {
+  const hc = document.documentElement.classList.toggle("hc");
+  try {
+    localStorage.setItem("contrast", hc ? "high" : "normal");
+  } catch {}
+}
+
+// Mode changes sweep across the page like a day/night terminator,
 // when the browser supports view transitions and motion is welcome.
-function toggleTheme() {
+function withWipe(apply: () => void) {
   if (!document.startViewTransition || prefersReducedMotion()) {
-    applyTheme();
+    apply();
     return;
   }
-  document.startViewTransition(applyTheme);
+  document.startViewTransition(apply);
 }
+
+const toggleTheme = () => withWipe(applyTheme);
+const toggleContrast = () => withWipe(applyContrast);
 
 function ThemeToggle() {
   return (
@@ -56,6 +67,26 @@ function ThemeToggle() {
         ◐
       </span>
       <span className="ml-1.5 hidden md:inline">Theme</span>
+    </button>
+  );
+}
+
+// High contrast, on demand: the same token variants the OS preference
+// activates, wired to a visible control so the mode is inspectable.
+function ContrastToggle() {
+  const hc = useHighContrast();
+  return (
+    <button
+      type="button"
+      onClick={toggleContrast}
+      className="mono-link nav-link -my-2 cursor-pointer py-2"
+      aria-pressed={hc}
+      aria-label="Toggle high contrast"
+    >
+      <span className="theme-glyph" aria-hidden="true">
+        ◉
+      </span>
+      <span className="ml-1.5 hidden md:inline">Contrast</span>
     </button>
   );
 }
@@ -80,6 +111,13 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         group: "Actions",
         hint: "light / dark",
         run: toggleTheme,
+      },
+      {
+        id: "contrast",
+        label: "Toggle high contrast",
+        group: "Actions",
+        hint: "a11y",
+        run: toggleContrast,
       },
       {
         id: "resume",
@@ -210,12 +248,13 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               ))}
             </nav>
             <ThemeToggle />
+            <ContrastToggle />
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
               className="mono-link -my-2 hidden cursor-pointer items-baseline gap-1.5 py-2 sm:flex"
             >
-              <kbd className="key-hint">⌘K</kbd>
+              <Kbd>⌘K</Kbd>
               <span className="sr-only">opens the command menu</span>
             </button>
           </div>
@@ -288,7 +327,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 </ExternalLink>
               </p>
               <p className="mono-label mt-3 text-ink-muted">
-                <kbd className="key-hint">⌘K</kbd> for commands
+                <Kbd>⌘K</Kbd> for commands
               </p>
               <p className="mono-label mt-3 text-ink-muted">
                 <LocalTime />

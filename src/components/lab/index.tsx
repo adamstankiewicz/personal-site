@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { SectionHeader } from "@/components/section-header";
+import { SectionHeader } from "@/components/ui/section-header";
+import { Card } from "@/components/ui/card";
+import { Chip } from "@/components/ui/chip";
 import { hoverCapable, useDarkTheme, useIdleMounted, useReducedMotion } from "@/lib/hooks";
 
 // Shares the atmosphere's async chunk; never in the critical bundle.
@@ -25,7 +27,7 @@ function LabCard({
   children: React.ReactNode;
 }) {
   return (
-    <article className="lab-card">
+    <Card as="article" lift>
       <div className="lab-stage">{children}</div>
       <div className="border-t border-line px-5 py-4">
         <p className="flex items-baseline gap-3">
@@ -37,7 +39,7 @@ function LabCard({
         </p>
         <p className="mono-label mt-3 text-ink-muted">{mechanism}</p>
       </div>
-    </article>
+    </Card>
   );
 }
 
@@ -261,15 +263,16 @@ function GrainField() {
       </div>
       <div className="absolute bottom-3 left-3 right-3 flex flex-wrap gap-1.5">
         {SHAPES.map((s) => (
-          <button
+          <Chip
             key={s}
+            as="button"
             type="button"
-            className="lab-chip"
-            data-active={shape === s}
+            onMedia
+            active={shape === s}
             onClick={() => setShape(s)}
           >
             {s}
-          </button>
+          </Chip>
         ))}
       </div>
     </div>
