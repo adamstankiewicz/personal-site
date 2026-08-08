@@ -128,7 +128,10 @@ export function GitHubStats() {
                 height={barHeight}
                 rx={1}
                 className="fill-accent"
-              />
+              >
+                {/* Native tooltip: hovering a bar names its year. */}
+                <title>{`${year.y} · ${year.opened} PRs opened`}</title>
+              </rect>
             );
           })}
         </svg>
