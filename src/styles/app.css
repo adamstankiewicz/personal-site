@@ -228,6 +228,48 @@ p {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Hero — atmosphere shader behind, variable-weight name in front     */
+/* ------------------------------------------------------------------ */
+
+/* The shader canvas bleeds past the content column and fades out
+   before the About section so the field returns to plain paper. */
+.atmosphere {
+  position: absolute;
+  inset: -6rem calc(50% - 50vw) 0;
+  z-index: -1;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, black 55%, transparent 96%);
+  -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 96%);
+}
+
+.hero-letter {
+  display: inline-block;
+  font-variation-settings: "wght" 560;
+  transition: font-variation-settings 140ms linear;
+}
+
+.contact-link {
+  color: var(--ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.contact-arrow {
+  display: inline-block;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .contact-link:hover {
+    color: var(--accent);
+  }
+  .contact-link:hover .contact-arrow {
+    transform: translate(0.06em, -0.06em);
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /*  Entrance — the page enters once, top to bottom. Nothing on the     */
 /*  page fades in on scroll; content below the fold is simply there.   */
 /* ------------------------------------------------------------------ */

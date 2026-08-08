@@ -122,7 +122,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           ),
       },
     ],
-    [allowMotion]
+    []
   );
 
   // Global keyboard: ⌘K opens the command menu.

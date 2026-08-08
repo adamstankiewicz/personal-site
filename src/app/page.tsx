@@ -1,20 +1,19 @@
 import { About } from "@/components/about/about";
+import { Atmosphere } from "@/components/atmosphere";
 import { Experience } from "@/components/experience";
+import { HeroName } from "@/components/hero-name";
 import { Projects } from "@/components/projects";
 import { Research } from "@/components/research";
 
 function TitleBlock() {
   return (
-    <section className="pt-20 sm:pt-28" aria-label="Introduction">
+    <section className="hero relative pt-20 sm:pt-28" aria-label="Introduction">
+      <Atmosphere />
       <div aria-hidden="true" className="rise rise-1 h-0.5 w-10 bg-accent" />
       <p className="rise rise-1 mono-label mt-6 text-ink-muted">
         Product engineering · Design systems · Accessibility
       </p>
-      <h1 className="rise rise-2 display-title mt-6 text-[clamp(3.25rem,10vw,7.5rem)]">
-        Adam
-        <br />
-        Stankiewicz
-      </h1>
+      <HeroName />
       <p className="rise rise-3 mt-8 max-w-2xl text-[1.1875rem] leading-[1.6] text-ink-muted sm:text-[1.3125rem]">
         I build the product, and the system underneath it. Currently at{" "}
         <a
@@ -81,6 +80,24 @@ function TitleBlock() {
   );
 }
 
+function Contact() {
+  return (
+    <section aria-label="Contact" className="border-t border-line pb-24 pt-16 sm:pb-32 sm:pt-20">
+      <p className="mono-label text-ink-muted">Get in touch</p>
+      <p className="mt-5 max-w-xl text-[1.0625rem] leading-[1.7] text-ink-muted">
+        Building something that needs both the product and the platform?
+      </p>
+      <a
+        href="mailto:agstanki@gmail.com"
+        className="contact-link display-title mt-6 inline-block text-[clamp(1.75rem,5.5vw,4.25rem)]"
+      >
+        agstanki@gmail.com
+        <span aria-hidden="true" className="contact-arrow"> ↗</span>
+      </a>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <>
@@ -89,6 +106,7 @@ export default function Home() {
       <Experience />
       <Projects />
       <Research />
+      <Contact />
     </>
   );
 }

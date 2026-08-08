@@ -3,23 +3,23 @@
 import { useEffect, useState } from "react";
 import { GrainGradient } from "@paper-design/shaders-react";
 
-// Barely-there tints of the chart palette so the type stays in charge.
+// Barely-there cobalt tints so the type stays in charge.
 const LIGHT = {
-  colorBack: "#f4efdf",
-  colors: ["#ede4d6", "#ecdde4", "#e0e4ec"],
+  colorBack: "#ffffff",
+  colors: ["#eef1fe", "#e7ecfd", "#f3f4f8"],
 };
 
 const DARK = {
-  colorBack: "#101318",
-  colors: ["#151a22", "#231825", "#182130"],
+  colorBack: "#0d0e11",
+  colors: ["#101322", "#0f1120", "#11141c"],
 };
 
 /**
- * A slow weather layer drifting behind the title block, courtesy of
+ * A slow atmospheric layer drifting behind the hero, courtesy of
  * paper.design's shader library. Client-only (WebGL canvas), swaps
  * palettes with the theme, and holds still under reduced motion.
  */
-export function ChartWeather() {
+export function Atmosphere() {
   const [mounted, setMounted] = useState(false);
   const [dark, setDark] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -43,16 +43,16 @@ export function ChartWeather() {
   const palette = dark ? DARK : LIGHT;
 
   return (
-    <div className="absolute inset-0" aria-hidden="true">
+    <div className="atmosphere" aria-hidden="true">
       <GrainGradient
         style={{ width: "100%", height: "100%" }}
         colorBack={palette.colorBack}
         colors={palette.colors}
         shape="wave"
-        softness={0.85}
-        intensity={0.32}
-        noise={0.35}
-        speed={reducedMotion ? 0 : 0.35}
+        softness={0.9}
+        intensity={dark ? 0.18 : 0.28}
+        noise={0.25}
+        speed={reducedMotion ? 0 : 0.3}
       />
     </div>
   );
