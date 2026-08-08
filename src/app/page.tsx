@@ -21,8 +21,9 @@ function TitleBlock() {
       </p>
       <HeroName />
       <p className="rise rise-3 mt-8 max-w-2xl text-[1.1875rem] leading-[1.6] text-ink-muted sm:text-[1.3125rem]">
-        Shipping the features people use. Crafting the design system,
-        tokens, and tooling other engineers build with.
+        Shipping the features that reach millions of people. Crafting
+        the systems, design tokens, and tooling other teams build
+        with.
       </p>
 
       {/* One quiet line instead of a spec sheet. */}
