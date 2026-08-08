@@ -90,6 +90,15 @@ p {
   border-radius: 2px;
 }
 
+/* Controls that sit flush against a clipping edge (overflow: hidden
+   cards, scroll containers) draw the ring inset so it can never be
+   cut off. */
+.command-option:focus-visible,
+.lab-spring-stage:focus-visible,
+.lab-wipe-stage:focus-visible {
+  outline-offset: -3px;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Sticky header                                                      */
 /* ------------------------------------------------------------------ */
@@ -839,8 +848,9 @@ svg.contact-arrow {
   scroll-snap-type: x mandatory;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
-  padding: 3px; /* room for focus rings */
-  margin: -3px;
+  /* The global ring is 2px at 3px offset — reserve all 5px plus one. */
+  padding: 6px;
+  margin: -6px;
 }
 
 .gallery-track::-webkit-scrollbar {

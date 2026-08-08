@@ -29,7 +29,6 @@ export interface Project {
   capabilities?: string[];
   technologies?: string[];
   replay?: boolean;
-  dashboard?: boolean;
   stars?: number;
   installs?: number;
 }

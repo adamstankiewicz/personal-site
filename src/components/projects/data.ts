@@ -61,19 +61,19 @@ export const projects: Project[] = [
       {
         src: '/images/projects/chat-shell-poster.jpg',
         videoSrc: '/videos/chat-shell.mp4',
-        alt: 'Homepage hero handing off to a standalone Raina chat, the input carried across by view transitions',
+        alt: 'The homepage-to-chat handoff, carried by view transitions',
         width: 960,
         height: 492,
       },
       {
         src: '/images/projects/chatinput-kitchen-sink.png',
-        alt: "ChatInput's Kitchen Sink story: avatar, animated placeholder, attachments, menu, chips, and send controls composed from slots",
+        alt: "ChatInput's Kitchen Sink story: every slot composed at once",
         width: 1600,
         height: 468,
       },
       {
         src: '/images/projects/chatinput-docs.png',
-        alt: "ChatInput's documentation: the card-chrome organism, with its Do's and Don'ts",
+        alt: "ChatInput's docs: the card-chrome organism, with Do's and Don'ts",
         width: 1600,
         height: 524,
       },
@@ -88,7 +88,6 @@ export const projects: Project[] = [
   },
   {
     title: 'Diff-Aware Accessibility CI',
-    dashboard: true,
     description: "Automated axe scans wired into CI with two review surfaces: a sticky pull-request comment that separates the violations a PR introduced from what already existed, and a lifecycle dashboard for the accessibility guild. Non-blocking by design: it informs review instead of failing merges.",
     details: [
       {
@@ -106,34 +105,22 @@ export const projects: Project[] = [
     ],
     images: [
       {
-        src: '/images/projects/a11y-pr-comment.png',
-        alt: 'The sticky pull-request comment, separating violations a PR introduced from pre-existing debt (demonstration data)',
-        width: 1796,
-        height: 1016,
-      },
-      {
         src: '/images/projects/a11y-report.png',
-        alt: 'The self-contained report: findings grouped by WCAG rule, each violation screenshotted with a copy-ready fix prompt (demonstration data)',
+        alt: 'The report: findings by WCAG rule, each with a fix prompt (demo data)',
         width: 3456,
         height: 3150,
       },
       {
         src: '/images/projects/a11y-dashboard-overview.png',
-        alt: 'The guild dashboard: coverage-normalized signals — violations per screen, regressions versus new coverage, introduced-versus-resolved momentum (demonstration data)',
+        alt: 'The guild dashboard: coverage-normalized signals (demo data)',
         width: 3456,
         height: 3748,
       },
       {
         src: '/images/projects/a11y-dashboard-violations.png',
-        alt: 'Every violation with its lifecycle — first seen, regressed, resolved — sortable by rule, impact, and screen (demonstration data)',
+        alt: 'Violation lifecycles: first seen, regressed, resolved (demo data)',
         width: 3456,
         height: 2056,
-      },
-      {
-        src: '/images/projects/chatinput-a11y.png',
-        alt: "The other half of the story: the per-component accessibility contract from ChatInput's Storybook docs that these scans check in aggregate",
-        width: 1600,
-        height: 455,
       },
     ],
     technologies: [

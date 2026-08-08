@@ -1,7 +1,6 @@
 import { SectionHeader } from "@/components/ui/section-header";
 import { Chip } from "@/components/ui/chip";
 import { Gallery } from "./gallery";
-import { A11yDashboard } from "./a11y-dashboard";
 import { SpellbookReplay } from "./spellbook-replay";
 import { projects } from "./data";
 import { Project, ProjectDetail } from "./types";
@@ -100,15 +99,6 @@ function Inset({ project, index }: { project: Project; index: number }) {
         </div>
 
         <div className="min-w-0 lg:sticky lg:top-24 lg:col-span-7 lg:self-start">
-          {project.dashboard ? (
-            <div className="mb-6">
-              <A11yDashboard />
-              <p className="mono-label mt-3 text-ink-muted">
-                A working miniature of the guild dashboard, rebuilt from this
-                site&rsquo;s design system &mdash; demonstration data
-              </p>
-            </div>
-          ) : null}
           {project.replay ? (
             <div className="mb-6">
               <SpellbookReplay />
