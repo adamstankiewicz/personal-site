@@ -32,6 +32,7 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
     let lastArrived = -1;
     let dragging = false;
     let smoothedY: number | null = null;
+    let navArrival = false;
 
     const step = () => {
       raf = null;
@@ -58,7 +59,13 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
           const rowTop = row.getBoundingClientRect().top - rect.top;
           if (targetY >= rowTop - 8) arrived = index;
         });
-        if (arrived !== lastArrived) {
+        if (navArrival) {
+          // Jumping here via the nav lands the anchor partway down the
+          // course; the first row is where reading starts, so it opens
+          // instead, and arrivals hold (tracking geometry silently)
+          // until the visitor scrolls on their own.
+          lastArrived = arrived;
+        } else if (arrived !== lastArrived) {
           lastArrived = arrived;
           onArriveRef.current(arrived);
         }
@@ -89,6 +96,7 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
     let dragHeight = 1;
     const onPointerDown = (e: PointerEvent) => {
       const rect = container.getBoundingClientRect();
+      navArrival = false;
       dragging = true;
       dragDocTop = rect.top + window.scrollY;
       dragHeight = rect.height;
@@ -115,7 +123,23 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
       onScroll();
     };
 
+    const onNavEnd = (e: Event) => {
+      if ((e as CustomEvent<string>).detail !== "route") return;
+      navArrival = true;
+      onArriveRef.current(0);
+      start();
+    };
+    // The hold releases on the first gesture that is unmistakably the
+    // visitor's own.
+    const releaseNavHold = () => {
+      navArrival = false;
+    };
+
     start();
+    window.addEventListener("nav-scroll-end", onNavEnd);
+    window.addEventListener("wheel", releaseNavHold, { passive: true });
+    window.addEventListener("touchstart", releaseNavHold, { passive: true });
+    window.addEventListener("keydown", releaseNavHold);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     flyer.addEventListener("pointerdown", onPointerDown);
@@ -129,6 +153,10 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
     resizeObserver.observe(container);
     return () => {
       running = false;
+      window.removeEventListener("nav-scroll-end", onNavEnd);
+      window.removeEventListener("wheel", releaseNavHold);
+      window.removeEventListener("touchstart", releaseNavHold);
+      window.removeEventListener("keydown", releaseNavHold);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       flyer.removeEventListener("pointerdown", onPointerDown);

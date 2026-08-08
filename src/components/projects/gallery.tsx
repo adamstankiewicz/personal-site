@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { TextMorph } from "torph/react";
+import { closeDialogToOrigin, openDialogFromOrigin } from "@/lib/dialog-zoom";
 import { useReducedMotion } from "@/lib/hooks";
 import { ProjectImage } from "./types";
 
@@ -94,15 +95,35 @@ export function Gallery({
     [reduced]
   );
 
-  const openModal = (index: number) => {
+  const originRef = useRef<Element | null>(null);
+
+  const openModal = (index: number, origin: Element) => {
+    originRef.current = origin;
     setModalIndex(index);
-    dialogRef.current?.showModal();
   };
+
+  // The dialog opens only after React has committed its content, so
+  // the zoom can measure the real resting rect (iOS-style: it grows
+  // out of the slide that was clicked, and shrinks back on close).
+  const closeLightbox = useCallback(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const slides = trackRef.current?.querySelectorAll(".gallery-slide");
+    const origin =
+      (modalIndex !== null ? slides?.[modalIndex] : null) ?? originRef.current;
+    void closeDialogToOrigin(dialog, origin ?? null);
+  }, [modalIndex]);
 
   // Native <dialog> makes the page inert but not scroll-locked; hold
   // the lock for exactly as long as the lightbox has an image, and
   // restore on unmount even if it never closed.
   const lightboxOpen = modalIndex !== null;
+  useLayoutEffect(() => {
+    const dialog = dialogRef.current;
+    if (!lightboxOpen || !dialog || dialog.open) return;
+    openDialogFromOrigin(dialog, originRef.current);
+  }, [lightboxOpen]);
+
   useEffect(() => {
     if (!lightboxOpen) return;
     const root = document.documentElement;
@@ -134,7 +155,7 @@ export function Gallery({
               }}
               aria-label={`View larger: ${image.alt}`}
               aria-current={index === current || undefined}
-              onClick={() => openModal(index)}
+              onClick={(e) => openModal(index, e.currentTarget)}
             >
               {image.videoSrc ? (
                 <video
@@ -214,7 +235,12 @@ export function Gallery({
         }}
         onClick={(e) => {
           // Backdrop clicks land on the dialog element itself.
-          if (e.target === dialogRef.current) dialogRef.current?.close();
+          if (e.target === dialogRef.current) closeLightbox();
+        }}
+        onCancel={(e) => {
+          // Escape routes through the same zoom-out.
+          e.preventDefault();
+          closeLightbox();
         }}
         onKeyDown={(e) => {
           if (modalIndex === null) return;
@@ -231,6 +257,8 @@ export function Gallery({
               <video
                 src={active.videoSrc}
                 poster={active.src}
+                width={active.width ?? 960}
+                height={active.height ?? 492}
                 controls
                 muted
                 loop
@@ -238,7 +266,12 @@ export function Gallery({
                 autoPlay={!reduced}
               />
             ) : (
-              <img src={active.src} alt={active.alt} />
+              <img
+                src={active.src}
+                alt={active.alt}
+                width={active.width ?? 3024}
+                height={active.height ?? 1550}
+              />
             )}
             <figcaption className="flex items-baseline justify-between gap-4 border-t border-line px-4 py-3">
               <span className="mono-label min-w-0 flex-1 text-ink-muted">
@@ -274,7 +307,7 @@ export function Gallery({
                   type="button"
                   className="gallery-nav"
                   aria-label="Close viewer"
-                  onClick={() => dialogRef.current?.close()}
+                  onClick={closeLightbox}
                 >
                   Esc
                 </button>

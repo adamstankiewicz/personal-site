@@ -20,6 +20,8 @@ export function scrollToSection(id: string) {
     window.removeEventListener("scrollend", clear);
     if (timer) clearTimeout(timer);
     if (cancelPending === clear) cancelPending = null;
+    // Scroll-driven behaviors can react to where the journey ended.
+    window.dispatchEvent(new CustomEvent("nav-scroll-end", { detail: id }));
   };
   cancelPending = clear;
   // scrollend covers browsers that ship it; the timeout covers the rest.
