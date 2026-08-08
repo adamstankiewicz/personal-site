@@ -15,8 +15,8 @@ const TASK = "Build a small feature UI from a ticket.";
 
 // Both columns are scripted reconstructions shaped by the evaluation
 // (40 prompts × 5 conditions): the baseline agent averaged 2.35
-// attempts and ~27 steps; the MCP agent converged in one attempt and
-// ~6 steps. No live model, no network.
+// attempts and ~13 steps per task; the MCP agent converged in one
+// attempt and ~6 steps. No live model, no network.
 const MCP_STEPS: ReplayLine[] = [
   {
     kind: "call",
@@ -113,7 +113,7 @@ const BASELINE_STEPS: ReplayLine[] = [
   {
     kind: "fail",
     label: "done",
-    text: "Two attempts and ~26 steps. In the eval, 45% of baseline runs hit the step ceiling.",
+    text: "Two attempts, a dozen steps. In the eval, 45% of baseline runs hit the step ceiling.",
   },
 ];
 
@@ -266,7 +266,7 @@ export function SpellbookReplay() {
             title="Filesystem only"
             steps={BASELINE_STEPS}
             shown={shown}
-            summary="2.35 attempts avg · ~27 steps"
+            summary="2.35 attempts avg · ~13 steps"
           />
           <ReplayColumn
             title="With Spellbook MCP"
