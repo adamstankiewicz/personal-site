@@ -2,15 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { TextMorph } from "torph/react";
-
-export interface GalleryImage {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
-  /** When set, the slide is a muted looping video; `src` is its poster. */
-  videoSrc?: string;
-}
+import { useReducedMotion } from "@/lib/hooks";
+import { ProjectImage } from "./types";
 
 /**
  * A horizontal, scroll-snapped strip of same-size screenshots. Every
@@ -23,20 +16,20 @@ export function Gallery({
   images,
   title,
 }: {
-  images: GalleryImage[];
+  images: ProjectImage[];
   title: string;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [current, setCurrent] = useState(0);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
+  const reduced = useReducedMotion();
 
   // Video slides play only while on screen, and never under reduced
   // motion; until then they cost viewers one poster frame.
   useEffect(() => {
     const track = trackRef.current;
-    if (!track) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!track || reduced) return;
     const videos = Array.from(track.querySelectorAll("video"));
     if (!videos.length) return;
     const observer = new IntersectionObserver(
@@ -54,7 +47,7 @@ export function Gallery({
     );
     videos.forEach((video) => observer.observe(video));
     return () => observer.disconnect();
-  }, [images]);
+  }, [images, reduced]);
 
   // The caption follows whichever slide is nearest the track's center.
   useEffect(() => {
@@ -88,23 +81,37 @@ export function Gallery({
     };
   }, []);
 
-  const scrollToSlide = useCallback((index: number) => {
-    const track = trackRef.current;
-    const slide = track?.children[index] as HTMLElement | undefined;
-    if (!track || !slide) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    track.scrollTo({
-      left: slide.offsetLeft - (track.clientWidth - slide.offsetWidth) / 2,
-      behavior: reduced ? "auto" : "smooth",
-    });
-  }, []);
+  const scrollToSlide = useCallback(
+    (index: number) => {
+      const track = trackRef.current;
+      const slide = track?.children[index] as HTMLElement | undefined;
+      if (!track || !slide) return;
+      track.scrollTo({
+        left: slide.offsetLeft - (track.clientWidth - slide.offsetWidth) / 2,
+        behavior: reduced ? "auto" : "smooth",
+      });
+    },
+    [reduced]
+  );
 
   const openModal = (index: number) => {
     setModalIndex(index);
     dialogRef.current?.showModal();
-    // Native <dialog> makes the page inert but not scroll-locked.
-    document.documentElement.style.overflow = "hidden";
   };
+
+  // Native <dialog> makes the page inert but not scroll-locked; hold
+  // the lock for exactly as long as the lightbox has an image, and
+  // restore on unmount even if it never closed.
+  const lightboxOpen = modalIndex !== null;
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const root = document.documentElement;
+    const previousOverflow = root.style.overflow;
+    root.style.overflow = "hidden";
+    return () => {
+      root.style.overflow = previousOverflow;
+    };
+  }, [lightboxOpen]);
 
   const active = modalIndex !== null ? images[modalIndex] : null;
 
@@ -200,10 +207,7 @@ export function Gallery({
         onClose={() => {
           // The close event can be delivered after a quick re-open;
           // only clear the image if the dialog is actually closed.
-          if (!dialogRef.current?.open) {
-            setModalIndex(null);
-            document.documentElement.style.overflow = "";
-          }
+          if (!dialogRef.current?.open) setModalIndex(null);
         }}
         onClick={(e) => {
           // Backdrop clicks land on the dialog element itself.
@@ -228,7 +232,7 @@ export function Gallery({
                 muted
                 loop
                 playsInline
-                autoPlay
+                autoPlay={!reduced}
               />
             ) : (
               <img src={active.src} alt={active.alt} />

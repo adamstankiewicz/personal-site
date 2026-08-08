@@ -57,8 +57,12 @@ export function generateCss(tokens) {
     if (typeof value !== "string") return value;
     return value.replace(/\{([^}]+)\}/g, (_, path) => {
       if (seen.has(path)) throw new Error(`Circular token alias: {${path}}`);
+      // `seen` tracks only the current resolution chain, so two aliases
+      // sharing a base (or one referenced twice) don't read as a cycle.
       seen.add(path);
-      return resolve(lookup(path).$value, seen);
+      const resolved = resolve(lookup(path).$value, seen);
+      seen.delete(path);
+      return resolved;
     });
   }
 

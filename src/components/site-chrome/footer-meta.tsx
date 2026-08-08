@@ -2,9 +2,29 @@
 
 import { useEffect, useState } from "react";
 import { TextMorph } from "torph/react";
-import bakedGhStats from "@/generated/gh-stats.json";
+import rawGhStats from "@/generated/gh-stats.json";
 
 const GITHUB_USER = "adamstankiewicz";
+
+// build-gh-stats.mjs writes one of two shapes: the full counts when a
+// token was available, or an all-null fallback. The generated JSON's
+// inferred type is whichever shape was last baked locally, so widen it
+// here — otherwise a tokenless CI bake would fail the type check.
+interface GhStats {
+  opened: number | null;
+  reviewed: number | null;
+  scope: string | null;
+  years: { y: number; opened: number }[];
+}
+const bakedGhStats: GhStats = rawGhStats;
+
+// Narrow the two shapes once: non-null when the bake had full scope.
+const bakedCounts =
+  bakedGhStats.scope === "all" &&
+  bakedGhStats.opened !== null &&
+  bakedGhStats.reviewed !== null
+    ? { opened: bakedGhStats.opened, reviewed: bakedGhStats.reviewed }
+    : null;
 
 /**
  * Aggregate GitHub leverage: PRs opened, and others' PRs reviewed.
@@ -18,48 +38,47 @@ export function GitHubStats() {
     null
   );
 
-  const baked =
-    bakedGhStats.scope === "all" &&
-    typeof bakedGhStats.opened === "number" &&
-    typeof bakedGhStats.reviewed === "number";
+  const baked = bakedCounts !== null;
 
   useEffect(() => {
     if (baked) return;
-    try {
-      const cached = sessionStorage.getItem("gh-pr-stats");
-      if (cached) {
-        setStats(JSON.parse(cached));
-        return;
-      }
-    } catch {}
-    const count = (query: string) =>
-      fetch(
-        `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&per_page=1`
-      )
-        .then((r) =>
-          r.ok ? r.json() : Promise.reject(new Error(`GitHub API ${r.status}`))
+    let cancelled = false;
+    (async () => {
+      try {
+        const cached = sessionStorage.getItem("gh-pr-stats");
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (!cancelled) setStats(parsed);
+          return;
+        }
+      } catch {}
+      const count = (query: string) =>
+        fetch(
+          `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&per_page=1`
         )
-        .then((data) => data.total_count as number);
-    Promise.all([
-      count(`type:pr author:${GITHUB_USER}`),
-      count(`type:pr reviewed-by:${GITHUB_USER} -author:${GITHUB_USER}`),
-    ])
-      .then(([opened, reviewed]) => {
+          .then((r) =>
+            r.ok ? r.json() : Promise.reject(new Error(`GitHub API ${r.status}`))
+          )
+          .then((data) => data.total_count as number);
+      try {
+        const [opened, reviewed] = await Promise.all([
+          count(`type:pr author:${GITHUB_USER}`),
+          count(`type:pr reviewed-by:${GITHUB_USER} -author:${GITHUB_USER}`),
+        ]);
         const next = { opened, reviewed };
-        setStats(next);
+        if (!cancelled) setStats(next);
         try {
           sessionStorage.setItem("gh-pr-stats", JSON.stringify(next));
         } catch {}
-      })
-      .catch(() => {});
+      } catch {}
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [baked]);
 
-  const display = baked
-    ? {
-        opened: bakedGhStats.opened as number,
-        reviewed: bakedGhStats.reviewed as number,
-        label: "across GitHub",
-      }
+  const display = bakedCounts
+    ? { ...bakedCounts, label: "across GitHub" }
     : stats
       ? { ...stats, label: "public GitHub" }
       : null;
@@ -67,7 +86,7 @@ export function GitHubStats() {
   if (!display) return null;
 
   // Yearly shape, leading empty years trimmed (pre-GitHub-flow work).
-  const allYears = baked ? (bakedGhStats.years ?? []) : [];
+  const allYears = baked ? bakedGhStats.years : [];
   const firstActive = allYears.findIndex((year) => year.opened > 0);
   const years = firstActive >= 0 ? allYears.slice(firstActive) : [];
   const max = Math.max(1, ...years.map((year) => year.opened));

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CommandMenu, type Command } from "@/components/command-menu";
 import { ProgressRail } from "@/components/progress-rail";
+import { prefersReducedMotion } from "@/lib/hooks";
 import { scrollToSection } from "@/lib/section-scroll";
 import { GitHubStats, LocalTime } from "./footer-meta";
 import buildInfo from "@/generated/build-info.json";
@@ -35,8 +36,7 @@ function applyTheme() {
 // Theme changes sweep across the page like a day/night terminator,
 // when the browser supports view transitions and motion is welcome.
 function toggleTheme() {
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!document.startViewTransition || reduceMotion) {
+  if (!document.startViewTransition || prefersReducedMotion()) {
     applyTheme();
     return;
   }
@@ -66,11 +66,11 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 
   const commands = useMemo<Command[]>(
     () => [
-      ...NAV_ITEMS.map((item) => ({
+      ...NAV_ITEMS.map((item, index) => ({
         id: `nav-${item.id}`,
         label: `Go to ${item.label}`,
         group: "Navigate" as const,
-        hint: `§ ${String(NAV_ITEMS.indexOf(item) + 1).padStart(2, "0")}`,
+        hint: `§ ${String(index + 1).padStart(2, "0")}`,
         run: () => scrollToSection(item.id),
       })),
       {
@@ -85,7 +85,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         label: "Download résumé",
         group: "Actions",
         hint: "pdf",
-        run: () => window.open("/pdfs/Adam_Stankiewicz_Resume.pdf", "_blank"),
+        run: () => window.open("/pdfs/Adam_Stankiewicz_Resume.pdf", "_blank", "noopener,noreferrer"),
       },
       {
         id: "email",
@@ -101,14 +101,14 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         label: "GitHub",
         group: "Elsewhere",
         hint: "↗",
-        run: () => window.open("https://github.com/adamstankiewicz", "_blank"),
+        run: () => window.open("https://github.com/adamstankiewicz", "_blank", "noopener,noreferrer"),
       },
       {
         id: "linkedin",
         label: "LinkedIn",
         group: "Elsewhere",
         hint: "↗",
-        run: () => window.open("https://linkedin.com/in/stankiewiczadam", "_blank"),
+        run: () => window.open("https://linkedin.com/in/stankiewiczadam", "_blank", "noopener,noreferrer"),
       },
       {
         id: "scholar",
@@ -118,7 +118,8 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         run: () =>
           window.open(
             "https://scholar.google.com/citations?user=lJSHz8QAAAAJ",
-            "_blank"
+            "_blank",
+            "noopener,noreferrer"
           ),
       },
     ],

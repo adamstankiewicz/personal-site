@@ -1,5 +1,5 @@
 import { SectionHeader } from "@/components/section-header";
-import { PrintPhoto } from "./living-photo";
+import { PrintPhoto } from "./print-photo";
 
 function ProseLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (

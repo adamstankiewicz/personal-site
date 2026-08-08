@@ -1,28 +1,58 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+const HOVER_QUERY = "(hover: hover)";
+
+/** One-shot check for imperative code paths (effects, handlers). */
+export const prefersReducedMotion = () =>
+  window.matchMedia(REDUCED_MOTION_QUERY).matches;
+
+/** True on devices with a real pointer; false on touch screens. */
+export const hoverCapable = () => window.matchMedia(HOVER_QUERY).matches;
+
+function useMediaQuery(query: string) {
+  const subscribe = useCallback(
+    (onChange: () => void) => {
+      const list = window.matchMedia(query);
+      list.addEventListener("change", onChange);
+      return () => list.removeEventListener("change", onChange);
+    },
+    [query]
+  );
+  return useSyncExternalStore(
+    subscribe,
+    () => window.matchMedia(query).matches,
+    () => false
+  );
+}
+
+/** Tracks the visitor's reduced-motion preference, live. */
+export function useReducedMotion() {
+  return useMediaQuery(REDUCED_MOTION_QUERY);
+}
+
+/** Tracks hover capability, live (false during prerender and on touch). */
+export function useHoverCapable() {
+  return useMediaQuery(HOVER_QUERY);
+}
 
 /** Tracks the `.dark` class on <html>, kept in sync by the theme toggle. */
 export function useDarkTheme() {
-  const [dark, setDark] = useState(false);
-  useEffect(() => {
-    const root = document.documentElement;
-    const sync = () => setDark(root.classList.contains("dark"));
-    sync();
-    const observer = new MutationObserver(sync);
-    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+  const subscribe = useCallback((onChange: () => void) => {
+    const observer = new MutationObserver(onChange);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
     return () => observer.disconnect();
   }, []);
-  return dark;
-}
-
-/** True once mounted when the visitor prefers reduced motion. */
-export function useReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
-  return reduced;
+  return useSyncExternalStore(
+    subscribe,
+    () => document.documentElement.classList.contains("dark"),
+    () => false
+  );
 }
 
 /**

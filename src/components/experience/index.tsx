@@ -2,13 +2,17 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SectionHeader } from "@/components/section-header";
-import { experiences } from "./data";
+import { prefersReducedMotion } from "@/lib/hooks";
+import { earlierWork, experiences } from "./data";
 import { ExperienceItemProps } from "./types";
 
 function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
   const flyerRef = useRef<HTMLDivElement>(null);
   const onArriveRef = useRef(onArrive);
-  onArriveRef.current = onArrive;
+
+  useEffect(() => {
+    onArriveRef.current = onArrive;
+  });
 
   useEffect(() => {
     const flyer = flyerRef.current;
@@ -16,7 +20,7 @@ function RouteFlyer({ onArrive }: { onArrive: (index: number) => void }) {
     const line = container?.querySelector<HTMLElement>(".route-line");
     if (!flyer || !container || !line) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (prefersReducedMotion()) return;
 
     // A continuous loop (only while the section is on screen) lerps the
     // handle toward its target every frame, so layout shifts from rows
@@ -245,8 +249,6 @@ export function Experience() {
   // past short rows.
   const autoOpenRef = useRef<{ index: number; top: number } | null>(null);
 
-  const listed = experiences.filter((experience) => experience.company);
-  const footnote = experiences.find((experience) => !experience.company);
 
   const handleArrive = (index: number) => {
     const row =
@@ -286,7 +288,7 @@ export function Experience() {
         <div className="route-line" aria-hidden="true" />
         <RouteFlyer onArrive={handleArrive} />
         <ol className="space-y-8">
-          {listed.map((experience, index) => (
+          {experiences.map((experience, index) => (
             <Waypoint
               key={experience.company}
               experience={experience}
@@ -296,15 +298,11 @@ export function Experience() {
             />
           ))}
         </ol>
-        {footnote ? (
-          <p className="mt-8 max-w-[62ch] text-[0.9375rem] italic text-ink-muted">
-            {footnote.description}{" "}
-            <span className="mono-label not-italic">({footnote.period})</span>
-          </p>
-        ) : null}
+        <p className="mt-8 max-w-[62ch] text-[0.9375rem] italic text-ink-muted">
+          {earlierWork.description}{" "}
+          <span className="mono-label not-italic">({earlierWork.period})</span>
+        </p>
       </div>
     </section>
   );
 }
-
-export default Experience;

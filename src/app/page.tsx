@@ -1,4 +1,4 @@
-import { About } from "@/components/about/about";
+import { About } from "@/components/about";
 import { Atmosphere } from "@/components/atmosphere";
 import { Experience } from "@/components/experience";
 import { HeroName } from "@/components/hero-name";
@@ -54,7 +54,8 @@ function Contact() {
       <Atmosphere flip />
       <p className="mono-label text-ink-muted">Get in touch</p>
       <p className="mt-5 max-w-xl text-[1.0625rem] leading-[1.7] text-ink-muted">
-        Building something that needs both the product and the platform?
+        Always glad to talk product engineering, design systems, or work
+        that needs both.
       </p>
       <a
         href="mailto:agstanki@gmail.com"

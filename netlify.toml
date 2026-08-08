@@ -7,3 +7,11 @@ publish = "out"
 
 [dev]
 command = "npm run dev"
+
+# The build emits the OG card as an extensionless file; without this,
+# Netlify would serve it as application/octet-stream and some link
+# scrapers would ignore it.
+[[headers]]
+for = "/opengraph-image"
+[headers.values]
+Content-Type = "image/png"

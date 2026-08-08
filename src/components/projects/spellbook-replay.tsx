@@ -173,6 +173,7 @@ function ReplayColumn({
 export function SpellbookReplay() {
   const [shown, setShown] = useState(1);
   const done = shown >= TOTAL;
+  const advance = () => setShown((n) => (n >= TOTAL ? 1 : n + 1));
 
   return (
     <div className="replay">
@@ -188,16 +189,10 @@ export function SpellbookReplay() {
         {TASK}
       </p>
 
-      <button
-        type="button"
-        className="replay-stage"
-        onClick={() => setShown((n) => (n >= TOTAL ? 1 : n + 1))}
-      >
-        <span className="sr-only">
-          {done
-            ? "Replay the before-and-after walkthrough from the start."
-            : "Advance both agents one step."}
-        </span>
+      {/* Pointer convenience only: the real, focusable control is the
+          button below. Keeping the log outside any button also keeps
+          its aria-live region and list semantics intact. */}
+      <div className="replay-stage" onClick={advance}>
         <div className="grid sm:grid-cols-2">
           <ReplayColumn
             title="Filesystem only"
@@ -212,15 +207,19 @@ export function SpellbookReplay() {
             summary="1 attempt · ~6 steps · pass"
           />
         </div>
-      </button>
+      </div>
 
       <div className="flex items-baseline justify-between gap-4 border-t border-line px-4 py-2.5">
         <span className="mono-label tabular-nums text-ink-muted">
           <TextMorph as="span">{`step ${Math.min(shown, TOTAL)} / ${TOTAL}`}</TextMorph>
         </span>
-        <span className="mono-label text-accent">
+        <button
+          type="button"
+          className="mono-label cursor-pointer text-accent"
+          onClick={advance}
+        >
           {done ? "replay ↺" : "click to step both →"}
-        </span>
+        </button>
       </div>
     </div>
   );

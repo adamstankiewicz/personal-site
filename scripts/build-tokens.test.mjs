@@ -57,6 +57,22 @@ test("unresolvable aliases throw", () => {
   );
 });
 
+test("shared bases and repeated aliases are not misread as cycles", () => {
+  const css = generateCss({
+    color: { base: { $type: "color", $value: "#1435e5" } },
+    semantic: {
+      x: { $type: "color", $value: "{color.base}" },
+      y: { $type: "color", $value: "{color.base}" },
+      // Diamond: both branches resolve through {color.base}.
+      pair: { $type: "shadow", $value: "{semantic.x} {semantic.y}" },
+      // The same alias twice within one value.
+      twice: { $type: "shadow", $value: "{color.base} {color.base}" },
+    },
+  });
+  assert.match(css, /--pair: #1435e5 #1435e5;/);
+  assert.match(css, /--twice: #1435e5 #1435e5;/);
+});
+
 test("circular aliases throw instead of recursing forever", () => {
   assert.throws(
     () =>

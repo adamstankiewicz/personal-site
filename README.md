@@ -26,6 +26,8 @@ Three zero-dependency scripts run before Next:
   per-year series) into `src/generated/gh-stats.json`. See below.
 
 `src/generated/` is gitignored; everything in it is derived at build time.
+A `postinstall` hook generates it on `npm install`, so typecheck and lint
+work on a fresh clone.
 
 ## Environment
 

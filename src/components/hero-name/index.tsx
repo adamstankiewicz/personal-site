@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { hoverCapable, prefersReducedMotion } from "@/lib/hooks";
 
 const NAME_LINES = ["Adam", "Stankiewicz"];
 const BASE_WEIGHT = 560;
@@ -19,8 +20,7 @@ export function HeroName() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.matchMedia("(hover: none)").matches) return;
+    if (prefersReducedMotion() || !hoverCapable()) return;
 
     const letters = Array.from(el.querySelectorAll<HTMLElement>(".hero-letter"));
     let raf: number | null = null;

@@ -3,18 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { SectionHeader } from "@/components/section-header";
-import { useDarkTheme, useIdleMounted, useReducedMotion } from "@/lib/hooks";
+import { hoverCapable, useDarkTheme, useIdleMounted, useReducedMotion } from "@/lib/hooks";
 
 // Shares the atmosphere's async chunk; never in the critical bundle.
 const GrainGradient = dynamic(
   () => import("@paper-design/shaders-react").then((m) => m.GrainGradient),
   { ssr: false }
 );
-
-/* ------------------------------------------------------------------ */
-/*  Shared bits                                                        */
-/* ------------------------------------------------------------------ */
-
 
 function LabCard({
   number,
@@ -62,7 +57,7 @@ function WeightWord() {
   useEffect(() => {
     const el = ref.current;
     if (!el || reduced) return;
-    if (window.matchMedia("(hover: none)").matches) return;
+    if (!hoverCapable()) return;
 
     const letters = Array.from(el.querySelectorAll<HTMLElement>(".hero-letter"));
     let raf: number | null = null;

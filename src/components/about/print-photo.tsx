@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useHoverCapable, useReducedMotion } from "@/lib/hooks";
 
 /**
  * An honest photo handled like a print: it tilts a few degrees
@@ -22,16 +23,14 @@ export function PrintPhoto({
   height: number;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(false);
   const pos = useRef({ x: 50, y: 50, tx: 50, ty: 50 });
   const hovering = useRef(false);
   const rafRef = useRef<number | null>(null);
+  const hoverable = useHoverCapable();
+  const reduced = useReducedMotion();
+  const active = hoverable && !reduced;
 
   useEffect(() => {
-    setActive(
-      window.matchMedia("(hover: hover)").matches &&
-        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    );
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
