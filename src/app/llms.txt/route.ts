@@ -1,3 +1,4 @@
+import { aboutParagraphs } from "@/components/about/data";
 import { earlierWork, experiences } from "@/components/experience/data";
 import { projects } from "@/components/projects/data";
 import { publications } from "@/components/research/data";
@@ -15,6 +16,10 @@ export function GET() {
     "# Adam Stankiewicz",
     "",
     `> ${SITE_DESCRIPTION}`,
+    "",
+    "## About",
+    "",
+    aboutParagraphs.join("\n\n"),
     "",
     "## Experience",
     "",
