@@ -27,7 +27,7 @@ export function About() {
             I started out in research. A video learning platform I built as
             an undergrad turned into published papers and two years of a
             Ph.D. at Carnegie Mellon before I traded the lab for industry.
-            That meant seven years at{" "}
+            From there, seven years at{" "}
             <ProseLink href="https://edx.org">edX</ProseLink> /{" "}
             <ProseLink href="https://2u.com">2U</ProseLink>, leading{" "}
             <ProseLink href="https://paragon-openedx-v22.netlify.app">
@@ -37,9 +37,8 @@ export function About() {
             ecosystem while building edX for Business, and now{" "}
             <ProseLink href="https://magicschool.ai">MagicSchool AI</ProseLink>,
             where I’ve been teaching AI coding agents to respect a design
-            system. The research years still show up:
-            for the big calls, I’d rather run an evaluation than argue
-            from taste.
+            system. The research years still show up: I’d rather run an
+            evaluation than argue from taste.
           </p>
         </div>
         <aside className="lg:col-span-4">
