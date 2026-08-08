@@ -10,6 +10,8 @@
     "dev": "npm run tokens && npm run buildinfo && npm run ghstats && next dev",
     "build": "npm run tokens:check && npm run buildinfo && npm run ghstats && next build",
     "start": "next start",
+    "lint": "eslint .",
+    "test": "node --test scripts/",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -20,10 +22,13 @@
     "torph": "^0.1.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.6",
     "@tailwindcss/postcss": "^4.1.7",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.23",
     "tailwindcss": "^4.1.7",
     "typescript": "^5.8.3"
   }

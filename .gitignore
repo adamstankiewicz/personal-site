@@ -16,3 +16,6 @@
 
 # generated at build time
 /src/generated/
+
+# old React Router artifacts never return
+/build/

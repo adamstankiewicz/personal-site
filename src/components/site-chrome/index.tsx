@@ -5,6 +5,7 @@ import Link from "next/link";
 import { TextMorph } from "torph/react";
 import { CommandMenu, type Command } from "@/components/command-menu";
 import { ProgressRail } from "@/components/progress-rail";
+import { scrollToSection } from "@/lib/section-scroll";
 import buildInfo from "@/generated/build-info.json";
 import bakedGhStats from "@/generated/gh-stats.json";
 
@@ -147,8 +148,6 @@ const TOKENS = [
   { name: "ink", varName: "--ink" },
   { name: "accent", varName: "--accent" },
 ];
-
-import { scrollToSection } from "@/lib/section-scroll";
 
 function applyTheme() {
   const dark = document.documentElement.classList.toggle("dark");
@@ -357,7 +356,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 <span className="text-ink">Archivo</span>, and{" "}
                 <span className="font-mono text-[0.8125rem] text-ink">IBM Plex Mono</span>,
                 self-hosted. Statically rendered with Next.js, styled with
-                Tailwind, served from Netlify's CDN.{" "}
+                Tailwind, served from Netlify’s CDN.{" "}
                 <a
                   href="https://github.com/adamstankiewicz/personal-site"
                   target="_blank"

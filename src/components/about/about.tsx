@@ -17,8 +17,8 @@ export function About() {
         <div className="max-w-[65ch] space-y-6 text-[1.0625rem] leading-[1.75] lg:col-span-8">
           <p>
             Most of my career has happened in edtech, and the work has
-            always split two ways. Some years I'm shipping features on a
-            product team. Other years I'm building the design system, the
+            always split two ways. Some years I’m shipping features on a
+            product team. Other years I’m building the design system, the
             design tokens, and the tooling that team builds with. I stopped
             trying to pick a side a long time ago; each one makes me better
             at the other.
@@ -36,9 +36,9 @@ export function About() {
             for the <ProseLink href="https://openedx.org">Open edX</ProseLink>{" "}
             ecosystem while building edX for Business, and now{" "}
             <ProseLink href="https://magicschool.ai">MagicSchool AI</ProseLink>,
-            where I've been teaching AI coding agents to respect a design
+            where I’ve been teaching AI coding agents to respect a design
             system. The research years still show up:
-            for the big calls, I'd rather run an evaluation than argue
+            for the big calls, I’d rather run an evaluation than argue
             from taste.
           </p>
         </div>
