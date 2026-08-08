@@ -240,7 +240,7 @@ function Waypoint({
           {period}
         </span>
         <span
-          className="ledger-toggle-glyph mono-label hidden text-right text-ink-muted group-hover:text-accent sm:inline-block"
+          className="ledger-toggle-glyph mono-label hidden text-ink-muted group-hover:text-accent sm:inline-flex"
           aria-hidden="true"
         >
           +

@@ -424,7 +424,15 @@ p {
   transition-delay: 90ms;
 }
 
+/* The +/× glyph rotates around its true visual center: a fixed square
+   box with the glyph ink centered, so the rotation doesn't drift. */
 .ledger-toggle-glyph {
+  align-items: center;
+  justify-content: center;
+  width: 1.25em;
+  height: 1.25em;
+  line-height: 1;
+  justify-self: end;
   transition: transform var(--dur-open) var(--ease-spring);
 }
 
