@@ -48,7 +48,7 @@ function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="mono-link nav-link cursor-pointer"
+      className="mono-link nav-link -my-2 cursor-pointer py-2"
       aria-label="Toggle color theme"
     >
       <span className="theme-glyph" aria-hidden="true">
@@ -219,7 +219,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
-              className="mono-link hidden cursor-pointer items-baseline gap-1.5 sm:flex"
+              className="mono-link -my-2 hidden cursor-pointer items-baseline gap-1.5 py-2 sm:flex"
               aria-label="Open command menu"
             >
               <kbd className="key-hint">⌘K</kbd>

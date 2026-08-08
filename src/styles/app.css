@@ -506,8 +506,8 @@ p {
 .progress-rail-tick {
   position: absolute;
   left: 50%;
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   cursor: pointer;
@@ -519,7 +519,7 @@ p {
 .progress-rail-tick::after {
   content: "";
   position: absolute;
-  inset: 5px;
+  inset: 10px;
   border-radius: 50%;
   background: var(--paper);
   border: 1px solid var(--ink-muted);
@@ -550,7 +550,9 @@ p {
   cursor: pointer;
   background: none;
   border: none;
-  padding: 0;
+  /* widen the pointer target without moving the visual centerline */
+  padding: 6px 10px;
+  margin: -6px -10px;
   transition: color 160ms ease;
 }
 

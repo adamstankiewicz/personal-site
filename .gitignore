@@ -12,3 +12,4 @@
 /.next/
 /out/
 *.tsbuildinfo
+.gstack/
