@@ -7,6 +7,52 @@ import { CommandMenu, type Command } from "@/components/command-menu";
 import { ProgressRail } from "@/components/progress-rail";
 import buildInfo from "@/generated/build-info.json";
 
+// Aggregate public-GitHub leverage: PRs opened, and others' PRs
+// reviewed. Fetched client-side (unauthenticated, so private-org work
+// is not counted — labeled accordingly), cached per session, and
+// silently absent if the API is unavailable.
+function GitHubStats() {
+  const [stats, setStats] = useState<{ opened: number; reviewed: number } | null>(
+    null
+  );
+
+  useEffect(() => {
+    try {
+      const cached = sessionStorage.getItem("gh-pr-stats");
+      if (cached) {
+        setStats(JSON.parse(cached));
+        return;
+      }
+    } catch {}
+    const count = (q: string) =>
+      fetch(
+        `https://api.github.com/search/issues?q=${encodeURIComponent(q)}&per_page=1`
+      )
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        .then((d) => d.total_count as number);
+    Promise.all([
+      count("type:pr author:adamstankiewicz"),
+      count("type:pr reviewed-by:adamstankiewicz -author:adamstankiewicz"),
+    ])
+      .then(([opened, reviewed]) => {
+        const next = { opened, reviewed };
+        setStats(next);
+        try {
+          sessionStorage.setItem("gh-pr-stats", JSON.stringify(next));
+        } catch {}
+      })
+      .catch(() => {});
+  }, []);
+
+  if (!stats) return null;
+  return (
+    <p className="mono-label mt-3 text-ink-muted">
+      {stats.opened.toLocaleString()} PRs opened ·{" "}
+      {stats.reviewed.toLocaleString()} reviewed · public GitHub
+    </p>
+  );
+}
+
 // The footer clock reads Merrimack's wall time, ticking by the minute.
 function LocalTime() {
   const [time, setTime] = useState<string | null>(null);
@@ -324,6 +370,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               <p className="mono-label mt-3 text-ink-muted">
                 <LocalTime />
               </p>
+              <GitHubStats />
             </div>
           </div>
 
