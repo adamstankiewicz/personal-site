@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { SectionHeader } from "@/components/section-header";
-import { AgentUiReplay } from "./generative-ui";
 
 // Shares the atmosphere's async chunk; never in the critical bundle.
 const GrainGradient = dynamic(
@@ -56,18 +55,16 @@ function LabCard({
   title,
   description,
   mechanism,
-  wide = false,
   children,
 }: {
   number: string;
   title: string;
   description: string;
   mechanism: string;
-  wide?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <article className={wide ? "lab-card sm:col-span-2" : "lab-card"}>
+    <article className="lab-card">
       <div className="lab-stage">{children}</div>
       <div className="border-t border-line px-5 py-4">
         <p className="flex items-baseline gap-3">
@@ -362,15 +359,6 @@ export function Lab() {
           mechanism="@paper-design/shaders-react · GrainGradient"
         >
           <GrainField />
-        </LabCard>
-        <LabCard
-          number="05"
-          title="Agent → UI, on the wire"
-          description="A recorded AG-UI event stream drives an A2UI renderer: RUN_STARTED, message deltas, then A2UI v0.9 createSurface and updateComponents messages that assemble the interface progressively from a flat component list with ID references. The agent never writes markup; the client renders only what its trusted catalog allows."
-          mechanism="AG-UI events · A2UI v0.9 · basic catalog · adjacency-list components"
-          wide
-        >
-          <AgentUiReplay />
         </LabCard>
       </div>
     </section>
