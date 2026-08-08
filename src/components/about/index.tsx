@@ -38,8 +38,8 @@ export function About() {
             <ProseLink href="https://magicschool.ai">MagicSchool AI</ProseLink>
             , where that same split has taken on a new shape: teaching AI
             coding agents, not just engineers, to respect a design system.
-            The research years still show up: on the agent work especially,
-            I’d rather run an evaluation than argue from taste.
+            The research years still show up: I’d rather run an
+            evaluation than argue from taste.
           </p>
         </div>
         <aside className="lg:col-span-4">
