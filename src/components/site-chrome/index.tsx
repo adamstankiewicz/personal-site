@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CommandMenu, type Command } from "@/components/command-menu";
+import { Instruments } from "@/components/instruments";
 
 const NAV_ITEMS = [
   { id: "about", label: "About" },
@@ -24,11 +25,22 @@ function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 }
 
-function toggleTheme() {
+function applyTheme() {
   const dark = document.documentElement.classList.toggle("dark");
   try {
     localStorage.setItem("theme", dark ? "dark" : "light");
   } catch {}
+}
+
+// Theme changes sweep across the page like a day/night terminator,
+// when the browser supports view transitions and motion is welcome.
+function toggleTheme() {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!document.startViewTransition || reduceMotion) {
+    applyTheme();
+    return;
+  }
+  document.startViewTransition(applyTheme);
 }
 
 function ThemeToggle() {
@@ -138,6 +150,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         onClose={() => setMenuOpen(false)}
         commands={commands}
       />
+      <Instruments />
 
       <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-baseline justify-between gap-y-3 px-6 py-5">

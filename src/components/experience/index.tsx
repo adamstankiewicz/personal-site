@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SectionHeader } from "@/components/section-header";
 import { ExperienceItemProps } from "./types";
 
@@ -88,6 +88,49 @@ const experiences: ExperienceItemProps[] = [
       technologies: [],
     }
 ];
+
+function RouteFlyer() {
+  const flyerRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const flyer = flyerRef.current;
+    const container = flyer?.parentElement;
+    if (!flyer || !container) return;
+
+    let raf: number | null = null;
+    const update = () => {
+      raf = null;
+      const rect = container.getBoundingClientRect();
+      const anchor = window.innerHeight * 0.45;
+      const progress = Math.min(1, Math.max(0, (anchor - rect.top) / rect.height));
+      const y = 14 + progress * (rect.height - 46);
+      flyer.style.transform = `translateY(${y}px)`;
+    };
+    const onScroll = () => {
+      if (raf === null) raf = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf !== null) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  return (
+    <svg ref={flyerRef} className="route-flyer" viewBox="0 0 18 18" aria-hidden="true">
+      <path
+        d="M9 16 L13.5 3 L9 6 L4.5 3 Z"
+        fill="currentColor"
+        stroke="var(--paper)"
+        strokeWidth="1"
+      />
+    </svg>
+  );
+}
 
 function WaypointMarker() {
   return (
@@ -205,6 +248,7 @@ export function Experience() {
       <SectionHeader number="02" title="Experience" annotation="2010 — Present" />
       <div className="route mt-10">
         <div className="route-line" aria-hidden="true" />
+        <RouteFlyer />
         <ol className="space-y-8">
           {listed.map((experience, index) => (
             <Waypoint

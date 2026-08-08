@@ -1,4 +1,5 @@
 import { About } from "@/components/about/about";
+import { TerrainPlate } from "@/components/terrain-plate";
 import { Experience } from "@/components/experience";
 import { Projects } from "@/components/projects";
 import { Research } from "@/components/research";
@@ -97,39 +98,7 @@ function TitleBlock() {
       </div>
 
       {/* A real view from the left seat, treated as part of the chart */}
-      <figure className="terrain-plate rise rise-4 mt-6">
-        <img
-          src="/images/flying/winnipesaukee.jpg"
-          alt="Aerial view from a small plane over Lake Winnipesaukee, New Hampshire, in fall — the wing strut in frame, foliage and a runway below"
-          width={2400}
-          height={1800}
-          decoding="async"
-        />
-        <svg
-          className="terrain-plate-course"
-          viewBox="0 0 100 40"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M8 33 L38 21 L72 24 L94 8"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="0.45"
-            strokeDasharray="2 1.2"
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-        <svg className="terrain-plate-course" viewBox="0 0 100 40" aria-hidden="true">
-          <g fill="var(--paper)" stroke="currentColor" strokeWidth="0.5">
-            <path d="M8 31.6 L9.4 34 L6.6 34 Z" />
-            <path d="M94 6.6 L95.4 9 L92.6 9 Z" />
-          </g>
-        </svg>
-        <figcaption className="terrain-plate-caption mono-label text-ink-muted">
-          Over Lake Winnipesaukee, NH — from the left seat of my Cessna 172
-        </figcaption>
-      </figure>
+      <TerrainPlate />
 
       {/* Flight-data strip */}
       <dl className="mt-10 grid gap-x-8 gap-y-6 pb-20 sm:grid-cols-2 sm:pb-24 lg:grid-cols-4">
