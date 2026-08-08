@@ -1,8 +1,10 @@
-name: Weekly stats refresh
+name: Daily stats refresh
 
 # The GitHub PR counts in the footer are baked at build time, so they
 # only refresh when a deploy runs. This triggers a Netlify rebuild once
-# a week so the numbers stay current between real ships.
+# a day so the numbers stay current between real ships. (Cost: roughly
+# a third of Netlify's free-tier build minutes; drop to weekly if that
+# ever competes with real deploys.)
 #
 # Requires the NETLIFY_BUILD_HOOK_URL repository secret: create a build
 # hook under Netlify → Site configuration → Build & deploy → Build
@@ -10,7 +12,7 @@ name: Weekly stats refresh
 
 on:
   schedule:
-    - cron: "0 9 * * 1" # Mondays 09:00 UTC
+    - cron: "0 9 * * *" # daily 09:00 UTC
   workflow_dispatch:
 
 jobs:
