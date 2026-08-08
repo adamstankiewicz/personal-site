@@ -12,7 +12,7 @@ export const projects: Project[] = [
       },
       {
         label: 'The build',
-        text: "Nine tools over 70+ React component specs, resolved design tokens, icon catalogs, and real Storybook examples. Discovery is semantic: keyword matching fused with an embedding index baked at build time, traced query expansion so a search for a snackbar finds the Toast, and one entry-point tool that fans out across components, tokens, and guidelines in a single call. A compiler-backed validator type-checks generated JSX against the real APIs, and the manifest is derived by walking the TypeScript export graph on every release, so the tools can never drift from source.",
+        text: "Nine tools over 70+ React component specs, resolved design tokens, icon catalogs, and real Storybook examples. Discovery is semantic: keyword matching fused with an embedding index baked at build time, traced query expansion so a search for a snackbar finds the Toast, and one entry-point tool that fans out across components, tokens, and guidelines in a single call. A compiler-backed validator type-checks generated JSX against the real APIs, and the manifest is derived by walking the TypeScript export graph on every release, so the tools can never drift from source. Remote connections authenticate over OAuth.",
       },
       {
         label: 'The test',
@@ -26,6 +26,7 @@ export const projects: Project[] = [
       'curated examples',
       'JSX type-checking',
       'release-synced manifest',
+      'OAuth',
     ],
     replay: true,
     figures: [
