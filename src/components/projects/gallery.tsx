@@ -24,7 +24,20 @@ export function Gallery({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [current, setCurrent] = useState(0);
   const [modalIndex, setModalIndex] = useState<number | null>(null);
+  const [overflowing, setOverflowing] = useState(false);
   const reduced = useReducedMotion();
+
+  // Wide viewports can fit a whole strip; then there is nothing to
+  // scroll and the counter and arrows would only confuse.
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const observer = new ResizeObserver(() => {
+      setOverflowing(track.scrollWidth > track.clientWidth + 4);
+    });
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, [images]);
 
   // Video slides play only while on screen, and never under reduced
   // motion; until then they cost viewers one poster frame.
@@ -192,9 +205,9 @@ export function Gallery({
         ))}
       </div>
 
-      {/* A lone slide needs no counter or arrows. */}
+      {/* No counter or arrows unless there is actually more to see. */}
       <figcaption
-        className={`mt-3 items-baseline justify-end gap-4 ${images.length > 1 ? "flex" : "hidden"}`}
+        className={`mt-3 items-baseline justify-end gap-4 ${images.length > 1 && overflowing ? "flex" : "hidden"}`}
       >
         <span className="flex shrink-0 items-baseline gap-2">
           <span

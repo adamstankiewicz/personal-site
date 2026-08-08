@@ -3,6 +3,7 @@ import { Project } from "./types";
 export const projects: Project[] = [
   {
     title: 'Spellbook MCP Server',
+    context: 'MagicSchool AI · design-system tooling',
     description: "The design system, made legible to AI. An MCP server that lets coding agents build UI against Spellbook's real component APIs instead of inventing markup.",
     details: [
       {
@@ -46,6 +47,7 @@ export const projects: Project[] = [
   },
   {
     title: 'MagicSchool Chat Shell',
+    context: 'MagicSchool AI · product engineering',
     description: "The conversational core of MagicSchool: a composable ChatInput component family in Spellbook, and the view-transition choreography that carries it between the homepage, standalone chat, and empty states.",
     details: [
       {
@@ -88,6 +90,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Diff-Aware Accessibility CI',
+    context: 'MagicSchool AI · accessibility',
     description: "Automated axe scans wired into CI with two review surfaces: a sticky pull-request comment that separates the violations a PR introduced from what already existed, and a lifecycle dashboard for the accessibility guild. Non-blocking by design: it informs review instead of failing merges.",
     details: [
       {
@@ -133,6 +136,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Paragon, Design System & Component Library',
+    context: 'edX / 2U · open source',
     description: 'The open-source design system and React component library underneath the Open edX platform: design tokens, components, docs, and the tooling that keeps 40+ consuming projects consistent and accessible.',
     href: 'https://paragon-openedx-v22.netlify.app',
     githubUrl: 'https://github.com/openedx/paragon',
@@ -174,6 +178,7 @@ export const projects: Project[] = [
   },
   {
     title: 'edX Enterprise',
+    context: 'edX / 2U · enterprise platform',
     description: 'The enterprise learning platform at edX, built 0 → 1: onboarding, discovery, enrollment, and administration for corporate customers, from the React frontends to the Django REST APIs.',
     href: 'https://business.edx.org',
     images: [

@@ -14,14 +14,12 @@ function formatInstalls(installs: number) {
   return `${compact}M+ npm downloads`;
 }
 
-function Inset({ project, index }: { project: Project; index: number }) {
-  const number = String(index + 1).padStart(2, "0");
-
+function Inset({ project }: { project: Project }) {
   return (
     <article className="py-12 first:pt-10 last:pb-0 sm:py-14">
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="min-w-0 lg:col-span-5">
-          <p className="mono-label text-accent">Case {number}</p>
+          <p className="mono-label text-accent">{project.context}</p>
           <h3 className="title-md mt-4 text-[1.5rem] sm:text-[1.75rem]">
             {project.href ? (
               <ExternalLink
@@ -141,8 +139,8 @@ export function Projects() {
     <section id="work" className="scroll-mt-16 pb-24 sm:pb-32">
       <SectionHeader number="03" title="Selected Work" annotation="Five things, up close" />
       <div className="divide-y divide-line">
-        {projects.map((project, index) => (
-          <Inset key={project.title} project={project} index={index} />
+        {projects.map((project) => (
+          <Inset key={project.title} project={project} />
         ))}
       </div>
     </section>

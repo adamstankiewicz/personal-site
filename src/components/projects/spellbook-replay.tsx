@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "@/lib/hooks";
 import { TextMorph } from "torph/react";
 import { Card } from "@/components/ui/card";
 
@@ -174,10 +175,69 @@ function ReplayColumn({
 export function SpellbookReplay() {
   const [shown, setShown] = useState(1);
   const done = shown >= TOTAL;
-  const advance = () => setShown((n) => (n >= TOTAL ? 1 : n + 1));
+  const rootRef = useRef<HTMLDivElement>(null);
+  const shownRef = useRef(shown);
+  const userTookOverRef = useRef(false);
+  const playedThroughRef = useRef(false);
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    shownRef.current = shown;
+  });
+
+  const advance = () => {
+    userTookOverRef.current = true;
+    setShown((n) => (n >= TOTAL ? 1 : n + 1));
+  };
+
+  // The race plays itself the first time it scrolls into view, one
+  // step a second — pausing off-screen, stopping for good once it has
+  // run through or the visitor clicks. Never under reduced motion.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || reduced) return;
+    let timer: ReturnType<typeof setInterval> | null = null;
+    const stop = () => {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const eligible =
+          entry.isIntersecting &&
+          !playedThroughRef.current &&
+          !userTookOverRef.current;
+        if (!eligible) {
+          stop();
+          return;
+        }
+        if (timer) return;
+        timer = setInterval(() => {
+          if (userTookOverRef.current) {
+            stop();
+            return;
+          }
+          if (shownRef.current >= TOTAL) {
+            playedThroughRef.current = true;
+            stop();
+            return;
+          }
+          setShown((n) => Math.min(n + 1, TOTAL));
+        }, 1000);
+      },
+      { threshold: 0.45 }
+    );
+    observer.observe(el);
+    return () => {
+      stop();
+      observer.disconnect();
+    };
+  }, [reduced]);
 
   return (
-    <Card className="replay">
+    <Card className="replay" ref={rootRef}>
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line px-4 py-2.5">
         <p className="mono-label text-ink-muted">
           Spellbook MCP · <span className="text-accent">before / after</span>

@@ -19,6 +19,8 @@ export interface ProjectDetail {
 
 export interface Project {
   title: string;
+  /** The eyebrow above the title: employer · discipline. */
+  context: string;
   description: string;
   href?: string;
   githubUrl?: string;

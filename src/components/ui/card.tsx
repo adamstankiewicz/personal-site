@@ -1,10 +1,12 @@
-import type { ComponentPropsWithoutRef, ElementType } from "react";
+import type { ComponentPropsWithoutRef, ElementType, Ref } from "react";
 
 interface CardProps extends ComponentPropsWithoutRef<"div"> {
   /** Render as a different element (`article`, `dl`, …). */
   as?: ElementType;
   /** Opt into the hover rise, for cards sitting in a grid. */
   lift?: boolean;
+  /** React 19 ref-as-prop, forwarded to the rendered element. */
+  ref?: Ref<HTMLDivElement>;
 }
 
 /**
