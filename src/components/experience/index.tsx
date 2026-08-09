@@ -242,7 +242,7 @@ function Waypoint({
         </span>
       </button>
 
-      <div className="ledger-row-body" id={bodyId}>
+      <div className="ledger-row-body" id={bodyId} inert={!open}>
         <div>
           <div className="grid gap-8 pb-4 pt-3 lg:grid-cols-12">
             <div className="lg:col-span-7">
