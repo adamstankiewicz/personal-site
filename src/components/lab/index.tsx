@@ -320,7 +320,7 @@ export function Lab() {
         <LabCard
           number="04"
           title="Grain, seven ways"
-          description="A WebGL grain shader from the same library as the hero's atmosphere. It comes in seven shapes; here are all of them, louder than the hero would ever allow."
+          description="A WebGL grain shader from the same library as the hero's atmosphere. It comes in seven shapes; here are all of them, with the dial turned up."
           mechanism="@paper-design/shaders-react · GrainGradient"
         >
           <GrainField />
