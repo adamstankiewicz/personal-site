@@ -7,6 +7,6 @@
  * reason: one string, two renderers, never a second copy to drift.
  */
 export const aboutParagraphs = [
-  "Shipping features on a product team. Building the design system, the design tokens, and the accessibility tooling that team builds with.",
-  "I started out in research. A video learning platform I built as an undergrad turned into published papers and two years of a Ph.D. at Carnegie Mellon. Then I traded academia for industry. Seven years at [edX](https://edx.org) / [2U](https://2u.com) came first: leading [Paragon](https://paragon-openedx-v22.netlify.app) for the [Open edX](https://openedx.org) ecosystem, and building edX for Business alongside it. Now it’s [MagicSchool AI](https://magicschool.ai): shipping features on a product squad, stewarding the design system, and leading the accessibility work. I’m teaching AI coding agents to respect all of it too.",
+  "Day to day, it’s product work first, then the design system underneath it: the tokens, the components, the accessibility tooling that team leans on.",
+  "Every job since grad school has had the same shape: ship the thing, then make sure the system under it holds. It started with research: a video learning platform from undergrad turned into papers and two years of a Ph.D. at Carnegie Mellon, before I traded academia for industry. Seven years at [edX](https://edx.org) / [2U](https://2u.com) followed, leading [Paragon](https://paragon-openedx-v22.netlify.app) across the [Open edX](https://openedx.org) ecosystem and building edX for Business alongside it. Now it’s [MagicSchool AI](https://magicschool.ai), shipping product features, stewarding the design system, leading the accessibility work, and teaching AI coding agents to respect all of it.",
 ];
