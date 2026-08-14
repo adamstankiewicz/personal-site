@@ -1,6 +1,6 @@
 {
-  "opened": 2002,
-  "reviewed": 3090,
+  "opened": 2004,
+  "reviewed": 3091,
   "scope": "all",
   "years": [
     {
@@ -69,7 +69,7 @@
     },
     {
       "y": 2026,
-      "opened": 152
+      "opened": 154
     }
   ]
 }
