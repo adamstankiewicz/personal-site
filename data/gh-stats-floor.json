@@ -1,6 +1,6 @@
 {
-  "opened": 3137,
-  "reviewed": 3160,
+  "opened": 3191,
+  "reviewed": 3171,
   "scope": "all",
   "years": [
     {
@@ -69,7 +69,7 @@
     },
     {
       "y": 2026,
-      "opened": 1284
+      "opened": 1338
     }
   ]
 }
